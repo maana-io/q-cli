@@ -1,0 +1,9 @@
+query allParents {
+  allParents {
+    id
+    children {
+      id
+      name
+    }
+  }
+}

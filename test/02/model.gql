@@ -1,0 +1,4 @@
+type ListTest {
+  list: [String]
+  not_list: String
+}

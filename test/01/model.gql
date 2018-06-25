@@ -1,0 +1,7 @@
+type Rig {
+  id: ID
+  name: String
+  type: String
+  ratedWaterDepth: String
+  externalReference: String
+}

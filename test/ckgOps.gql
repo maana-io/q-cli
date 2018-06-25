@@ -1,0 +1,7 @@
+mutation addServiceSource($input: AddServiceSourceInput!) {
+  addServiceSource(input: $input)
+}
+
+mutation addRelation($input: AddRelationInput!) {
+  addRelation(input: $input)
+}

@@ -1,0 +1,101 @@
+{
+  "projects": {
+    "ckg": {
+      "schemaPath": "ckg.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": {
+            "url": "https://stable.knowledge.maana.io:8443/graphql",
+            "headers": {
+              "Authorization": "Bearer ${env:AUTH_TOKEN_ENV}"
+            }
+          }
+        }
+      }
+    },
+    "test00": {
+      "schemaPath": "00/schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": {
+            "url":
+              "https://stable.knowledge.maana.io:8443/service/dt.test00/graphql",
+            "headers": {
+              "Authorization": "Bearer ${env:AUTH_TOKEN_ENV}"
+            }
+          }
+        }
+      }
+    },
+    "test01": {
+      "schemaPath": "01/schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": {
+            "url":
+              "https://stable.knowledge.maana.io:8443/service/dt.test01/graphql",
+            "headers": {
+              "Authorization": "Bearer ${env:AUTH_TOKEN_ENV}"
+            }
+          }
+        }
+      }
+    },
+    "test02": {
+      "schemaPath": "02/schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": {
+            "url":
+              "https://stable.knowledge.maana.io:8443/service/dt.test02/graphql",
+            "headers": {
+              "Authorization": "Bearer ${env:AUTH_TOKEN_ENV}"
+            }
+          }
+        }
+      }
+    },
+    "test03": {
+      "schemaPath": "03/schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": {
+            "url":
+              "https://stable.knowledge.maana.io:8443/service/dt.test03/graphql",
+            "headers": {
+              "Authorization": "Bearer ${env:AUTH_TOKEN_ENV}"
+            }
+          }
+        }
+      }
+    },
+    "test04": {
+      "schemaPath": "04/schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": {
+            "url":
+              "https://stable.knowledge.maana.io:8443/service/dt.test04/graphql",
+            "headers": {
+              "Authorization": "Bearer ${env:AUTH_TOKEN_ENV}"
+            }
+          }
+        }
+      }
+    },
+    "test05": {
+      "schemaPath": "05/schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": {
+            "url":
+              "https://stable.knowledge.maana.io:8443/service/dt.test05/graphql",
+            "headers": {
+              "Authorization": "Bearer ${env:AUTH_TOKEN_ENV}"
+            }
+          }
+        }
+      }
+    }
+  }
+}

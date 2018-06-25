@@ -1,0 +1,10 @@
+<http://schema.org/branchCode> <http://schema.org/rangeIncludes> <http://schema.org/Text> .
+report. Newspapers and magazines have articles of many different types and this is intended to cover them all.</p>\n\n<p>See also <a href=\"http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html\">blog post</a>." .
+<http://schema.org/dateSent> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://schema.org/accessibilityFeature> <http://www.w3.org/2000/01/rdf-schema#comment> "Content features of the resource, such as accessible media, alternatives and supported enhancements for accessibility (<a href=\"http://www.w3.org/wiki/WebSchemas/Accessibility\">WebSchemas wiki lists possible values</a>)." .
+<http://schema.org/sportsActivityLocation> <http://www.w3.org/2000/01/rdf-schema#label> "sportsActivityLocation" .
+<http://schema.org/BefriendAction> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://schema.org/InteractAction> .
+<http://schema.org/OnlineOnly> <http://www.w3.org/2000/01/rdf-schema#label> "OnlineOnly" .
+<http://schema.org/category> <http://schema.org/domainIncludes> <http://schema.org/Offer> .
+<http://schema.org/Quotation> <http://www.w3.org/2000/01/rdf-schema#label> "Quotation" .
+<http://schema.org/loser> 

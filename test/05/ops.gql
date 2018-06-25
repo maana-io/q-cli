@@ -1,0 +1,47 @@
+query allEvents {
+  allEvents {
+    id
+    name
+    # source {
+    #   id
+    # }
+    well {
+      id
+    }
+    # rig {
+    #   id
+    # }
+    # summary
+    # start
+    # end
+    # depthMD {
+    #   id
+    # }
+    # depthTVD {
+    #   id
+    # }
+    # importance
+    # lifecycle {
+    #   id
+    # }
+    # code
+    # subcode
+    # observation {
+    #   id
+    # }
+    # problem {
+    #   id
+    # }
+    # events {
+    #   id
+    # }
+    # reporter
+    # reporterDefinition {
+    #   id
+    # }
+  }
+}
+
+query allEventsQuery {
+  queryJSON(input: { kindName: "Event" })
+}

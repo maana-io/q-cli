@@ -1,0 +1,10 @@
+[
+  {
+    "list": ["PRIDE", "MAD", "DOG", "SPAR", "RIG"],
+    "not_list": "PRIDE MAD DOG SPAR RIG"
+  },
+  {
+    "list": "PRIDE MAD DOG SPAR RIG",
+    "not_list": ["PRIDE", "MAD", "DOG", "SPAR", "RIG"]
+  }
+]

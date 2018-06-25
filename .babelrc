@@ -1,0 +1,23 @@
+{
+  "passPerPreset": true,
+  "presets": [
+    [
+      "@babel/preset-stage-0",
+      {
+        "decoratorsLegacy": true
+      }
+    ],
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-transform-arrow-functions",
+    "transform-async-to-generator"
+  ]
+}

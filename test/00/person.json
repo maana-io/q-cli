@@ -1,0 +1,23 @@
+[
+  {
+    "id": "P00",
+    "name": "Han Solo",
+    "dob": "1942-07-13",
+    "age": 75,
+    "employer": "E00"
+  },
+  {
+    "id": "P01",
+    "name": "George Lucas",
+    "dob": "1944-05-14",
+    "age": 73,
+    "employer": "E00"
+  },
+  {
+    "id": "P02",
+    "name": "Princess Leia",
+    "dob": null,
+    "age": null,
+    "employer": "E00"
+  }
+]
