@@ -1,0 +1,333 @@
+import Zip from "adm-zip";
+import chalk from "chalk";
+import commandExists from "command-exists";
+import gh from "parse-github-url";
+import { spawn } from "cross-spawn";
+import fs from "fs";
+import { padEnd } from "lodash";
+import Path from "path";
+import request from "request";
+import tmp from "tmp";
+import rimraf from "rimraf";
+
+// Project boilerplates
+// a list of available boilerplate projects from:
+// https://github.com/graphql-boilerplates/
+export const defaultBoilerplates = [
+  {
+    name: "node-minimal",
+    description: '"Hello World" GraphQL server',
+    repo:
+      "https://github.com/graphql-boilerplates/node-graphql-server/tree/master/minimal"
+  },
+  {
+    name: "node-basic",
+    description: "Basic GraphQL server (incl. database)",
+    repo:
+      "https://github.com/graphql-boilerplates/node-graphql-server/tree/master/basic"
+  },
+  {
+    name: "node-advanced",
+    description: "GraphQL server (incl. database & authentication)",
+    repo:
+      "https://github.com/graphql-boilerplates/node-graphql-server/tree/master/advanced"
+  },
+  {
+    name: "typescript-minimal",
+    description: '"Hello World" GraphQL server',
+    repo:
+      "https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/minimal"
+  },
+  {
+    name: "typescript-basic",
+    description: "Basic GraphQL server (incl. database)",
+    repo:
+      "https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/basic"
+  },
+  {
+    name: "typescript-advanced",
+    description: "GraphQL server (incl. database & authentication)",
+    repo:
+      "https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/advanced"
+  },
+  {
+    name: "react-fullstack-minimal",
+    description: '"Hello World" fullstack app with React & GraphQL',
+    repo:
+      "https://github.com/graphql-boilerplates/react-fullstack-graphql/tree/master/minimal"
+  },
+  {
+    name: "react-fullstack-basic",
+    description: "React app + GraphQL server (incl. database)",
+    repo:
+      "https://github.com/graphql-boilerplates/react-fullstack-graphql/tree/master/basic"
+  },
+  {
+    name: "react-fullstack-advanced",
+    description: "React app + GraphQL server (incl. database & authentication)",
+    repo:
+      "https://github.com/graphql-boilerplates/react-fullstack-graphql/tree/master/advanced"
+  },
+  {
+    name: "vue-fullstack-minimal",
+    description: '"Hello World" fullstack app with Vue & GraphQL',
+    repo:
+      "https://github.com/graphql-boilerplates/vue-fullstack-graphql/tree/master/minimal"
+  },
+  {
+    name: "vue-fullstack-basic",
+    description: "Vue app + GraphQL server (incl. database)",
+    repo:
+      "https://github.com/graphql-boilerplates/vue-fullstack-graphql/tree/master/basic"
+  },
+  {
+    name: "vue-fullstack-advanced",
+    description: "Vue app + GraphQL server (incl. database & authentication)",
+    repo:
+      "https://github.com/graphql-boilerplates/vue-fullstack-graphql/tree/master/advanced"
+  }
+];
+
+// Plugin boilerplate
+export const command = "mcreate [directory]";
+export const describe =
+  "Bootstrap a new Maana Knowledge Service or Application";
+
+export const builder = {
+  boilerplate: {
+    alias: "b",
+    describe:
+      "Full URL or repo shorthand (e.g. `owner/repo`) to boilerplate GitHub repository",
+    type: "string"
+  },
+  "no-install": {
+    describe: `Don't install project dependencies`,
+    type: "boolean",
+    default: false
+  }
+};
+
+//
+// Internal helpers
+//
+const getZipInfo = boilerplate => {
+  let baseUrl = boilerplate;
+  let branch = "master";
+  let subDir = "";
+
+  const branchMatches = boilerplate.match(
+    /^(.*)\/tree\/([a-zA-Z-_0-9]*)\/?(.*)$/
+  );
+  if (branchMatches) {
+    baseUrl = branchMatches[1];
+    branch = branchMatches[2];
+    subDir = branchMatches[3];
+  }
+
+  if (subDir === undefined) {
+    subDir = "";
+  }
+
+  if (!subDir.startsWith("/")) {
+    subDir = "/" + subDir;
+  }
+  if (!subDir.endsWith("/")) {
+    subDir = subDir + "/";
+  }
+
+  const nameMatches = baseUrl.match(/github\.com\/(.*)\/(.*)$/);
+  if (!nameMatches) return;
+
+  const repoName = nameMatches[2];
+
+  const url = `${baseUrl}/archive/${branch}.zip`;
+  const path = `${repoName}-${branch}${subDir}`;
+
+  return { url, path };
+};
+
+const getGitHubUrl = boilerplate => {
+  const details = gh(boilerplate);
+
+  if (details.host && details.owner && details.repo) {
+    const branch = details.branch ? `/tree/${details.branch}` : "";
+    return `https://${details.host}/${details.repo}${branch}`;
+  }
+};
+
+const shell = command => {
+  return new Promise((resolve, reject) => {
+    const commandParts = command.split(" ");
+    const cmd = spawn(commandParts[0], commandParts.slice(1), {
+      cwd: process.cwd(),
+      detached: false,
+      stdio: "inherit"
+    });
+
+    cmd.on("error", reject);
+    cmd.on("close", resolve);
+  });
+};
+
+function sanitize(prefix, name) {
+  prefix = Path.resolve(Path.normalize(prefix));
+  var parts = name.split("/");
+  for (var i = 0, l = parts.length; i < l; i++) {
+    var path = Path.normalize(
+      Path.join(prefix, parts.slice(i, l).join(Path.sep))
+    );
+    if (path.indexOf(prefix) === 0) {
+      return path;
+    }
+  }
+  return Path.normalize(Path.join(prefix, Path.basename(name)));
+}
+
+//
+// Exported functions
+//
+
+export const handler = async (context, argv) => {
+  let { boilerplate, directory, noInstall } = argv;
+
+  if (directory && directory.match(/[A-Z]/)) {
+    console.log(
+      `Project/directory name cannot contain uppercase letters: ${directory}`
+    );
+    directory = undefined;
+  }
+
+  if (!directory) {
+    const { newDir } = await context.prompt({
+      type: "input",
+      name: "newDir",
+      default: ".",
+      message: "Directory for new GraphQL project",
+      validate: dir => {
+        if (dir.match(/[A-Z]/)) {
+          return `Project/directory name cannot contain uppercase letters: ${directory}`;
+        }
+        return true;
+      }
+    });
+
+    directory = newDir;
+  }
+  if (!directory) return;
+
+  // make sure that project directory is empty
+  const projectPath = Path.resolve(directory);
+
+  if (fs.existsSync(projectPath)) {
+    const allowedFiles = [".git", ".gitignore"];
+    const conflictingFiles = fs
+      .readdirSync(projectPath)
+      .filter(f => !allowedFiles.includes(f));
+
+    if (conflictingFiles.length > 0) {
+      console.log(`Directory ${chalk.cyan(projectPath)} must be empty.`);
+      return;
+    }
+  } else {
+    fs.mkdirSync(projectPath);
+  }
+
+  // allow short handle boilerplate (e.g. `node-basic`)
+  if (boilerplate && !boilerplate.startsWith("http")) {
+    const matchedBoilerplate = defaultBoilerplates.find(
+      b => b.name === boilerplate
+    );
+    if (matchedBoilerplate) {
+      boilerplate = matchedBoilerplate.repo;
+    } else {
+      // allow shorthand GitHub URLs (e.g. `graphcool/graphcool-server-example`)
+      boilerplate = getGitHubUrl(boilerplate);
+    }
+  }
+
+  // interactive selection
+  if (!boilerplate) {
+    const maxNameLength = defaultBoilerplates
+      .map(bp => bp.name.length)
+      .reduce((max, x) => Math.max(max, x), 0);
+    const choices = defaultBoilerplates.map(
+      bp => `${padEnd(bp.name, maxNameLength + 2)} ${bp.description}`
+    );
+    const { choice } = await context.prompt({
+      type: "list",
+      name: "choice",
+      message: `Choose GraphQL boilerplate project:`,
+      choices
+    });
+
+    boilerplate = defaultBoilerplates[choices.indexOf(choice)].repo;
+  }
+  if (!boilerplate) return;
+
+  // download repo contents
+  const zipInfo = getZipInfo(boilerplate);
+  const downloadUrl = zipInfo.url;
+  const tmpFile = tmp.fileSync();
+
+  console.log(
+    `[mcreate] Downloading boilerplate from ${downloadUrl} to ${
+      tmpFile.name
+    }...`
+  );
+
+  await new Promise(resolve => {
+    request(downloadUrl)
+      .pipe(fs.createWriteStream(tmpFile.name))
+      .on("close", resolve);
+  });
+
+  const zip = new Zip(tmpFile.name);
+  zip.extractEntryTo(zipInfo.path, projectPath, false);
+  tmpFile.removeCallback();
+
+  // run npm/yarn install
+  if (!noInstall) {
+    const subDirs = fs
+      .readdirSync(projectPath)
+      .map(f => Path.join(projectPath, f))
+      .filter(f => fs.statSync(f).isDirectory());
+
+    const installPaths = [projectPath, ...subDirs]
+      .map(dir => Path.join(dir, "package.json"))
+      .filter(p => fs.existsSync(p));
+
+    for (const packageJsonPath of installPaths) {
+      process.chdir(Path.dirname(packageJsonPath));
+      console.log(
+        `[mcreate] Installing node dependencies for ${packageJsonPath}...`
+      );
+      if (commandExists.sync("yarn")) {
+        await shell("yarn install");
+      } else {
+        await shell("npm install");
+      }
+    }
+  }
+
+  // change dir to projectPath for install steps
+  process.chdir(projectPath);
+
+  // run & delete setup script
+  let installPath = Path.join(projectPath, "install.js");
+  if (!fs.existsSync(installPath)) {
+    installPath = Path.join(projectPath, ".install");
+  }
+
+  if (fs.existsSync(installPath)) {
+    console.log(`[mcreate] Running boilerplate install script... `);
+    const installFunction = require(installPath);
+
+    await installFunction({
+      context,
+      project: Path.basename(projectPath),
+      projectDir: directory
+    });
+
+    rimraf.sync(installPath);
+  }
+};

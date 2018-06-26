@@ -12,7 +12,9 @@
     "build": "rm -rf ./dist && ./node_modules/.bin/babel  ./src --experimental -d ./dist"
   },
   "dependencies": {
+    "adm-zip": "0.4.7",
     "chalk": "^2.4.1",
+    "command-exists": "^1.2.7",
     "fast-glob": "^2.2.2",
     "fs-extra": "^6.0.1",
     "graphql": "^0.13.2",
@@ -22,8 +24,10 @@
     "mkdirp": "^0.5.1",
     "n3": "^1.0.0-beta.1",
     "papaparse": "^4.5.0",
+    "parse-github-url": "^1.0.2",
     "request": "^2.87.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.5",
+    "tmp": "0.0.33"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.51",
