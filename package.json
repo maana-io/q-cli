@@ -1,6 +1,6 @@
 {
   "name": "graphql-cli-maana",
-  "version": "3.1.0-beta7",
+  "version": "3.1.0-beta8",
   "description": "Maana plugin for graphql-cli",
   "repository": {
     "type": "git",
@@ -15,6 +15,7 @@
     "adm-zip": "0.4.7",
     "chalk": "^2.4.1",
     "command-exists": "^1.2.7",
+    "cross-spawn": "^6.0.5",
     "fast-glob": "^2.2.2",
     "fs-extra": "^6.0.1",
     "graphql": "^0.13.2",
@@ -27,6 +28,7 @@
     "parse-github-url": "^1.0.2",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5",
+    "rimraf": "^2.6.2",
     "tmp": "0.0.33"
   },
   "devDependencies": {
