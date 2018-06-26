@@ -11,78 +11,27 @@ import tmp from "tmp";
 import rimraf from "rimraf";
 
 // Project boilerplates
-// a list of available boilerplate projects from:
-// https://github.com/graphql-boilerplates/
 export const defaultBoilerplates = [
   {
-    name: "node-minimal",
-    description: '"Hello World" GraphQL server',
-    repo:
-      "https://github.com/graphql-boilerplates/node-graphql-server/tree/master/minimal"
+    name: "js-service-bot",
+    description: "A modern JavaScript-based Knowledge Microservice/Bot",
+    repo: "https://github.com/maana-io/js-service-bot/tree/master"
   },
   {
-    name: "node-basic",
-    description: "Basic GraphQL server (incl. database)",
-    repo:
-      "https://github.com/graphql-boilerplates/node-graphql-server/tree/master/basic"
-  },
-  {
-    name: "node-advanced",
-    description: "GraphQL server (incl. database & authentication)",
-    repo:
-      "https://github.com/graphql-boilerplates/node-graphql-server/tree/master/advanced"
-  },
-  {
-    name: "typescript-minimal",
-    description: '"Hello World" GraphQL server',
-    repo:
-      "https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/minimal"
-  },
-  {
-    name: "typescript-basic",
-    description: "Basic GraphQL server (incl. database)",
-    repo:
-      "https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/basic"
-  },
-  {
-    name: "typescript-advanced",
-    description: "GraphQL server (incl. database & authentication)",
+    name: "ts-service-bot",
+    description: "A TypeScript-based Knowledge Microservice/Bot",
     repo:
       "https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/advanced"
   },
   {
-    name: "react-fullstack-minimal",
-    description: '"Hello World" fullstack app with React & GraphQL',
-    repo:
-      "https://github.com/graphql-boilerplates/react-fullstack-graphql/tree/master/minimal"
-  },
-  {
-    name: "react-fullstack-basic",
-    description: "React app + GraphQL server (incl. database)",
-    repo:
-      "https://github.com/graphql-boilerplates/react-fullstack-graphql/tree/master/basic"
-  },
-  {
-    name: "react-fullstack-advanced",
-    description: "React app + GraphQL server (incl. database & authentication)",
+    name: "react-app",
+    description: "React-based Knowledge Application",
     repo:
       "https://github.com/graphql-boilerplates/react-fullstack-graphql/tree/master/advanced"
   },
   {
-    name: "vue-fullstack-minimal",
-    description: '"Hello World" fullstack app with Vue & GraphQL',
-    repo:
-      "https://github.com/graphql-boilerplates/vue-fullstack-graphql/tree/master/minimal"
-  },
-  {
-    name: "vue-fullstack-basic",
-    description: "Vue app + GraphQL server (incl. database)",
-    repo:
-      "https://github.com/graphql-boilerplates/vue-fullstack-graphql/tree/master/basic"
-  },
-  {
-    name: "vue-fullstack-advanced",
-    description: "Vue app + GraphQL server (incl. database & authentication)",
+    name: "vue-app",
+    description: "Vue-based Knowledge Application",
     repo:
       "https://github.com/graphql-boilerplates/vue-fullstack-graphql/tree/master/advanced"
   }
@@ -91,7 +40,7 @@ export const defaultBoilerplates = [
 // Plugin boilerplate
 export const command = "mcreate [directory]";
 export const describe =
-  "Bootstrap a new Maana Knowledge Service or Application";
+  "Bootstrap a new Maana Knowledge Microservice/Bot or Knowledge Application";
 
 export const builder = {
   boilerplate: {
@@ -169,20 +118,6 @@ const shell = command => {
   });
 };
 
-function sanitize(prefix, name) {
-  prefix = Path.resolve(Path.normalize(prefix));
-  var parts = name.split("/");
-  for (var i = 0, l = parts.length; i < l; i++) {
-    var path = Path.normalize(
-      Path.join(prefix, parts.slice(i, l).join(Path.sep))
-    );
-    if (path.indexOf(prefix) === 0) {
-      return path;
-    }
-  }
-  return Path.normalize(Path.join(prefix, Path.basename(name)));
-}
-
 //
 // Exported functions
 //
@@ -202,7 +137,7 @@ export const handler = async (context, argv) => {
       type: "input",
       name: "newDir",
       default: ".",
-      message: "Directory for new GraphQL project",
+      message: "Directory for new Maana project",
       validate: dir => {
         if (dir.match(/[A-Z]/)) {
           return `Project/directory name cannot contain uppercase letters: ${directory}`;
@@ -256,7 +191,7 @@ export const handler = async (context, argv) => {
     const { choice } = await context.prompt({
       type: "list",
       name: "choice",
-      message: `Choose GraphQL boilerplate project:`,
+      message: `Choose Maana boilerplate project:`,
       choices
     });
 
