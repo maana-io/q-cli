@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "adm-zip": "0.4.7",
+    "async-mkdirp": "^1.2.0",
     "chalk": "^2.4.1",
     "command-exists": "^1.2.7",
     "cross-spawn": "^6.0.5",
@@ -29,6 +30,7 @@
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5",
     "rimraf": "^2.6.2",
+    "string-hash": "^1.1.3",
     "tmp": "0.0.33"
   },
   "devDependencies": {
@@ -39,6 +41,6 @@
     "@babel/preset-stage-0": "^7.0.0-beta.51",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "eslint": "^5.0.1",
-    "webpack": "^4.12.1"
+    "webpack": "^4.12.2"
   }
 }

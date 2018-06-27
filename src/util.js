@@ -42,6 +42,27 @@ export const getOrSet = (obj, k, v) => {
   return e;
 };
 
+/**
+ * Emptiness test
+ */
+export const isNullOrEmpty = obj => {
+  if (obj === null || obj === undefined) return true;
+
+  const type = typeof obj;
+  if (type === "object") {
+    if (Array.isArray(obj)) {
+      return obj.length === 0;
+    }
+    return Object.keys(obj).length === 0;
+  }
+
+  if (type === "string") {
+    return obj === "";
+  }
+
+  return false;
+};
+
 //
 // File utilities
 //

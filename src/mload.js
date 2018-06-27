@@ -14,12 +14,15 @@ import papa from "papaparse";
 import fs from "fs-extra";
 import path from "path";
 import chalk from "chalk";
+import mkdirp from "async-mkdirp";
+import hash from "string-hash";
 
 import {
   capitalize,
   ellipse,
   getAllFiles,
   getEndpoint,
+  isNullOrEmpty,
   readFile,
   readJson
 } from "./util";
@@ -28,14 +31,23 @@ const DEFAULT_BATCH_SIZE = 1000000;
 
 const SupportedTypes = [".csv", ".json"]; // NOTE: all lowercase!
 
-// Plugin boilerplate
-export const command =
-  "mload <fileOrDir> [--project] [--endpoint] [--mutation] [--batchsize|-b]";
+/**
+ * Plugin boilerplate
+ */
+export const command = "mload <fileOrDir>";
 export const desc = "Load a file or directory tree into Maana Q";
 export const builder = {
   mutation: {
     alias: "m",
     description: "mutation to call (must take an array of instances)"
+  },
+  type: {
+    alias: "t",
+    description: "type of entities (e.g., Person)"
+  },
+  ndfout: {
+    alias: "n",
+    description: "directory to store NDF conversion of input"
   },
   endpoint: {
     alias: "e",
@@ -57,13 +69,30 @@ const fileResults = {
   errors: { mutation: [], dataRead: [], uploading: {} }
 };
 
+/**
+ * NDF output file counter
+ */
+let ndfFileCount = 0;
+
+/**
+ * Get the GraphQL schema for the project
+ *
+ * @param {*} config
+ */
 const getSchema = config => {
   const schemaPath = config.schemaPath;
   const schemaContents = fs.readFileSync(schemaPath).toString();
   return buildASTSchema(parse(schemaContents));
 };
 
-const readCsvFile = (context, filePath) => {
+/**
+ * Read and parse a CSV file
+ *
+ * @param {*} context
+ * @param {Path} parsedPath
+ */
+const readCsvFile = (context, parsedPath) => {
+  const filePath = path.format(parsedPath);
   context.spinner.start(`Parsing CSV file ${chalk.yellow(filePath)}`);
 
   try {
@@ -95,7 +124,15 @@ const readCsvFile = (context, filePath) => {
   }
 };
 
-const readJsonFile = (context, filePath) => {
+/**
+ * Read and parse a JSON file
+ *
+ * @param {*} context
+ * @param {Path} parsedPath
+ */
+const readJsonFile = (context, parsedPath) => {
+  const filePath = path.format(parsedPath);
+
   context.spinner.start(`Parsing JSON file ${chalk.yellow(filePath)}`);
 
   try {
@@ -113,7 +150,76 @@ const readJsonFile = (context, filePath) => {
   }
 };
 
-const getMutation = (schema, mutationName) => {
+/**
+ * Read ALL of the data into memory
+ * @@TODO: streaming interface
+ *
+ * @param {*} context
+ * @param {Path} parsedPath
+ */
+const readData = (context, parsedPath) => {
+  const ext = parsedPath.ext;
+  switch (ext) {
+    case ".csv":
+      return readCsvFile(context, parsedPath);
+    case ".json":
+      return readJsonFile(context, parsedPath);
+    default:
+      return null; // should be unreachable
+  }
+};
+
+/**
+ * Type cache to speed lookups
+ */
+const typeCache = {};
+
+/**
+ * Get the GraphQL field definition from a type
+ *
+ * @param {*} type
+ * @param {String} fieldName
+ */
+const getField = (type, fieldName) => {
+  const key = `${type.name}.${fieldName}`;
+  // console.log("key", key);
+
+  let entry = typeCache[key];
+  if (!entry) {
+    const fields = type.getFields();
+    const field = fields ? fields[fieldName] : undefined;
+    if (!field) {
+      const msg = `Undefined field: ${chalk.yellow(fieldName)}`;
+      console.log(chalk.red(`✘ ${msg}`));
+      throw msg;
+    }
+    // console.log("field", field);
+
+    console.log("Field:", key);
+
+    const isList = isListType(field.type);
+    console.log("- isList:", isList);
+
+    const isNonNull = isNonNullType(field.type);
+    console.log("- isNonNull:", isNonNull);
+
+    const namedType = getNamedType(field.type);
+    console.log("- namedType:", namedType);
+
+    entry = { field, isList, isNonNull, namedType };
+
+    typeCache[key] = entry;
+  }
+  return entry;
+};
+
+/**
+ * Get the named mutation field from the GraphQL schema
+ *
+ * @param {*} schema
+ * @param {*} mutationName
+ */
+const getMutationField = (schema, mutationName) => {
   const mutationType = schema.getMutationType();
   if (!mutationType) {
     return console.log(chalk.red(`✘ No mutation type in schema.`));
@@ -127,12 +233,18 @@ const getMutation = (schema, mutationName) => {
   }
   console.log(
     `Using mutation ${chalk.yellow(mutationField.name)}: ${chalk.yellow(
-      mutationField.description
+      mutationField.description || "(no description)"
     )}.`
   );
   return mutationField;
 };
 
+/**
+ * Get the input (argument) type for the GraphQL mutation
+ *
+ * @param {*} schema
+ * @param {*} mutationField
+ */
 const getInputType = (schema, mutationField) => {
   const inputs = mutationField.args.filter(x => x.name === "input");
   if (!inputs || inputs.length !== 1) {
@@ -146,13 +258,20 @@ const getInputType = (schema, mutationField) => {
   const inputType = schema.getType(namedType);
   console.log(
     `Input type ${chalk.yellow(inputType.name)}: ${chalk.yellow(
-      inputType.description
+      inputType.description || "(no description)"
     )}`
   );
   return inputType;
 };
 
-const convert = (type, val, def = null) => {
+/**
+ * Coerce the input type to match the output type
+ *
+ * @param {*} type
+ * @param {*} val
+ * @param {*} def
+ */
+const coerce = (type, val, def = null) => {
   let rval = def;
 
   if (type == "Float") {
@@ -192,30 +311,24 @@ const convert = (type, val, def = null) => {
   return rval;
 };
 
+/**
+ * Generate the full mutation to upload based on the data
+ *
+ * @param {*} mutationField
+ * @param {*} inputType
+ * @param {*} data
+ */
 const buildMutation = (mutationField, inputType, data) => {
-  const inputTypeFields = inputType.getFields();
   const instances = data
     .map(row => {
       const fields = Object.keys(row)
         .map(fieldName => {
           const value = row[fieldName];
 
-          const field = inputTypeFields[fieldName];
-          if (!field) {
-            const msg = `Undefined field: ${chalk.yellow(fieldName)}`;
-            console.log(chalk.red(`✘ ${msg}`));
-            throw msg;
-          }
-          // console.log("field", field);
-
-          const isList = isListType(field.type);
-          // console.log("isList", isList);
-
-          const isNonNull = isNonNullType(field.type);
-          // console.log("isNonNull", isNonNull);
-
-          const targetType = getNamedType(field.type);
-          // console.log("targetType", targetType);
+          const { field, isList, isNonNull, namedType } = getField(
+            inputType,
+            fieldName
+          );
 
           const valueType = typeof value;
           // console.log("valueType", valueType);
@@ -234,7 +347,7 @@ const buildMutation = (mutationField, inputType, data) => {
             if (value.length === 0) {
               return `${fieldName}: null`;
             }
-            const values = value.map(v => convert(targetType, v));
+            const values = value.map(v => coerce(namedType, v));
             return `${fieldName}: [${values.join(",")}]`;
           } else if (isList) {
             const msg = `Expected collection for ${chalk.yellow(fieldName)}: ${
@@ -243,7 +356,7 @@ const buildMutation = (mutationField, inputType, data) => {
             console.log(chalk.red(`✘ ${msg}`));
             throw msg;
           }
-          return `${fieldName}: ${convert(targetType, value)}\n`;
+          return `${fieldName}: ${coerce(namedType, value)}\n`;
         })
         .join(",");
       return `{${fields}}`;
@@ -254,7 +367,13 @@ const buildMutation = (mutationField, inputType, data) => {
   return mutation;
 };
 
-const load = async (context, filePath, mutationName) => {
+/**
+ * File load dispatcher: NDF conversion or upload via mutation
+ *
+ * @param {*} context
+ * @param {*} filePath
+ */
+const load = async (context, filePath) => {
   // console.log("filePath", filePath);
 
   // Parse the path into its components
@@ -275,18 +394,192 @@ const load = async (context, filePath, mutationName) => {
 
   fileResults.total++;
 
+  // Dispatch to the right operation:
+  // - convert input to NDF
+  // - upload entities via mutation
+
+  // The simple test is: if an NDF output directory was specified, then we
+  // are performing a conversion, otherwise we are uploading via mutation
+  const ndfout = context.argv.ndfout;
+  if (ndfout) return convertToNdf(context, parsedPath);
+  return uploadViaMutation(context, parsedPath);
+};
+
+/**
+ * NDF conversion
+ */
+const convertToNdf = async (context, parsedPath) => {
+  // Get the NDF output directory
+  const ndfOut = context.argv.ndfout;
+  const ndfPath = path.isAbsolute(ndfOut)
+    ? ndfOut
+    : path.resolve(process.cwd(), ndfOut);
+  console.log("ndfPath", ndfPath);
+
+  // Infer the typenaame
+  const typeName = context.argv.type || parsedPath.name;
+  // console.log("useTypeName", useTypeName);
+
+  // Get the GraphQL type definition
+  const baseType = context.schema.getType(typeName);
+  if (!baseType) {
+    // @@TODO: report
+    console.log("type not found", typeName);
+    return;
+  }
+  console.log(
+    `Base type ${chalk.yellow(baseType.name)}: ${chalk.yellow(
+      baseType.description || "(no description)"
+    )}`
+  );
+
+  // Ensure the type has an id field
+  const idFieldInfo = getField(baseType, "id");
+  if (!idFieldInfo) {
+    // @@TODO: report
+    console.log("type has no id field for ", typeName);
+    return;
+  }
+
+  // Construct string version of file path
+  const filePath = path.format(parsedPath);
+
+  // Read the data
+  // @@TODO: streaming
+  const data = readData(context, parsedPath);
+  if (!data) {
+    fileResults.errors.dataRead.push({ file: filePath });
+    return;
+  }
+  // console.log("data", data);
+
+  // Build internal state for the different NDF value types
+  const nodes = [];
+  const lists = [];
+  const relations = [];
+
+  data.forEach(entity => {
+    // console.log("entity", entity);
+
+    let id = entity.id;
+    if (!id) {
+      // @@TODO: report
+      console.log("entity missing id", entity);
+      return;
+    }
+    if (id.length > 25) id = `${hash(id)}`;
+
+    const nodeValues = {};
+    const listValues = {};
+
+    Object.keys(entity)
+      .filter(x => x != "id")
+      .forEach(fieldName => {
+        // console.log("fieldName", fieldName);
+
+        const { field, isList, isNonNull, namedType } = getField(
+          baseType,
+          fieldName
+        );
+
+        if (isList) {
+          // {
+          //   "valueType": "lists",
+          //   "values": [
+          //     {"_typeName": "User", "id": "johndoe", "hobbies": ["Fishing", "Cooking"]},
+          //     {"_typeName": "User", "id": "sarahdoe", "hobbies": ["Biking", "Coding"]}
+          //   ]
+          // }
+          listValues[fieldName] = entity[fieldName];
+        } else {
+          nodeValues[fieldName] = entity[fieldName];
+          // {
+          //   "valueType": "nodes",
+          //   "values": [
+          //     {"_typeName": "User", "id": "johndoe", "firstName": "John", "lastName": "Doe"},
+          //     {"_typeName": "User", "id": "sarahdoe", "firstName": "Sarah", "lastName": "Doe"}
+          //   ]
+          // }
+        }
+      });
+
+    if (!isNullOrEmpty(nodeValues)) {
+      nodes.push({ _typeName: typeName, id, ...nodeValues });
+    }
+
+    if (!isNullOrEmpty(listValues)) {
+      lists.push({ _typeName: typeName, id, ...listValues });
+    }
+  });
+
+  // Output
+  if (
+    isNullOrEmpty(nodes) &&
+    isNullOrEmpty(lists) &&
+    isNullOrEmpty(relations)
+  ) {
+    // @@TODO: report
+    console.log("no output produced for ", parsedPath);
+    return;
+  }
+
+  ndfFileCount++;
+  const outName = `${ndfFileCount}`.padStart(5, "0");
+  if (!isNullOrEmpty(nodes)) writeNdfFile(ndfPath, "nodes", outName, nodes);
+  if (!isNullOrEmpty(lists)) writeNdfFile(ndfPath, "lists", outName, lists);
+  if (!isNullOrEmpty(relations))
+    writeNdfFile(ndfPath, "relations", outName, relations);
+};
+
+/**
+ * Write data to one of the NDF file types
+ *
+ * @param {*} ndfPath
+ * @param {*} valueType
+ * @param {*} typeName
+ * @param {*} values
+ */
+const writeNdfFile = async (ndfPath, valueType, typeName, values) => {
+  const outName = `${typeName}.json`;
+  // console.log("outName", outName);
+
+  const outDir = path.resolve(ndfPath, valueType);
+  // console.log("outdir", outDir);
+
+  // Ensure the output path exists
+  await mkdirp(outDir);
+
+  const outPath = path.resolve(outDir, outName);
+  // console.log("outpath", outPath);
+
+  const data = JSON.stringify({
+    valueType,
+    values
+  });
+
+  await fs.writeFile(outPath, data, "utf8");
+};
+
+/**
+ * Upload entities via mutation
+ */
+const uploadViaMutation = async (context, parsedPath) => {
   // Generate a mutation name from base name
   const genMutationName = baseName => `add${capitalize(baseName)}s`;
 
   // Infer the mutation
-  const useMutationName = mutationName || genMutationName(parsedPath.name);
+  const mutationName =
+    context.argv.mutation || genMutationName(parsedPath.name);
   // console.log("useMutationName", useMutationName);
 
-  const mutationField = getMutation(context.schema, useMutationName);
+  // Construct string version of file path
+  const filePath = path.format(parsedPath);
+
+  const mutationField = getMutationField(context.schema, mutationName);
   if (!mutationField) {
     fileResults.errors.mutation.push({
       file: filePath,
-      mutation: useMutationName
+      mutation: mutationName
     });
     return;
   }
@@ -296,25 +589,16 @@ const load = async (context, filePath, mutationName) => {
   if (!inputType) {
     fileResults.errors.mutation.push({
       file: filePath,
-      mutation: useMutationName
+      mutation: mutationName
     });
     return;
   }
   // console.log("inputType", inputType);
   // console.log("inputType fields", inputType.getFields());
 
-  const readData = () => {
-    switch (ext) {
-      case ".csv":
-        return readCsvFile(context, filePath);
-      case ".json":
-        return readJsonFile(context, filePath);
-      default:
-        return null; // should be unreachable
-    }
-  };
-
-  const data = readData();
+  // Read the data
+  // @@TODO: streaming
+  const data = readData(context, parsedPath);
   if (!data) {
     fileResults.errors.dataRead.push({ file: filePath });
     return;
@@ -324,10 +608,11 @@ const load = async (context, filePath, mutationName) => {
   const batchSize = context.argv.batchsize || DEFAULT_BATCH_SIZE;
   // console.log("batchSize", batchSize);
 
-  while (offset < data.length) {
+  const totalLength = data.length;
+  while (offset < totalLength) {
     let end = offset + batchSize;
-    if (end > data.length) {
-      end = data.length;
+    if (end > totalLength) {
+      end = totalLength;
     }
     const batch = data.slice(offset, end);
 
@@ -337,22 +622,22 @@ const load = async (context, filePath, mutationName) => {
     } catch {
       fileResults.errors.mutation.push({
         file: filePath,
-        mutation: useMutationName
+        mutation: mutationName
       });
       return;
     }
     if (!mutation) {
       fileResults.errors.mutation.push({
         file: filePath,
-        mutation: useMutationName
+        mutation: mutationName
       });
       return;
     }
 
     try {
-      if ((offset === 0 && data.length > end) || offset > 0) {
+      if ((offset === 0 && totalLength > end) || offset > 0) {
         context.spinner.start(
-          chalk.yellow(`Uploading batch ${offset}-${end} of ${data.length}`)
+          chalk.yellow(`Uploading batch ${offset}-${end} of ${totalLength}`)
         );
       } else {
         context.spinner.start(chalk.yellow(`Uploading`));
@@ -397,6 +682,7 @@ const load = async (context, filePath, mutationName) => {
       }
       fileResults.errors.uploading[filePath]++;
     }
+
     offset += batchSize;
   }
 
@@ -405,6 +691,12 @@ const load = async (context, filePath, mutationName) => {
   }
 };
 
+/**
+ * Main command handler
+ *
+ * @param {*} context
+ * @param {*} argv
+ */
 export const handler = async (context, argv) => {
   // Capture the arguments
   context.argv = argv;
@@ -453,17 +745,20 @@ export const handler = async (context, argv) => {
 
     // Iterate SEQUENTIALLY over all the files (recursively) in the folder tree rooted at 'folder'
     for (let i = 0; i < filePaths.length; i++) {
-      await load(context, filePaths[i], argv.mutation);
+      await load(context, filePaths[i]);
     }
   } else {
-    await load(context, fileOrDir, argv.mutation);
+    await load(context, fileOrDir);
   }
 
   // output the results from processing and uploading the files
   buildReport();
 };
 
-function buildReport() {
+/**
+ * Generate a report of actions and errors
+ */
+const buildReport = () => {
   // keep the report divided from the rest of the output
   console.log(
     chalk.green("--------------------------------------------------------")
@@ -546,6 +841,6 @@ function buildReport() {
     );
   } else {
     // let the user know that no issues happened during the command
-    console.log(chalk.green("✔ all json and csv files uploaded successfully"));
+    console.log(chalk.green("✔ Total success"));
   }
-}
+};
