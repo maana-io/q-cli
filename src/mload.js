@@ -504,17 +504,20 @@ const convertToNdf = async (context, parsedPath) => {
     }
   };
 
+  // Stats
   let entityCnt = 0;
   let errorCnt = 0;
+
+  // Don't allow duplicate records
+  const dedupe = {};
 
   data.forEach(entity => {
     // console.log("entity", entity);
 
     if (!entity.id) {
-      const msg = `entity missing id: ${JSON.stringify(entity)}`;
       fileResults.errors.ndf.push({
         file: filePath,
-        msg
+        msg: `entity missing id: ${JSON.stringify(entity)}`
       });
       errorCnt++;
       return;
@@ -522,6 +525,17 @@ const convertToNdf = async (context, parsedPath) => {
 
     // Make a NDF-compliant ID
     const id = mkNdfId(entity.id);
+
+    // Dedupe
+    if (dedupe[id]) {
+      fileResults.errors.ndf.push({
+        file: filePath,
+        msg: `duplicate id: ${entity.id} => ${dedupe[id]}`
+      });
+      errorCnt++;
+      return;
+    }
+    dedupe[id] = entity.id;
 
     // Intermediate state for this entity
     const nodeValues = {};
