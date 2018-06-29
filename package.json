@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "adm-zip": "0.4.7",
-    "async-mkdirp": "^1.2.0",
     "chalk": "^2.4.1",
     "command-exists": "^1.2.7",
     "cross-spawn": "^6.0.5",
     "fast-glob": "^2.2.2",
     "fs-extra": "^6.0.1",
+    "gc-stats": "^1.2.0",
     "graphql": "^0.13.2",
     "graphql-config": "^2.0.1",
     "graphql-request": "^1.6.0",

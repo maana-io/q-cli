@@ -1,20 +1,21 @@
 import {
   buildASTSchema,
-  parse,
-  GraphQLSchema,
-  GraphQLObjectType,
-  graphql,
   getNamedType,
+  graphql,
   isListType,
   isNonNullType,
+  isObjectType,
+  parse,
+  GraphQLID,
   GraphQLNonNull,
-  GraphQLID
+  GraphQLObjectType,
+  GraphQLSchema
 } from "graphql";
 import papa from "papaparse";
 import fs from "fs-extra";
 import path from "path";
 import chalk from "chalk";
-import mkdirp from "async-mkdirp";
+import mkdirp from "mkdirp";
 import hash from "string-hash";
 
 import {
@@ -26,6 +27,7 @@ import {
   readFile,
   readJson
 } from "./util";
+import { isPrimitive } from "util";
 
 const DEFAULT_BATCH_SIZE = 1000000;
 
@@ -64,15 +66,17 @@ export const builder = {
  * files so we can build a report for the user at the end of the command.
  */
 const fileResults = {
+  ndfGenCnt: 0, // # of "generations" (based on file flushes)
+  ndfFileCnt: 0, // how many NDF files were written
   succeed: 0,
   total: 0,
-  errors: { mutation: [], dataRead: [], uploading: {} }
+  errors: { mutation: [], dataRead: [], uploading: {}, ndf: [] }
 };
 
 /**
- * NDF output file counter
+ * NDF ids are CHAR(25), so we translate all original ID references to conform
  */
-let ndfFileCount = 0;
+const mkNdfId = id => `${hash(id)}`;
 
 /**
  * Get the GraphQL schema for the project
@@ -195,18 +199,21 @@ const getField = (type, fieldName) => {
     }
     // console.log("field", field);
 
-    console.log("Field:", key);
-
-    const isList = isListType(field.type);
-    console.log("- isList:", isList);
-
-    const isNonNull = isNonNullType(field.type);
-    console.log("- isNonNull:", isNonNull);
+    // console.log("Field:", key);
 
     const namedType = getNamedType(field.type);
-    console.log("- namedType:", namedType);
+    // console.log("- namedType:", namedType.name);
 
-    entry = { field, isList, isNonNull, namedType };
+    const isList = isListType(field.type);
+    // console.log("- isList:", isList);
+
+    const isNonNull = isNonNullType(field.type);
+    // console.log("- isNonNull:", isNonNull);
+
+    const isObject = isObjectType(namedType);
+    // console.log("- isObject:", isObject);
+
+    entry = { field, isList, isNonNull, isObject, namedType };
 
     typeCache[key] = entry;
   }
@@ -301,7 +308,7 @@ const coerce = (type, val, def = null) => {
     }
   } else if (type == "Date" || type == "DateTime" || type == "Time") {
     // Quoted, not empty
-    rval = !val || val == "" ? def : JSON.stringify(val);
+    rval = !val || val == "" ? def : new Date(val).toISOString();
   } else {
     // Quoted, empty ok
     rval = JSON.stringify(val);
@@ -409,12 +416,17 @@ const load = async (context, filePath) => {
  * NDF conversion
  */
 const convertToNdf = async (context, parsedPath) => {
+  // Construct string version of file path
+  const filePath = path.format(parsedPath);
+
+  context.spinner.start(`Converting ${chalk.yellow(filePath)}`);
+
   // Get the NDF output directory
   const ndfOut = context.argv.ndfout;
   const ndfPath = path.isAbsolute(ndfOut)
     ? ndfOut
     : path.resolve(process.cwd(), ndfOut);
-  console.log("ndfPath", ndfPath);
+  // console.log("ndfPath", ndfPath);
 
   // Infer the typenaame
   const typeName = context.argv.type || parsedPath.name;
@@ -423,26 +435,27 @@ const convertToNdf = async (context, parsedPath) => {
   // Get the GraphQL type definition
   const baseType = context.schema.getType(typeName);
   if (!baseType) {
-    // @@TODO: report
-    console.log("type not found", typeName);
+    fileResults.errors.ndf.push({
+      file: filePath,
+      msg: `type not found in schema: ${typeName}`
+    });
     return;
   }
-  console.log(
-    `Base type ${chalk.yellow(baseType.name)}: ${chalk.yellow(
-      baseType.description || "(no description)"
-    )}`
-  );
+  // console.log(
+  //   `Base type ${chalk.yellow(baseType.name)}: ${chalk.yellow(
+  //     baseType.description || "(no description)"
+  //   )}`
+  // );
 
   // Ensure the type has an id field
   const idFieldInfo = getField(baseType, "id");
   if (!idFieldInfo) {
-    // @@TODO: report
-    console.log("type has no id field for ", typeName);
+    fileResults.errors.ndf.push({
+      file: filePath,
+      msg: `type has no id field: ${typeName}`
+    });
     return;
   }
-
-  // Construct string version of file path
-  const filePath = path.format(parsedPath);
 
   // Read the data
   // @@TODO: streaming
@@ -453,82 +466,153 @@ const convertToNdf = async (context, parsedPath) => {
   }
   // console.log("data", data);
 
-  // Build internal state for the different NDF value types
-  const nodes = [];
-  const lists = [];
-  const relations = [];
+  // Build internal state (resettable) for the different NDF value types
+  let nodes = [];
+  let lists = [];
+  let relations = [];
+
+  const flush = () => {
+    // Any output to produce?
+    if (
+      isNullOrEmpty(nodes) &&
+      isNullOrEmpty(lists) &&
+      isNullOrEmpty(relations)
+    )
+      return;
+
+    fileResults.ndfGenCnt++;
+    const outName = `${fileResults.ndfGenCnt}`.padStart(5, "0");
+
+    if (!isNullOrEmpty(nodes)) {
+      writeNdfFile(ndfPath, "nodes", outName, nodes);
+      nodes = [];
+      fileResults.ndfFileCnt++;
+    }
+
+    if (!isNullOrEmpty(lists)) {
+      writeNdfFile(ndfPath, "lists", outName, lists);
+      lists = [];
+      fileResults.ndfFileCnt++;
+    }
+
+    if (!isNullOrEmpty(relations)) {
+      writeNdfFile(ndfPath, "relations", outName, relations);
+      relations = [];
+      fileResults.ndfFileCnt++;
+    }
+  };
+
+  let entityCnt = 0;
+  let errorCnt = 0;
 
   data.forEach(entity => {
     // console.log("entity", entity);
 
-    let id = entity.id;
-    if (!id) {
-      // @@TODO: report
-      console.log("entity missing id", entity);
+    if (!entity.id) {
+      const msg = `entity missing id: ${JSON.stringify(entity)}`;
+      fileResults.errors.ndf.push({
+        file: filePath,
+        msg
+      });
+      errorCnt++;
       return;
     }
-    if (id.length > 25) id = `${hash(id)}`;
 
+    // Make a NDF-compliant ID
+    const id = mkNdfId(entity.id);
+
+    // Intermediate state for this entity
     const nodeValues = {};
     const listValues = {};
+    const relValues = {};
 
+    // Process all the fields
     Object.keys(entity)
       .filter(x => x != "id")
       .forEach(fieldName => {
         // console.log("fieldName", fieldName);
 
-        const { field, isList, isNonNull, namedType } = getField(
+        const { field, isList, isNonNull, isObject, namedType } = getField(
           baseType,
           fieldName
         );
 
+        // What type of field is it?
         if (isList) {
-          // {
-          //   "valueType": "lists",
-          //   "values": [
-          //     {"_typeName": "User", "id": "johndoe", "hobbies": ["Fishing", "Cooking"]},
-          //     {"_typeName": "User", "id": "sarahdoe", "hobbies": ["Biking", "Coding"]}
-          //   ]
-          // }
-          listValues[fieldName] = entity[fieldName];
+          if (isObject) {
+            // add a list of relations
+            // add a list of values
+            relValues[fieldName] = {
+              toType: namedType.name,
+              toIds: entity[fieldName].map(mkNdfId)
+            };
+          } else {
+            // add a list of values
+            listValues[fieldName] =
+              namedType.name === "ID"
+                ? mkNdfId(entity[fieldName])
+                : entity[fieldName];
+          }
+        } else if (isObject) {
+          // add a relation
+          relValues[fieldName] = {
+            toType: namedType.name,
+            toIds: [mkNdfId(entity[fieldName])]
+          }; // always a collection
         } else {
-          nodeValues[fieldName] = entity[fieldName];
-          // {
-          //   "valueType": "nodes",
-          //   "values": [
-          //     {"_typeName": "User", "id": "johndoe", "firstName": "John", "lastName": "Doe"},
-          //     {"_typeName": "User", "id": "sarahdoe", "firstName": "Sarah", "lastName": "Doe"}
-          //   ]
-          // }
+          // add a value
+          const value =
+            namedType.name === "ID"
+              ? mkNdfId(entity[fieldName])
+              : coerce(namedType.name, entity[fieldName]);
+
+          if (value != null && value != undefined) {
+            nodeValues[fieldName] = value;
+          }
         }
       });
 
+    // Generate output for this entity
     if (!isNullOrEmpty(nodeValues)) {
+      // add the set of leaf field values
       nodes.push({ _typeName: typeName, id, ...nodeValues });
     }
 
     if (!isNullOrEmpty(listValues)) {
+      // add the set of list field values (i.e., lists)
       lists.push({ _typeName: typeName, id, ...listValues });
     }
-  });
 
-  // Output
-  if (
-    isNullOrEmpty(nodes) &&
-    isNullOrEmpty(lists) &&
-    isNullOrEmpty(relations)
-  ) {
-    // @@TODO: report
-    console.log("no output produced for ", parsedPath);
-    return;
+    if (!isNullOrEmpty(relValues)) {
+      // add the relationship pairs
+      Object.keys(relValues).forEach(fieldName => {
+        const relValue = relValues[fieldName];
+
+        relValue.toIds.forEach(toId => {
+          relations.push([
+            { _typeName: typeName, id, fieldName },
+            { _typeName: relValue.toType, id: toId }
+          ]);
+        });
+      });
+    }
+
+    entityCnt++;
+    if (entityCnt % 10000 === 0) flush();
+  }); // entity loop
+
+  flush();
+
+  if (!errorCnt) {
+    fileResults.succeed++;
+    context.spinner.succeed(
+      chalk.green(`Converted ${chalk.yellow(filePath)} without errors`)
+    );
+  } else {
+    context.spinner.fail(
+      chalk.red(`✘ Converted ${chalk.yellow(filePath)} with ${errorCnt} errors`)
+    );
   }
-
-  ndfFileCount++;
-  const outName = `${ndfFileCount}`.padStart(5, "0");
-  if (!isNullOrEmpty(nodes)) writeNdfFile(ndfPath, "nodes", outName, nodes);
-  if (!isNullOrEmpty(lists)) writeNdfFile(ndfPath, "lists", outName, lists);
-  if (!isNullOrEmpty(relations))
-    writeNdfFile(ndfPath, "relations", outName, relations);
 };
 
 /**
@@ -539,7 +623,7 @@ const convertToNdf = async (context, parsedPath) => {
  * @param {*} typeName
  * @param {*} values
  */
-const writeNdfFile = async (ndfPath, valueType, typeName, values) => {
+const writeNdfFile = (ndfPath, valueType, typeName, values) => {
   const outName = `${typeName}.json`;
   // console.log("outName", outName);
 
@@ -547,7 +631,7 @@ const writeNdfFile = async (ndfPath, valueType, typeName, values) => {
   // console.log("outdir", outDir);
 
   // Ensure the output path exists
-  await mkdirp(outDir);
+  mkdirp.sync(outDir);
 
   const outPath = path.resolve(outDir, outName);
   // console.log("outpath", outPath);
@@ -557,7 +641,7 @@ const writeNdfFile = async (ndfPath, valueType, typeName, values) => {
     values
   });
 
-  await fs.writeFile(outPath, data, "utf8");
+  fs.writeFileSync(outPath, data, "utf8");
 };
 
 /**
@@ -758,34 +842,68 @@ export const handler = async (context, argv) => {
 /**
  * Generate a report of actions and errors
  */
+const DIVIDER =
+  "-------------------------------------------------------------------------------";
+
 const buildReport = () => {
   // keep the report divided from the rest of the output
-  console.log(
-    chalk.green("--------------------------------------------------------")
-  );
+  console.log(chalk.green(DIVIDER));
+
+  // NDF conversion stats
+  if (fileResults.ndfFileCnt > 0) {
+    console.log("NDF Conversion:");
+
+    console.log(
+      chalk.green(
+        `✔ Files processed    : ${chalk.yellow(`${fileResults.total}`)}` // assume we only did conversion
+      )
+    );
+    console.log(
+      chalk.green(
+        `✔ Generations        : ${chalk.yellow(`${fileResults.ndfGenCnt}`)}`
+      )
+    );
+    console.log(
+      chalk.green(
+        `✔ NDF files generated: ${chalk.yellow(`${fileResults.ndfFileCnt}`)}`
+      )
+    );
+
+    console.log(chalk.green(DIVIDER));
+  }
 
   // figure out how many errors we have
   const uploadErrorKeys = Object.keys(fileResults.errors.uploading);
   const numErrors =
     uploadErrorKeys.length +
     fileResults.errors.mutation.length +
-    fileResults.errors.dataRead.length;
+    fileResults.errors.dataRead.length +
+    fileResults.errors.ndf.length;
 
   // only show information about errors if there are any
   if (numErrors) {
     // let the user know how many files had no issues
     console.log(
       chalk.green(
-        `✔ ${fileResults.succeed} of ${
-          fileResults.total
-        } json and csv files uploaded successfully`
+        `✔ ${fileResults.succeed} of ${fileResults.total} file(s) succeeded`
       )
     );
 
+    // deliver the sad news
+    console.log(chalk.red(DIVIDER));
+
     // let the user know the total number of files that had issues
-    console.log(
-      chalk.red(`✘ ${numErrors} of ${fileResults.total} files had issues:`)
-    );
+    console.log(chalk.red(`✘ ${numErrors} issue(s):`));
+
+    // tell the user about NDF conversion issues
+    if (fileResults.errors.ndf.length) {
+      console.log(
+        chalk.red(`  ${fileResults.errors.ndf.length} NDF conversion`)
+      );
+      fileResults.errors.ndf.forEach(e =>
+        console.log(`    ${chalk.yellow(e.file)}: ${chalk.red(e.msg)}`)
+      );
+    }
 
     // tell the user about issues with mutations
     if (fileResults.errors.mutation.length) {
@@ -834,13 +952,14 @@ const buildReport = () => {
     }
 
     // let the user know how to find more information about the issues
+    console.log(chalk.red(DIVIDER));
     console.log(
       chalk.red(
-        "For more information on the errors please look through the full output of the command"
+        "For more information on the errors, please look through the full output of the command"
       )
     );
   } else {
     // let the user know that no issues happened during the command
-    console.log(chalk.green("✔ Total success"));
+    console.log(chalk.green("✔ No errors"));
   }
 };
