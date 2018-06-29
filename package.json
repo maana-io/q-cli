@@ -24,6 +24,7 @@
     "graphql-config": "^2.0.1",
     "graphql-request": "^1.6.0",
     "graphql-tag": "^2.9.2",
+    "md5-base64": "0.0.3",
     "mkdirp": "^0.5.1",
     "n3": "^1.0.0-beta.1",
     "papaparse": "^4.5.0",
