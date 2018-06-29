@@ -16,7 +16,7 @@ import fs from "fs-extra";
 import path from "path";
 import chalk from "chalk";
 import mkdirp from "mkdirp";
-import hash from "string-hash";
+import hash from "farmhash";
 
 import {
   capitalize,
@@ -76,7 +76,7 @@ const fileResults = {
 /**
  * NDF ids are CHAR(25), so we translate all original ID references to conform
  */
-const mkNdfId = id => `${hash(id)}`;
+const mkNdfId = id => `${hash.fingerprint64(id)}`;
 
 /**
  * Get the GraphQL schema for the project
