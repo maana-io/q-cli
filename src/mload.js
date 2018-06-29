@@ -650,10 +650,14 @@ const writeNdfFile = (ndfPath, valueType, typeName, values) => {
   const outPath = path.resolve(outDir, outName);
   // console.log("outpath", outPath);
 
-  const data = JSON.stringify({
-    valueType,
-    values
-  });
+  const data = JSON.stringify(
+    {
+      valueType,
+      values
+    },
+    null,
+    2
+  );
 
   fs.writeFileSync(outPath, data, "utf8");
 };
