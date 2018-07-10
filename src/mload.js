@@ -41,7 +41,7 @@ export const desc = "Load a file or directory tree into Maana Q";
 export const builder = {
   mutation: {
     alias: "m",
-    description: "mutation to call (must take an array of instances)"
+    description: "mutation to call"
   },
   type: {
     alias: "t",
@@ -87,6 +87,31 @@ const getSchema = config => {
   const schemaPath = config.schemaPath;
   const schemaContents = fs.readFileSync(schemaPath).toString();
   return buildASTSchema(parse(schemaContents));
+};
+
+/**
+ *
+ * @param {*} type
+ */
+const typeIsList = type => {
+  let isList = false;
+  if (type.name && type.name.endsWith("Connection")) {
+    isList = true;
+  }
+  while (
+    !isList &&
+    (isListType(type) ||
+      isNonNullType(type) ||
+      type.kind === "NON_NULL" ||
+      type.kind === "LIST")
+  ) {
+    if (isListType(type) || type.kind === "LIST") {
+      isList = true;
+      break;
+    }
+    type = type.ofType;
+  }
+  return isList;
 };
 
 /**
@@ -141,13 +166,15 @@ const readJsonFile = (context, parsedPath) => {
 
   try {
     const json = readJson(filePath);
+    const entityCnt = Array.isArray(json) ? json.length : 1;
     context.spinner.succeed(
       chalk.green(
         `Done parsing JSON file ${chalk.yellow(
           filePath
-        )} entities: ${chalk.yellow(Object.keys(json).length)}`
+        )} entities: ${chalk.yellow(entityCnt)}`
       )
     );
+    if (entityCnt === 1) return [json];
     return json;
   } catch (error) {
     context.spinner.fail(chalk.red(error));
@@ -252,7 +279,8 @@ const getMutationField = (schema, mutationName) => {
  * @param {*} schema
  * @param {*} mutationField
  */
-const getInputType = (schema, mutationField) => {
+const getInputTypeDef = (schema, mutationField) => {
+  // Find the 'input' argument, if any
   const inputs = mutationField.args.filter(x => x.name === "input");
   if (!inputs || inputs.length !== 1) {
     return console.log(
@@ -261,14 +289,21 @@ const getInputType = (schema, mutationField) => {
       )
     );
   }
+  const inputType = inputs[0].type;
+
+  // Get the underlying type name (i.e., strip '!' and '[]')
   const namedType = getNamedType(inputs[0].type);
-  const inputType = schema.getType(namedType);
+
+  // Get the actual type definition from the schema
+  const typeDef = schema.getType(namedType);
+
   console.log(
-    `Input type ${chalk.yellow(inputType.name)}: ${chalk.yellow(
-      inputType.description || "(no description)"
+    `Input type ${chalk.yellow(typeDef.name)}: ${chalk.yellow(
+      typeDef.description || "(no description)"
     )}`
   );
-  return inputType;
+
+  return { inputType, typeDef };
 };
 
 /**
@@ -278,7 +313,7 @@ const getInputType = (schema, mutationField) => {
  * @param {*} val
  * @param {*} def
  */
-const coerce = (type, val, def = null) => {
+const coerce = (type, val, def = null, quoted = true) => {
   let rval = def;
 
   if (type == "Float") {
@@ -309,7 +344,8 @@ const coerce = (type, val, def = null) => {
   } else if (type == "Date" || type == "DateTime" || type == "Time") {
     // Quoted, not empty
     rval = !val || val == "" ? def : new Date(val).toISOString();
-  } else if (type == "String" && typeof val == "string") {
+  } else if (!quoted && type == "String" && typeof val == "string") {
+    // Not quoted, empty ok
     rval = val;
   } else {
     // Quoted, empty ok
@@ -327,53 +363,64 @@ const coerce = (type, val, def = null) => {
  * @param {*} inputType
  * @param {*} data
  */
-const buildMutation = (mutationField, inputType, data) => {
-  const instances = data
-    .map(row => {
-      const fields = Object.keys(row)
-        .map(fieldName => {
-          const value = row[fieldName];
+const buildMutation = (mutationField, inputType, typeDef, data) => {
+  // console.log("data", data);
+  const instances = data.map(row => {
+    const fields = Object.keys(row)
+      .map(fieldName => {
+        const value = row[fieldName];
 
-          const { field, isList, isNonNull, namedType } = getField(
-            inputType,
-            fieldName
-          );
+        const { field, isList, isNonNull, namedType } = getField(
+          typeDef,
+          fieldName
+        );
 
-          const valueType = typeof value;
-          // console.log("valueType", valueType);
+        const valueType = typeof value;
+        // console.log("valueType", valueType);
 
-          if (Array.isArray(value)) {
-            if (!isList) {
-              const msg = `Unexpected collection for ${chalk.yellow(
-                fieldName
-              )}: ${chalk.yellow(field.type)} => ${chalk.yellow(
-                JSON.stringify(value)
-              )}`;
-              console.log(chalk.red(`✘ ${msg}`));
-              throw msg;
-            }
-
-            if (value.length === 0) {
-              return `${fieldName}: null`;
-            }
-            const values = value.map(v => coerce(namedType, v));
-            return `${fieldName}: [${values.join(",")}]`;
-          } else if (isList) {
-            const msg = `Expected collection for ${chalk.yellow(fieldName)}: ${
-              field.type
-            } => ${JSON.stringify(value)}`;
+        if (Array.isArray(value)) {
+          if (!isList) {
+            const msg = `Unexpected collection for ${chalk.yellow(
+              fieldName
+            )}: ${chalk.yellow(field.type)} => ${chalk.yellow(
+              JSON.stringify(value)
+            )}`;
             console.log(chalk.red(`✘ ${msg}`));
             throw msg;
           }
-          return `${fieldName}: ${coerce(namedType, value)}\n`;
-        })
-        .join(",");
-      return `{${fields}}`;
+
+          if (value.length === 0) {
+            return `${fieldName}: null`;
+          }
+          const values = value.map(v => coerce(namedType, v));
+          return `${fieldName}: [${values.join(",")}]`;
+        } else if (isList) {
+          const msg = `Expected collection for ${chalk.yellow(fieldName)}: ${
+            field.type
+          } => ${JSON.stringify(value)}`;
+          console.log(chalk.red(`✘ ${msg}`));
+          throw msg;
+        }
+        return `${fieldName}: ${coerce(namedType, value)}\n`;
+      })
+      .join(",");
+    return `{${fields}}`;
+  });
+
+  // Handle list input type
+  if (typeIsList(inputType)) {
+    const list = instances.join(", ");
+    const mutation = `mutation { ${mutationField.name}(input:[${list}]) }`;
+    return mutation;
+  }
+
+  // Single input type
+  const mutations = instances
+    .map((instance, idx) => {
+      return `m${idx}: ${mutationField.name}(input:${instance})`;
     })
-    .join(",");
-  const mutation = `mutation { ${mutationField.name}(input:[${instances}]) }`;
-  // console.log("mutation", mutation);
-  return mutation;
+    .join("\n");
+  return `mutation { ${mutations} }`;
 };
 
 /**
@@ -580,7 +627,7 @@ const convertToNdf = async (context, parsedPath) => {
           const value =
             namedType.name === "ID"
               ? mkNdfId(entity[fieldName])
-              : coerce(namedType.name, entity[fieldName]);
+              : coerce(namedType.name, entity[fieldName], null, false);
 
           if (value != null && value != undefined) {
             nodeValues[fieldName] = value;
@@ -689,7 +736,7 @@ const uploadViaMutation = async (context, parsedPath) => {
   }
   // console.log("mutationField", mutationField);
 
-  const inputType = getInputType(context.schema, mutationField);
+  const { inputType, typeDef } = getInputTypeDef(context.schema, mutationField);
   if (!inputType) {
     fileResults.errors.mutation.push({
       file: filePath,
@@ -722,7 +769,7 @@ const uploadViaMutation = async (context, parsedPath) => {
 
     let mutation;
     try {
-      mutation = buildMutation(mutationField, inputType, batch);
+      mutation = buildMutation(mutationField, inputType, typeDef, batch);
     } catch {
       fileResults.errors.mutation.push({
         file: filePath,
@@ -737,6 +784,7 @@ const uploadViaMutation = async (context, parsedPath) => {
       });
       return;
     }
+    // console.log("mutation", mutation);
 
     try {
       if ((offset === 0 && totalLength > end) || offset > 0) {

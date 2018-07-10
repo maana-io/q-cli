@@ -1,0 +1,16 @@
+[
+  {
+    "id": "hasEvent1",
+    "name": "hasEvent1",
+    "inverseName": "isEventOf1",
+    "description": "A relation from an event to an entity it is related to.",
+    "undirected": false
+  },
+  {
+    "id": "isEventOf1",
+    "name": "isEventOf1",
+    "inverseName": "hasEvent1",
+    "description": "A relation from an event to an entity it is related to.",
+    "undirected": false
+  }
+]

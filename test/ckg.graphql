@@ -18,7 +18,9 @@ input AddBotActionInput {
   outputInstanceRef: InstanceRefInput
 }
 
-"""Create a Document instance"""
+"""
+Create a Document instance
+"""
 input AddDocumentInput {
   id: ID
 
@@ -35,7 +37,9 @@ input AddEntitiesInput {
 }
 
 input AddFieldMappingInput {
-  """You need to give query binding Id or fromKind and toKind"""
+  """
+  You need to give query binding Id or fromKind and toKind
+  """
   queryBinding: ID
   fromKind: ID
   toKind: ID
@@ -49,7 +53,9 @@ input AddFieldsInput {
   fields: [FieldInput!]!
 }
 
-"""Create a File instance"""
+"""
+Create a File instance
+"""
 input AddFileFromUrlInput {
   id: ID
 
@@ -62,7 +68,9 @@ input AddFileFromUrlInput {
   mimeType: String
 }
 
-"""Create a File instance"""
+"""
+Create a File instance
+"""
 input AddFileInput {
   id: ID
 
@@ -78,7 +86,9 @@ input AddFileInput {
   status: Int!
 }
 
-"""Create a Image instance"""
+"""
+Create a Image instance
+"""
 input AddImageInput {
   id: ID
 
@@ -123,19 +133,27 @@ input AddKnowledgeGraphInput {
 }
 
 input AddLinkInput {
-  """one of the following is required"""
+  """
+  one of the following is required
+  """
   fromKindId: ID
   fromKindName: String
 
-  """one of the following is required"""
+  """
+  one of the following is required
+  """
   toKindId: ID
   toKindName: String
 
-  """one of the following is required"""
+  """
+  one of the following is required
+  """
   relationId: ID
   relationName: String
 
-  """optional"""
+  """
+  optional
+  """
   id: ID
   name: String
   weight: Float
@@ -151,7 +169,9 @@ input AddLinkInput {
   toSpan: String
 }
 
-"""Create a Person instance"""
+"""
+Create a Person instance
+"""
 input AddPersonInput {
   id: ID
 
@@ -175,21 +195,31 @@ input AddQueryGraphInput {
 input AddQueryGraphNodeInput {
   id: ID
 
-  """projected kind"""
+  """
+  projected kind
+  """
   kindId: ID!
 
-  """filters (where)"""
+  """
+  filters (where)
+  """
   fieldFilters: [QueryGraphFieldFilterInput!]
 
-  """child kind queries"""
+  """
+  child kind queries
+  """
   children: [QueryGraphNodeConnectionInput!]
 }
 
 input AddRelationInput {
-  """required"""
+  """
+  required
+  """
   name: String!
 
-  """optional"""
+  """
+  optional
+  """
   id: ID
   inverseName: String
   description: String
@@ -224,7 +254,9 @@ input AddServiceSourceInput {
   name: String
   description: String
 
-  """GraphQL Schema"""
+  """
+  GraphQL Schema
+  """
   schema: String!
 }
 
@@ -280,18 +312,24 @@ type BooleanKind {
 }
 
 type BotAction {
-  """io.maana.kind"""
+  """
+  io.maana.kind
+  """
   id: ID!
   name: String!
 
-  """bookkeeping"""
+  """
+  bookkeeping
+  """
   created: DateTime!
   lastUpdated: DateTime!
   status: BotActionStatus!
   progress: Float
   errors: [JSON!]
 
-  """operation"""
+  """
+  operation
+  """
   service: Service!
   eventName: String
   mutation: ServiceMutation
@@ -312,7 +350,9 @@ type BotActionAddedEvent {
   outputInstanceRef: InstanceRef
 }
 
-"""io.maana.ckg"""
+"""
+io.maana.ckg
+"""
 enum BotActionStatus {
   PENDING
   IN_PROGRESS
@@ -366,30 +406,44 @@ type Classification {
 input ClassificationInput {
   targetAccuracy: Float!
 
-  """one of the following"""
+  """
+  one of the following
+  """
   kindName: String
   kindId: ID
 
-  """one of the following"""
+  """
+  one of the following
+  """
   textFieldName: String
   textFieldId: ID
 
-  """one of the following"""
+  """
+  one of the following
+  """
   classFieldName: String
   classFieldId: ID
 
-  """one of the following"""
+  """
+  one of the following
+  """
   domainInstanceName: String
   domainInstanceId: ID
   classifierName: String
 
-  """cross validation folds"""
+  """
+  cross validation folds
+  """
   crossValidationFold: Int!
 
-  """choosen candidate classification models:"""
+  """
+  choosen candidate classification models:
+  """
   candidateModels: [CandidateModel!]!
 
-  """choosen candidate featurizer:"""
+  """
+  choosen candidate featurizer:
+  """
   candidateFeaturizers: [CandidateFeaturizer!]!
 
   """
@@ -460,21 +514,29 @@ input DeleteInstanceSetInput {
 }
 
 type DetectedFace {
-  """Required Kind"""
+  """
+  Required Kind
+  """
   id: ID!
   name: String
 
-  """Source image"""
+  """
+  Source image
+  """
   image: Image!
 
-  """Image region with face"""
+  """
+  Image region with face
+  """
   area: Int!
   bottom: Int!
   top: Int!
   right: Int!
   left: Int!
 
-  """Normalized confidence score"""
+  """
+  Normalized confidence score
+  """
   detectionConfidence: Float!
 }
 
@@ -495,34 +557,48 @@ type DocFile {
   name: String!
 }
 
-"""Documents"""
+"""
+Documents
+"""
 type Document {
-  """Kind fields"""
+  """
+  Kind fields
+  """
   id: ID!
   name: String!
 
-  """Domain-specific fields"""
+  """
+  Domain-specific fields
+  """
   text: String
   textElements: [TextElement]
   entities: [Entity]
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type DocumentAddedEvent {
   id: ID!
   name: String!
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type DocumentDeletedEvent {
   id: ID!
   name: String!
 
-  """only what was known"""
+  """
+  only what was known
+  """
   text: String
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type DocumentUpdatedEvent {
   id: ID!
   name: String!
@@ -539,7 +615,9 @@ type Email {
   name: String!
 }
 
-"""Entities"""
+"""
+Entities
+"""
 type Entity {
   id: ID!
   name: String!
@@ -588,25 +666,35 @@ type Featurizer {
   parameter: JSON
 }
 
-"""extend io.maana.kinddb's Field type"""
+"""
+extend io.maana.kinddb's Field type
+"""
 type Field {
-  """required"""
+  """
+  required
+  """
   id: ID!
   name: String!
   type: FieldType!
 
-  """optional"""
+  """
+  optional
+  """
   description: String
   modifiers: [FieldModifiers]
   typeKindId: ID
 
-  """UI hints"""
+  """
+  UI hints
+  """
   displayAs: [String]
   hide: Boolean
   autoFocus: Boolean
   readonly: Boolean
 
-  """inferred"""
+  """
+  inferred
+  """
   kind: Kind
   acceptedFieldClassification: FieldClassification
   fieldClassifications: [FieldClassification]
@@ -626,7 +714,9 @@ input FieldClassificationInput {
   score: Float!
 }
 
-"""Arbitrary filters applied to field values"""
+"""
+Arbitrary filters applied to field values
+"""
 type FieldFilter {
   id: ID!
   fieldId: ID!
@@ -635,7 +725,9 @@ type FieldFilter {
 }
 
 input FieldFilterInput {
-  """one of the following is required"""
+  """
+  one of the following is required
+  """
   fieldId: ID
   fieldName: String
   op: String!
@@ -663,7 +755,9 @@ type FieldMapping {
   toField: Field!
   onTypeErrorBehavior: OnTypeErrorBehavior
 
-  """Executed sequentially"""
+  """
+  Executed sequentially
+  """
   transformations: [Transformation]
   defaultValue: FieldValue
 }
@@ -697,7 +791,9 @@ enum FieldType {
 }
 
 type FieldValue {
-  """Types"""
+  """
+  Types
+  """
   ID: ID
   STRING: String
   INT: Int
@@ -709,7 +805,9 @@ type FieldValue {
   JSON: JSON
   KIND: ID
 
-  """List forms"""
+  """
+  List forms
+  """
   l_ID: [ID]
   l_STRING: [String]
   l_INT: [Int]
@@ -723,7 +821,9 @@ type FieldValue {
 }
 
 input FieldValueInput {
-  """Types"""
+  """
+  Types
+  """
   ID: ID
   STRING: String
   INT: Int
@@ -735,7 +835,9 @@ input FieldValueInput {
   JSON: JSON
   KIND: ID
 
-  """List forms"""
+  """
+  List forms
+  """
   l_ID: [ID]
   l_STRING: [String]
   l_INT: [Int]
@@ -749,11 +851,15 @@ input FieldValueInput {
 }
 
 type File {
-  """Kind fields"""
+  """
+  Kind fields
+  """
   id: ID!
   name: String!
 
-  """Domain-specific fields"""
+  """
+  Domain-specific fields
+  """
   url: String
   thumbnailUrl: String
   mimeType: String
@@ -762,7 +868,9 @@ type File {
   status: Int!
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type FileAddedEvent {
   id: ID!
   name: String!
@@ -773,16 +881,22 @@ type FileAddedEvent {
   mimeType: String
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type FileDeletedEvent {
   id: ID!
   name: String!
 
-  """only what was known"""
+  """
+  only what was known
+  """
   text: String
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type FileUpdatedEvent {
   id: ID!
   name: String!
@@ -798,31 +912,43 @@ type Image {
   recognizedFaces: [RecognizedFace]
   people: [Person]
 
-  """Kind fields"""
+  """
+  Kind fields
+  """
   id: ID!
   name: String!
 
-  """Domain-specific fields"""
+  """
+  Domain-specific fields
+  """
   url: String
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type ImageAddedEvent {
   id: ID!
   name: String!
   url: String
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type ImageDeletedEvent {
   id: ID!
   name: String!
 
-  """only what was known"""
+  """
+  only what was known
+  """
   url: String
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type ImageUpdatedEvent {
   id: ID!
   name: String!
@@ -836,19 +962,27 @@ type Info {
 }
 
 type Instance {
-  """required"""
+  """
+  required
+  """
   id: ID!
 
-  """optional"""
+  """
+  optional
+  """
   name: String
   kindId: ID!
   kind: Kind
   fieldIds: [ID]
 
-  """rowKey: Int"""
+  """
+  rowKey: Int
+  """
   fieldValues: [FieldValue]
 
-  """inferred"""
+  """
+  inferred
+  """
   linksFrom: [Link]
   linksTo: [Link]
 }
@@ -859,18 +993,26 @@ type InstanceAddedEvent {
 }
 
 type InstanceRef {
-  """required"""
+  """
+  required
+  """
   id: ID!
 
-  """- one of:"""
+  """
+  - one of:
+  """
   kindId: ID
   kindName: String
 
-  """optional"""
+  """
+  optional
+  """
   name: String
   url: String
 
-  """inferred"""
+  """
+  inferred
+  """
   kind: Kind
   instance: Instance
   innerKind: Kind
@@ -890,7 +1032,9 @@ type InstanceSet {
   kind: Kind!
   fieldIds: [ID]
 
-  """rowKeys: [Int]"""
+  """
+  rowKeys: [Int]
+  """
   records: [[FieldValue]]
 }
 
@@ -911,20 +1055,31 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 scalar JSON
 
 type Kind {
-  """required"""
+  """
+  required
+  """
   id: ID!
   name: String!
 
-  """optional"""
+  """
+  optional
+  """
   serviceId: ID
   description: String
   thumbnailUrl: String
   isPublic: Boolean
   isManaged: Boolean
-  schema(includeDeleted: Boolean = false, fieldIds: [ID!], fieldNames: [String!], fieldKinds: [ID!]): [Field]
+  schema(
+    includeDeleted: Boolean = false
+    fieldIds: [ID!]
+    fieldNames: [String!]
+    fieldKinds: [ID!]
+  ): [Field]
   nameField: ID
 
-  """inferred"""
+  """
+  inferred
+  """
   relationsFrom: [Relation]
   relationsTo: [Relation]
   linksFrom: [Link]
@@ -948,48 +1103,74 @@ input KindInput {
   schema: [FieldInput]
 }
 
-"""Query tree"""
+"""
+Query tree
+"""
 type KindQuery {
-  """id of query"""
+  """
+  id of query
+  """
   id: ID!
 
-  """projected kind"""
+  """
+  projected kind
+  """
   kindId: ID!
 
-  """filters (where)"""
+  """
+  filters (where)
+  """
   fieldFilters: [FieldFilter]
 
-  """conjunction (where)"""
+  """
+  conjunction (where)
+  """
   and: [KindQuery]
 
-  """disjunction (where)"""
+  """
+  disjunction (where)
+  """
   or: [KindQuery]
 
-  """join (if conjunction or disjunction)"""
+  """
+  join (if conjunction or disjunction)
+  """
   fromFieldId: ID
   toFieldId: ID
 
-  """inferred"""
+  """
+  inferred
+  """
   kind: Kind!
   fromField: Field
   toField: Field
 }
 
 input KindQueryInput {
-  """projected kind (one of the following is required)"""
+  """
+  projected kind (one of the following is required)
+  """
   kindId: ID
   kindName: String
 
-  """filters (where)"""
+  """
+  filters (where)
+  """
   fieldFilters: [FieldFilterInput]
 
-  """conjunction (where)"""
+  """
+  conjunction (where)
+  """
   and: [KindQueryInput]
 
-  """disjunction (where)"""
+  """
+  disjunction (where)
+  """
   or: [KindQueryInput]
 
-  """join (if conjunction or disjunction)"""
+  """
+  join (if conjunction or disjunction)
+  """
   fromFieldId: ID
   fromFieldName: String
   toFieldId: ID
@@ -998,11 +1179,15 @@ input KindQueryInput {
 }
 
 type KnowledgeGraph {
-  """required"""
+  """
+  required
+  """
   id: ID!
   name: String!
 
-  """optional"""
+  """
+  optional
+  """
   service: Service
   instanceRefs: [InstanceRef!]
   expanded: Boolean
@@ -1044,13 +1229,17 @@ type Latitude {
 }
 
 type Link {
-  """required"""
+  """
+  required
+  """
   id: ID!
   relation: Relation!
   fromKind: Kind!
   toKind: Kind!
 
-  """optional"""
+  """
+  optional
+  """
   name: String
   weight: Float
   fromField: Field
@@ -1102,7 +1291,9 @@ type Model {
 }
 
 type Mutation {
-  """Services"""
+  """
+  Services
+  """
   addService(input: AddServiceInput!): ID!
   updateServiceSchema(input: UpdateServiceSchemaInput): Boolean!
   refreshServiceSchema(id: ID!): Service!
@@ -1110,7 +1301,9 @@ type Mutation {
   addServiceQuery(input: ServiceQueryInput!): ID!
   addQueryBinding(input: QueryBindingInput!): ID!
 
-  """Applications"""
+  """
+  Applications
+  """
   addApplication(input: AddApplicationInput!): ID
   updateApplication(input: UpdateApplicationInput!): ID
   addBotAction(input: AddBotActionInput!): ID
@@ -1120,33 +1313,50 @@ type Mutation {
   addDetectedFaces(input: [DetectedFaceInput!]!): Boolean!
   addRecognizedFaces(input: [RecognizedFaceInput!]!): Boolean!
 
-  """Tenants"""
+  """
+  Tenants
+  """
   addTenant(input: AddTenantInput!): ID
   updateTenant(input: UpdateTenantInput!): ID
 
-  """Users"""
+  """
+  Users
+  """
   addUser(input: AddUserInput!): ID
   updateUser(input: UpdateUserInput!): ID
 
-  """Roles"""
+  """
+  Roles
+  """
   addRole(input: AddRoleInput!): ID
   updateRole(input: UpdateRoleInput!): ID
 
-  """User Tenant Role"""
+  """
+  User Tenant Role
+  """
   addUserTenantRole(input: AddTenantUserRoleInput!): Boolean
   updateUserTenantRole(input: UpdateTenantUserRoleInput!): Boolean
 
-  """Service Admin"""
+  """
+  Service Admin
+  """
   provisionService(tenantId: ID!): ID
-  resetService(tenantId: ID!, areYouSureYouReallyReallyWantToDoThis: Boolean!): Boolean
+  resetService(
+    tenantId: ID!
+    areYouSureYouReallyReallyWantToDoThis: Boolean!
+  ): Boolean
 
-  """Kinds and Fields"""
+  """
+  Kinds and Fields
+  """
   addKind(tenantId: ID!, input: AddKindInput!): ID
   updateKind(tenantId: ID!, input: UpdateKindInput!): ID
   deleteKind(tenantId: ID!, kindId: ID!): Boolean
   addFields(tenantId: ID!, input: AddFieldsInput!): ID
 
-  """Instances"""
+  """
+  Instances
+  """
   addInstance(tenantId: ID!, input: AddInstanceInput!): ID
   addInstanceSet(tenantId: ID!, input: AddInstanceSetInput!): [ID]
   updateInstance(tenantId: ID!, input: UpdateInstanceInput!): ID
@@ -1154,30 +1364,47 @@ type Mutation {
   deleteInstance(tenantId: ID!, input: DeleteInstanceInput!): ID
   deleteInstanceSet(tenantId: ID!, input: DeleteInstanceSetInput!): [ID]
 
-  """Relations"""
+  """
+  Relations
+  """
   addRelation(input: AddRelationInput!): ID
   updateRelation(input: UpdateRelationInput!): ID
 
-  """Links"""
+  """
+  Links
+  """
   addLink(input: AddLinkInput!): ID
-  addLinks(input: [AddLinkInput]!): [ID]
+  addLinks(input: [AddLinkInput]): [ID]
   updateLink(input: UpdateLinkInput!): ID
 
-  """Users"""
+  """
+  Users
+  """
   setTheme(userId: ID!, theme: Theme!): Boolean!
 
-  """QueryBinding"""
+  """
+  QueryBinding
+  """
   addFieldMapping(input: AddFieldMappingInput!): QueryBinding!
   updateQueryBinding(input: UpdateQueryBindingInput!): Boolean!
   removeQueryBinding(id: ID!): Boolean!
   removeFieldMappings(input: [RemoveFieldMappingInput!]!): Boolean!
   updateFieldMapping(input: UpdateFieldMappingInput!): Boolean!
 
-  """Duplicate things"""
+  """
+  Duplicate things
+  """
   duplicateKind(id: ID!, newName: String!): ID!
-  duplicateInstance(instanceId: ID!, newName: String!, kindId: ID, kindName: String): ID!
+  duplicateInstance(
+    instanceId: ID!
+    newName: String!
+    kindId: ID
+    kindName: String
+  ): ID!
 
-  """Workspaces"""
+  """
+  Workspaces
+  """
   addWorkspace(input: AddWorkspaceInput!): ID
   openWorkspace(userId: ID!, workspaceId: ID!): ID
   closeWorkspace(userId: ID!, workspaceId: ID!): ID
@@ -1185,38 +1412,81 @@ type Mutation {
   activeGraph(workspaceId: ID!, instanceRef: InstanceRefInput!): Boolean!
   updateWorkspaceLayout(input: UpdateWorkspaceLayoutInput!): Boolean!
   resetWorkspaceLayout(id: ID!): Boolean!
-  addInstanceRefToWorkspace(wsId: ID!, instanceRef: InstanceRefInput!): InstanceRef!
-  addInstanceRefsToWorkspace(wsId: ID!, instanceRefs: [InstanceRefInput!]!): [InstanceRef!]!
+  addInstanceRefToWorkspace(
+    wsId: ID!
+    instanceRef: InstanceRefInput!
+  ): InstanceRef!
+  addInstanceRefsToWorkspace(
+    wsId: ID!
+    instanceRefs: [InstanceRefInput!]!
+  ): [InstanceRef!]!
   addServiceToWorkspace(workspaceId: ID!, serviceId: ID!): Service
 
-  """Knowledge Graphs"""
+  """
+  Knowledge Graphs
+  """
   addKnowledgeGraph(input: AddKnowledgeGraphInput!): KnowledgeGraph
   reorderKnowledgeGraphs(input: ReorderKnowledgeGraphsInput!): ID
-  addInstanceRefToKnowledgeGraph(kgId: ID!, instanceRef: InstanceRefInput!): KnowledgeGraphUpdate!
-  addInstanceRefsToKnowledgeGraph(kgId: ID!, instanceRefs: [InstanceRefInput!]!): [KnowledgeGraphUpdate!]!
+  addInstanceRefToKnowledgeGraph(
+    kgId: ID!
+    instanceRef: InstanceRefInput!
+  ): KnowledgeGraphUpdate!
+  addInstanceRefsToKnowledgeGraph(
+    kgId: ID!
+    instanceRefs: [InstanceRefInput!]!
+  ): [KnowledgeGraphUpdate!]!
   removeInstanceRefFromKnowledgeGraph(kgId: ID!, instanceId: ID!): Boolean!
   removeInstanceRefsFromKnowledgeGraph(kgId: ID!, instanceIds: [ID!]!): Boolean!
 
-  """Knowledge Graph Layout"""
+  """
+  Knowledge Graph Layout
+  """
   updateKnowledgeGraphLayout(input: UpdateKnowledgeGraphLayoutInput!): Boolean!
   updateModel(kgId: ID!, model: JSON!): Boolean!
   expand(kgId: ID!): Boolean!
 
-  """Query Graphs"""
+  """
+  Query Graphs
+  """
   addQueryGraph(input: AddQueryGraphInput!): QueryGraph!
   reorderQueryGraphs(input: ReorderQueryGraphsInput!): ID
   expandQueryGraph(qgId: ID!): Boolean!
-  addNodeToQueryGraph(qgId: ID!, node: AddQueryGraphNodeInput!): QueryGraphUpdate!
-  addNodesToQueryGraph(qgId: ID!, nodes: [AddQueryGraphNodeInput!]!): [QueryGraphUpdate]!
+  addNodeToQueryGraph(
+    qgId: ID!
+    node: AddQueryGraphNodeInput!
+  ): QueryGraphUpdate!
+  addNodesToQueryGraph(
+    qgId: ID!
+    nodes: [AddQueryGraphNodeInput!]!
+  ): [QueryGraphUpdate]!
   removeNodeFromQueryGraph(qgId: ID!, nodeId: ID!): [QueryGraphNode!]!
   removeNodesFromQueryGraph(qgId: ID!, nodeIds: [ID!]!): [QueryGraphNode!]!
-  addQueryGraphNodeConnection(nodeId: ID!, connection: QueryGraphNodeConnectionInput!): QueryGraphNode!
-  removeQueryGraphNodeConnection(input: RemoveQueryGraphNodeConnectionInput!): QueryGraphNode!
-  removeQueryGraphNodeConnections(input: [RemoveQueryGraphNodeConnectionInput!]!): [QueryGraphNode!]!
-  addFieldFilterToQueryGraphNode(nodeId: ID!, fieldFilter: QueryGraphFieldFilterInput!): QueryGraphNode!
-  addFieldFiltersToQueryGraphNode(nodeId: ID!, fieldFilters: [QueryGraphFieldFilterInput!]!): QueryGraphNode!
-  removeFieldFilterFromQueryGraphNode(nodeId: ID!, fieldFilterId: ID!): QueryGraphNode!
-  removeFieldFiltersFromQueryGraphNode(nodeId: ID!, fieldFilterIds: [ID!]!): QueryGraphNode!
+  addQueryGraphNodeConnection(
+    nodeId: ID!
+    connection: QueryGraphNodeConnectionInput!
+  ): QueryGraphNode!
+  removeQueryGraphNodeConnection(
+    input: RemoveQueryGraphNodeConnectionInput!
+  ): QueryGraphNode!
+  removeQueryGraphNodeConnections(
+    input: [RemoveQueryGraphNodeConnectionInput!]!
+  ): [QueryGraphNode!]!
+  addFieldFilterToQueryGraphNode(
+    nodeId: ID!
+    fieldFilter: QueryGraphFieldFilterInput!
+  ): QueryGraphNode!
+  addFieldFiltersToQueryGraphNode(
+    nodeId: ID!
+    fieldFilters: [QueryGraphFieldFilterInput!]!
+  ): QueryGraphNode!
+  removeFieldFilterFromQueryGraphNode(
+    nodeId: ID!
+    fieldFilterId: ID!
+  ): QueryGraphNode!
+  removeFieldFiltersFromQueryGraphNode(
+    nodeId: ID!
+    fieldFilterIds: [ID!]!
+  ): QueryGraphNode!
   addServiceSource(input: AddServiceSourceInput!): ID!
   addDocument(input: AddDocumentInput): ID
   addDocuments(input: [AddDocumentInput!]!): [ID]
@@ -1244,16 +1514,24 @@ type Mutation {
   deletePerson(id: ID!): Person
   deletePersons(ids: [ID!]!): [Person]
 
-  """Documents"""
+  """
+  Documents
+  """
   addTextElement(input: AddTextElementInput!): ID
   addTextElements(elements: [AddTextElementInput!]!): Boolean
 
-  """Entities"""
+  """
+  Entities
+  """
   addEntities(input: AddEntitiesInput!): Boolean
   demobootstrap: Boolean!
   train(input: ClassificationInput!): Classifier
   classifyKindandLink(input: PredictionInput!): [ID]
-  classifyText(rawtext: String!, classifierId: ID, classifierName: String): Classification
+  classifyText(
+    rawtext: String!
+    classifierId: ID
+    classifierName: String
+  ): Classification
   classifyKind(input: PredictionInput!): [Classification]
 }
 
@@ -1268,7 +1546,9 @@ Behavior if type doesn't match, for instance: - FLOAT can be converted to
 STRING, but not all STRING can't be converted to FLOAT
 """
 enum OnTypeErrorBehavior {
-  """Skip instance that produced error"""
+  """
+  Skip instance that produced error
+  """
   SKIP
 
   """
@@ -1298,39 +1578,53 @@ type Percentage {
 type Person {
   images: [Image]
 
-  """Kind fields"""
+  """
+  Kind fields
+  """
   id: ID!
   name: String!
 
-  """Domain-specific fields"""
+  """
+  Domain-specific fields
+  """
   givenName: String
   familyName: String
   dateOfBirth: Date
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type PersonAddedEvent {
   id: ID!
   name: String!
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type PersonDeletedEvent {
   id: ID!
   name: String!
 
-  """only what was known"""
+  """
+  only what was known
+  """
   givenName: String
   familyName: String
   dateOfBirth: Date
 }
 
-"""Standard event"""
+"""
+Standard event
+"""
 type PersonUpdatedEvent {
   id: ID!
   name: String!
 
-  """only what changed"""
+  """
+  only what changed
+  """
   givenName: String
   familyName: String
   dateOfBirth: Date
@@ -1356,72 +1650,114 @@ type PhysicalQuantity {
 }
 
 input PredictionInput {
-  """one of the following"""
+  """
+  one of the following
+  """
   kindName: String
   kindId: ID
 
-  """one of the following"""
+  """
+  one of the following
+  """
   textFieldName: String
   textFieldId: String
 
-  """one of the following"""
+  """
+  one of the following
+  """
   classifierName: String
   classifierId: ID
 }
 
 type Query {
-  """Services"""
+  """
+  Services
+  """
   service(id: ID!): Service
   allServices: [Service]
   allSystemServices: [Service]
   allNonSystemServices: [Service]
 
-  """Applications"""
+  """
+  Applications
+  """
   application(id: ID!): Application
   allApplications: [Application]
   botAction(id: ID!): BotAction
   botActions(ids: [ID!]!): [BotAction]
   allBotActions: [BotAction]
 
-  """Tenants"""
+  """
+  Tenants
+  """
   tenant(id: ID!): Tenant
   tenants(ids: [ID!]!): [Tenant]
   allTenants: [Tenant]
 
-  """Users"""
+  """
+  Users
+  """
   user(id: ID!): User
   users(ids: [ID!]!): [User]
   allUsers: [User]
 
-  """Roles"""
+  """
+  Roles
+  """
   role(id: ID!): Role
   roles(ids: [ID!]!): [Role]
   allRoles: [Role]
 
-  """Kinds"""
+  """
+  Kinds
+  """
   kind(tenantId: ID!, id: ID, name: String): Kind
   kinds(tenantId: ID!, ids: [ID!]!): [Kind]
   allKinds(tenantId: ID!, take: Int): [Kind]
 
-  """Instances"""
+  """
+  Instances
+  """
   instance(tenantId: ID!, instanceRef: InstanceRefInput!): Instance
 
-  """Fill in missing pieces of an instance ref"""
+  """
+  Fill in missing pieces of an instance ref
+  """
   instanceRef(tenantId: ID!, id: ID!): InstanceRef
-  populateInstanceRef(tenantId: ID!, instanceRef: InstanceRefInput!): InstanceRef
-  instances(tenantId: ID!, kindId: ID, kindName: String, ids: [ID!]!): InstanceSet
+  populateInstanceRef(
+    tenantId: ID!
+    instanceRef: InstanceRefInput!
+  ): InstanceRef
+  instances(
+    tenantId: ID!
+    kindId: ID
+    kindName: String
+    ids: [ID!]!
+  ): InstanceSet
   instancesByRef(tenantId: ID!, instanceRefs: [InstanceRefInput!]!): [Instance]
-  allInstances(tenantId: ID!, kindId: ID, kindName: String, fieldIds: [ID!], take: Int): InstanceSet
+  allInstances(
+    tenantId: ID!
+    kindId: ID
+    kindName: String
+    fieldIds: [ID!]
+    take: Int
+  ): InstanceSet
 
-  """Kind Query"""
+  """
+  Kind Query
+  """
   query(tenantId: ID!, input: KindQueryInput!): InstanceSet
 
-  """Relations"""
+  """
+  Relations
+  """
   relation(tenantId: ID!, id: ID!): Relation
   relations(tenantId: ID!, ids: [ID]!): [Relation]
   allRelations(tenantId: ID!): [Relation]
 
-  """Links"""
+  """
+  Links
+  """
   link(tenantId: ID!, id: ID!): Link
   links(tenantId: ID!, ids: [ID]!): [Link]
 
@@ -1434,46 +1770,68 @@ type Query {
   queryBindings(ids: [ID!]!): [QueryBinding!]!
   queryFields(ids: [ID]): [QueryField!]!
 
-  """Workspaces"""
+  """
+  Workspaces
+  """
   workspace(id: ID!): Workspace
   allSharedWorkspaces(userId: ID!): [Workspace!]
   allTemplateWorkspaces(userId: ID!): [Workspace!]
   searchUserSpaces(userId: ID!, text: String!): [Workspace!]
 
-  """List all kinds by a service"""
+  """
+  List all kinds by a service
+  """
   allKindsOfService(tenantId: ID!, serviceId: ID!): [Kind]
 
-  """Knowledge Graphs"""
+  """
+  Knowledge Graphs
+  """
   knowledgeGraph(id: ID!): KnowledgeGraph
   knowledgeGraphLayout(id: ID!): KnowledgeGraphLayout
 
-  """Query Graph"""
+  """
+  Query Graph
+  """
   queryGraph(id: ID!): QueryGraph
 
-  """Query for the instances of a kind"""
+  """
+  Query for the instances of a kind
+  """
   kindDBQuery(kindQuery: KindQueryInput!): InstanceSet
   comment(id: ID!): Comment
 
-  """Search!"""
+  """
+  Search!
+  """
   search(text: String!): [SearchResult]
 
-  """unique people"""
+  """
+  unique people
+  """
   document(id: ID!): Document
   documents(ids: [ID!]!): [Document]
 
-  """unique people"""
+  """
+  unique people
+  """
   file(id: ID!): File
   files(ids: [ID!]!): [File]
 
-  """unique people"""
+  """
+  unique people
+  """
   image(id: ID!): Image
   images(ids: [ID!]!): [Image]
 
-  """unique people"""
+  """
+  unique people
+  """
   person(id: ID!): Person
   persons(ids: [ID!]!): [Person]
 
-  """specialized queries"""
+  """
+  specialized queries
+  """
   personsByName(name: String!): [Person]
   personsByDateOfBirth(date: Date!): [Person]
   classifier(id: ID!): Classifier
@@ -1547,12 +1905,16 @@ input QueryBindingInput {
 }
 
 type QueryField {
-  """required"""
+  """
+  required
+  """
   id: ID!
   name: String!
   type: FieldType!
 
-  """optional"""
+  """
+  optional
+  """
   description: String
   modifiers: [FieldModifiers]
   typeKindId: ID
@@ -1568,7 +1930,9 @@ input QueryFieldInput {
 }
 
 type QueryGraph {
-  """required"""
+  """
+  required
+  """
   id: ID!
   name: String!
   expanded: Boolean
@@ -1576,7 +1940,9 @@ type QueryGraph {
   nodes: [QueryGraphNode!]
 }
 
-"""FieldFilter type"""
+"""
+FieldFilter type
+"""
 type QueryGraphFieldFilter {
   id: ID!
   fieldId: ID!
@@ -1584,7 +1950,9 @@ type QueryGraphFieldFilter {
   value: String
 }
 
-"""QueryGraphFieldFilterInput type"""
+"""
+QueryGraphFieldFilterInput type
+"""
 input QueryGraphFieldFilterInput {
   id: ID
   fieldId: ID!
@@ -1592,18 +1960,26 @@ input QueryGraphFieldFilterInput {
   value: String
 }
 
-"""QueryGraphNode type"""
+"""
+QueryGraphNode type
+"""
 type QueryGraphNode {
   id: ID!
 
-  """projected kind"""
+  """
+  projected kind
+  """
   kindId: ID!
 
-  """filters (where)"""
+  """
+  filters (where)
+  """
   fieldFilters: [QueryGraphFieldFilter!]
   children: [QueryGraphNodeConnection!]
 
-  """Inferred"""
+  """
+  Inferred
+  """
   kind: Kind
 }
 
@@ -1611,14 +1987,20 @@ type QueryGraphNode {
 QueryGraphNodeConnection type used to define the connectin between two nodes
 """
 type QueryGraphNodeConnection {
-  """ID used to identify the connection"""
+  """
+  ID used to identify the connection
+  """
   id: ID!
 
-  """Information on the child's side of the connection"""
+  """
+  Information on the child's side of the connection
+  """
   childId: ID!
   childFieldId: ID!
 
-  """Information on the parent's side of the connection"""
+  """
+  Information on the parent's side of the connection
+  """
   parentId: ID!
   parentFieldId: ID!
   type: QueryGraphNodeJoinType!
@@ -1628,7 +2010,9 @@ type QueryGraphNodeConnection {
 Specifies a connection between QueryGraphNode when adding a QueryGraphNode
 """
 input QueryGraphNodeConnectionInput {
-  """The ID of the child QueryGraphNode"""
+  """
+  The ID of the child QueryGraphNode
+  """
   childId: ID!
 
   """
@@ -1636,10 +2020,14 @@ input QueryGraphNodeConnectionInput {
   """
   childFieldId: ID!
 
-  """The ID of the field in the parent QueryGraphNode"""
+  """
+  The ID of the field in the parent QueryGraphNode
+  """
   parentFieldId: ID!
 
-  """The type of connection this is (defaults to AND)"""
+  """
+  The type of connection this is (defaults to AND)
+  """
   type: QueryGraphNodeJoinType
 }
 
@@ -1653,25 +2041,37 @@ type QueryGraphUpdate {
   layoutNode: KnowledgeGraphLayoutNode!
 }
 
-"""Person recognized by face in an image"""
+"""
+Person recognized by face in an image
+"""
 type RecognizedFace {
-  """Required Kind"""
+  """
+  Required Kind
+  """
   id: ID!
   name: String!
 
-  """Recognized person"""
+  """
+  Recognized person
+  """
   personId: ID!
   person: Person!
 
-  """Based on detected face"""
+  """
+  Based on detected face
+  """
   detectedFaceId: ID!
   detectedFace: DetectedFace
 
-  """Normalized confidence score"""
+  """
+  Normalized confidence score
+  """
   recognitionConfidence: Float!
 }
 
-"""Person recognized by face in an image"""
+"""
+Person recognized by face in an image
+"""
 input RecognizedFaceInput {
   id: ID
   name: String!
@@ -1681,17 +2081,23 @@ input RecognizedFaceInput {
 }
 
 type Relation {
-  """required"""
+  """
+  required
+  """
   id: ID!
   name: String!
 
-  """optional"""
+  """
+  optional
+  """
   inverseName: String
   description: String
   undirected: Boolean
   weight: Float
 
-  """inferred"""
+  """
+  inferred
+  """
   links: [Link]
 }
 
@@ -1742,13 +2148,17 @@ type SearchResult {
 }
 
 type Service {
-  """required"""
+  """
+  required
+  """
   id: ID!
   name: String!
   isSystem: Boolean!
   endpointUrl: String!
 
-  """optional"""
+  """
+  optional
+  """
   description: String
   subscriptionEndpointUrl: String
   thumbnailUrl: String
@@ -1757,7 +2167,9 @@ type Service {
   lastChecked: DateTime
   instances: [ServiceInstance]
 
-  """inferred"""
+  """
+  inferred
+  """
   kinds: [Kind]
   queries: [ServiceQuery]
   mutations: [ServiceMutation]
@@ -1767,7 +2179,9 @@ type Service {
 }
 
 type ServiceInstance {
-  """required"""
+  """
+  required
+  """
   id: ID!
   dockerServiceName: String!
   hostName: String!
@@ -1791,15 +2205,21 @@ type ServiceQuery {
   description: String
   serviceId: ID!
 
-  """Input arguments"""
+  """
+  Input arguments
+  """
   fields: [QueryField!]
 
-  """Output"""
+  """
+  Output
+  """
   outputType: FieldType!
   outputModifiers: [FieldModifiers]
   outputKindId: ID
 
-  """Inferred"""
+  """
+  Inferred
+  """
   kind: Kind
   service: Service
   queryBindings: [QueryBinding!]
@@ -1811,22 +2231,30 @@ input ServiceQueryInput {
   name: String!
   description: String
 
-  """Input arguments"""
+  """
+  Input arguments
+  """
   fields: [QueryFieldInput!]
 
-  """Output"""
+  """
+  Output
+  """
   outputType: FieldType!
   outputModifiers: [FieldModifiers]
   outputKindId: ID
 }
 
 type ServiceSource {
-  """ID of Service Source will be used as service id."""
+  """
+  ID of Service Source will be used as service id.
+  """
   id: ID!
   name: String
   description: String
 
-  """GraphQL Schema"""
+  """
+  GraphQL Schema
+  """
   schema: String!
   kinds: [Kind]
 }
@@ -1846,7 +2274,9 @@ type SocialSecurityNumber {
   name: String!
 }
 
-"""Available subscriptions"""
+"""
+Available subscriptions
+"""
 type Subscription {
   serviceAdded: ID
   botActionAdded: BotActionAddedEvent!
@@ -1945,11 +2375,15 @@ input UpdateBotActionInput {
   error: JSON
 }
 
-"""Create a Document instance"""
+"""
+Create a Document instance
+"""
 input UpdateDocumentInput {
   id: ID!
 
-  """only what is changing"""
+  """
+  only what is changing
+  """
   name: String
   text: String
 }
@@ -1963,11 +2397,15 @@ input UpdateFieldMappingInput {
   defaultValue: FieldValueInput
 }
 
-"""Create a File instance"""
+"""
+Create a File instance
+"""
 input UpdateFileInput {
   id: ID!
 
-  """only what is changing"""
+  """
+  only what is changing
+  """
   name: String
   url: String
   thumbnailUrl: String
@@ -1976,11 +2414,15 @@ input UpdateFileInput {
   mimeType: String
 }
 
-"""Create a Image instance"""
+"""
+Create a Image instance
+"""
 input UpdateImageInput {
   id: ID!
 
-  """only what is changing"""
+  """
+  only what is changing
+  """
   name: String
   url: String
 }
@@ -2022,7 +2464,9 @@ input UpdateKnowledgeGraphLayoutInput {
 input UpdateLinkInput {
   id: ID!
 
-  """optional"""
+  """
+  optional
+  """
   name: String
   relationId: ID
   relationName: String
@@ -2043,11 +2487,15 @@ input UpdateLinkInput {
   toSpan: String
 }
 
-"""Create a Person instance"""
+"""
+Create a Person instance
+"""
 input UpdatePersonInput {
   id: ID!
 
-  """only what is changing"""
+  """
+  only what is changing
+  """
   name: String
   givenName: String
   familyName: String
@@ -2111,7 +2559,9 @@ input UpdateTenantUserRoleInput {
 input UpdateUserInput {
   id: ID!
 
-  """optional"""
+  """
+  optional
+  """
   name: String
   givenName: String
   familyName: String
@@ -2138,7 +2588,9 @@ type URL {
   name: String!
 }
 
-"""merged with io.maana.idam"""
+"""
+merged with io.maana.idam
+"""
 type User {
   id: ID!
   name: String!
@@ -2166,7 +2618,9 @@ type USState {
 }
 
 type Workspace {
-  """required"""
+  """
+  required
+  """
   id: ID!
   name: String!
   thumbnailUrl: String!
@@ -2177,7 +2631,9 @@ type Workspace {
   lastOpenedOn: DateTime!
   layout: WorkspaceLayout!
 
-  """optional"""
+  """
+  optional
+  """
   services: [Service!]
   knowledgeGraphs: [KnowledgeGraph!]
   queryGraphs: [QueryGraph!]

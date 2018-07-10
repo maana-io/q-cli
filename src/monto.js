@@ -8,7 +8,7 @@ import url from "url";
 import { append, getOrSet, stripCRLF, readJson } from "./util";
 
 // Plugin boilerplate
-export const command = "monto <inputPath> [--outputDir] [--map]";
+export const command = "monto <inputPath>";
 export const desc =
   "Interpret an ontology, in the form of assertions (subject, predicate, object), into Maana Q's CKG (GraphQL types + Links & Relations).";
 export const builder = {
