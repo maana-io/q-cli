@@ -309,6 +309,8 @@ const coerce = (type, val, def = null) => {
   } else if (type == "Date" || type == "DateTime" || type == "Time") {
     // Quoted, not empty
     rval = !val || val == "" ? def : new Date(val).toISOString();
+  } else if (type == "String" && typeof val == "string") {
+    rval = val;
   } else {
     // Quoted, empty ok
     rval = JSON.stringify(val);

@@ -1,6 +1,6 @@
 {
   "name": "graphql-cli-maana",
-  "version": "3.1.1-beta0",
+  "version": "3.1.1",
   "description": "Maana plugin for graphql-cli",
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "graphql-request": "^1.6.0",
     "graphql-tag": "^2.9.2",
     "md5-base64": "0.0.3",
+    "merge-graphql-schemas": "^1.5.2",
     "mkdirp": "^0.5.1",
     "n3": "^1.0.0-beta.1",
     "papaparse": "^4.5.0",
@@ -34,13 +35,13 @@
     "tmp": "0.0.33"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.51",
-    "@babel/core": "^7.0.0-beta.51",
-    "@babel/plugin-transform-arrow-functions": "^7.0.0-beta.51",
-    "@babel/preset-env": "^7.0.0-beta.51",
-    "@babel/preset-stage-0": "^7.0.0-beta.51",
+    "@babel/cli": "^7.0.0-beta.52",
+    "@babel/core": "^7.0.0-beta.52",
+    "@babel/plugin-transform-arrow-functions": "^7.0.0-beta.52",
+    "@babel/preset-env": "^7.0.0-beta.52",
+    "@babel/preset-stage-0": "^7.0.0-beta.52",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "eslint": "^5.0.1",
-    "webpack": "^4.14.0"
+    "eslint": "^5.1.0",
+    "webpack": "^4.15.1"
   }
 }
