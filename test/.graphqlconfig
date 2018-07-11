@@ -11,6 +11,17 @@
         }
       }
     },
+    "ckgdev": {
+      "schemaPath": "ckg.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": {
+            "url": "http://localhost:8003/graphql",
+            "headers": { "Authorization": "Bearer ${env:MAANA_AUTH_TOKEN}" }
+          }
+        }
+      }
+    },
     "test00": {
       "schemaPath": "00/schema.graphql",
       "extensions": {
