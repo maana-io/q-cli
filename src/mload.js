@@ -174,7 +174,7 @@ const readJsonFile = (context, parsedPath) => {
         )} entities: ${chalk.yellow(entityCnt)}`
       )
     );
-    if (entityCnt === 1) return [json];
+    if (entityCnt === 1 && !Array.isArray(json)) return [json];
     return json;
   } catch (error) {
     context.spinner.fail(chalk.red(error));
@@ -268,7 +268,7 @@ const getMutationField = (schema, mutationName) => {
   console.log(
     `Using mutation ${chalk.yellow(mutationField.name)}: ${chalk.yellow(
       mutationField.description || "(no description)"
-    )}.`
+    )}`
   );
   return mutationField;
 };
@@ -786,6 +786,13 @@ const uploadViaMutation = async (context, parsedPath) => {
     }
     // console.log("mutation", mutation);
 
+    const incErrors = () => {
+      if (!fileResults.errors.uploading[filePath]) {
+        fileResults.errors.uploading[filePath] = 0;
+      }
+      fileResults.errors.uploading[filePath]++;
+    };
+
     try {
       if ((offset === 0 && totalLength > end) || offset > 0) {
         context.spinner.start(
@@ -795,16 +802,27 @@ const uploadViaMutation = async (context, parsedPath) => {
         context.spinner.start(chalk.yellow(`Uploading`));
       }
       const result = await context.client.request(mutation);
+      // console.log("result", result);
       if (result["errors"]) {
         context.spinner.fail(
           chalk.red(`Call failed: ${JSON.stringify(result["errors"])}`)
         );
+        incErrors();
       } else {
-        context.spinner.succeed(
-          chalk.green(
-            `Call succeeded: ${chalk.yellow(ellipse(JSON.stringify(result)))}`
-          )
-        );
+        const nulls = Object.keys(result).filter(x => result[x] === null);
+        if (nulls.length === 0) {
+          context.spinner.succeed(
+            chalk.green(
+              `Call succeeded: ${chalk.yellow(ellipse(JSON.stringify(result)))}`
+            )
+          );
+        } else {
+          const total = Object.keys(result).length;
+          context.spinner.fail(
+            chalk.red(`${nulls.length} out of ${total} mutations failed (null)`)
+          );
+          incErrors();
+        }
       }
     } catch (error) {
       let msg;
@@ -829,10 +847,7 @@ const uploadViaMutation = async (context, parsedPath) => {
       }
       context.spinner.fail(chalk.red(`Exception: ${chalk.yellow(msg)}`));
 
-      if (!fileResults.errors.uploading[filePath]) {
-        fileResults.errors.uploading[filePath] = 0;
-      }
-      fileResults.errors.uploading[filePath]++;
+      incErrors();
     }
 
     offset += batchSize;
@@ -914,11 +929,9 @@ const DIVIDER =
   "-------------------------------------------------------------------------------";
 
 const buildReport = () => {
-  // keep the report divided from the rest of the output
-  console.log(chalk.green(DIVIDER));
-
   // NDF conversion stats
   if (fileResults.ndfFileCnt > 0) {
+    console.log(chalk.green(DIVIDER));
     console.log("NDF Conversion:");
 
     console.log(
@@ -936,8 +949,6 @@ const buildReport = () => {
         `✔ NDF files generated: ${chalk.yellow(`${fileResults.ndfFileCnt}`)}`
       )
     );
-
-    console.log(chalk.green(DIVIDER));
   }
 
   // figure out how many errors we have
@@ -951,11 +962,14 @@ const buildReport = () => {
   // only show information about errors if there are any
   if (numErrors) {
     // let the user know how many files had no issues
-    console.log(
-      chalk.green(
-        `✔ ${fileResults.succeed} of ${fileResults.total} file(s) succeeded`
-      )
-    );
+    if (fileResults.succeed) {
+      console.log(chalk.green(DIVIDER));
+      console.log(
+        chalk.green(
+          `✔ ${fileResults.succeed} of ${fileResults.total} file(s) succeeded`
+        )
+      );
+    }
 
     // deliver the sad news
     console.log(chalk.red(DIVIDER));
@@ -979,7 +993,7 @@ const buildReport = () => {
         chalk.red(
           `  ${
             fileResults.errors.mutation.length
-          } had issues finding or creating the mutation`
+          } file(s) had issues finding or creating the mutation`
         )
       );
       fileResults.errors.mutation.forEach(e =>
@@ -997,7 +1011,7 @@ const buildReport = () => {
         chalk.red(
           `  ${
             fileResults.errors.dataRead.length
-          } had issues loading the data from disk`
+          } file(s) had issues loading the data from disk`
         )
       );
       fileResults.errors.dataRead.forEach(e =>
@@ -1005,10 +1019,12 @@ const buildReport = () => {
       );
     }
 
-    // tell the user about issues uploading the data to the user
+    // tell the user about issues uploading the data
     if (uploadErrorKeys.length) {
       console.log(
-        chalk.red(`  ${uploadErrorKeys.length} had issues uploading the data`)
+        chalk.red(
+          `  ${uploadErrorKeys.length} file(s) had issues uploading data`
+        )
       );
       uploadErrorKeys.forEach(file =>
         console.log(
