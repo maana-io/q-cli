@@ -17,6 +17,7 @@ import path from "path";
 import chalk from "chalk";
 import mkdirp from "mkdirp";
 import md5Base64 from "md5-base64";
+import moment from "moment";
 
 import {
   capitalize,
@@ -313,7 +314,7 @@ const getInputTypeDef = (schema, mutationField) => {
  * @param {*} val
  * @param {*} def
  */
-const coerce = (type, val, def = null, quoted = true) => {
+const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
   let rval = def;
 
   if (type == "Float") {
@@ -342,13 +343,24 @@ const coerce = (type, val, def = null, quoted = true) => {
       rval = val;
     }
   } else if (type == "Date" || type == "DateTime" || type == "Time") {
-    // Quoted, not empty
-    rval = !val || val == "" ? def : new Date(val).toISOString();
+    const cvtDate = () => {
+      const date = moment(val);
+      let dateStr;
+      if ((type == "Date" && isoDate) || type == "DateTime") {
+        dateStr = date.toISOString();
+      } else if (type == "Date") {
+        dateStr = date.format("YYYY-MM-DD");
+      } else if (type == "Time") {
+        dateStr = date.format("hh:mm::ss") + "Z";
+      }
+      if (quoted) dateStr = `"${dateStr}"`;
+      // console.log(dateStr);
+      return dateStr;
+    };
+    rval = !val || val == "" ? def : cvtDate();
   } else if (!quoted && type == "String" && typeof val == "string") {
-    // Not quoted, empty ok
     rval = val;
   } else {
-    // Quoted, empty ok
     rval = JSON.stringify(val);
   }
 
@@ -392,7 +404,9 @@ const buildMutation = (mutationField, inputType, typeDef, data) => {
           if (value.length === 0) {
             return `${fieldName}: null`;
           }
-          const values = value.map(v => coerce(namedType, v));
+          const values = value.map(v =>
+            coerce({ type: namedType, val: v, quoted: true })
+          );
           return `${fieldName}: [${values.join(",")}]`;
         } else if (isList) {
           const msg = `Expected collection for ${chalk.yellow(fieldName)}: ${
@@ -401,7 +415,11 @@ const buildMutation = (mutationField, inputType, typeDef, data) => {
           console.log(chalk.red(`✘ ${msg}`));
           throw msg;
         }
-        return `${fieldName}: ${coerce(namedType, value)}\n`;
+        return `${fieldName}: ${coerce({
+          type: namedType,
+          val: value,
+          quoted: true
+        })}\n`;
       })
       .join(",");
     return `{${fields}}`;
@@ -627,7 +645,11 @@ const convertToNdf = async (context, parsedPath) => {
           const value =
             namedType.name === "ID"
               ? mkNdfId(entity[fieldName])
-              : coerce(namedType.name, entity[fieldName], null, false);
+              : coerce({
+                  type: namedType.name,
+                  val: entity[fieldName],
+                  isoDate: true
+                });
 
           if (value != null && value != undefined) {
             nodeValues[fieldName] = value;
@@ -951,6 +973,16 @@ const buildReport = () => {
     );
   }
 
+  // let the user know how many files had no issues
+  if (fileResults.succeed) {
+    console.log(chalk.green(DIVIDER));
+    console.log(
+      chalk.green(
+        `✔ ${fileResults.succeed} of ${fileResults.total} file(s) succeeded`
+      )
+    );
+  }
+
   // figure out how many errors we have
   const uploadErrorKeys = Object.keys(fileResults.errors.uploading);
   const numErrors =
@@ -961,16 +993,6 @@ const buildReport = () => {
 
   // only show information about errors if there are any
   if (numErrors) {
-    // let the user know how many files had no issues
-    if (fileResults.succeed) {
-      console.log(chalk.green(DIVIDER));
-      console.log(
-        chalk.green(
-          `✔ ${fileResults.succeed} of ${fileResults.total} file(s) succeeded`
-        )
-      );
-    }
-
     // deliver the sad news
     console.log(chalk.red(DIVIDER));
 
@@ -1044,6 +1066,7 @@ const buildReport = () => {
     );
   } else {
     // let the user know that no issues happened during the command
+    console.log(chalk.green(DIVIDER));
     console.log(chalk.green("✔ No errors"));
   }
 };

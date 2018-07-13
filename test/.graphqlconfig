@@ -5,7 +5,7 @@
       "extensions": {
         "endpoints": {
           "default": {
-            "url": "https://latest.knowledge.maana.io:8443/graphql",
+            "url": "https://stable.knowledge.maana.io:8443/graphql",
             "headers": { "Authorization": "Bearer ${env:MAANA_AUTH_TOKEN}" }
           }
         }
@@ -28,7 +28,7 @@
         "endpoints": {
           "default": {
             "url":
-              "https://stable.knowledge.maana.io:8443/service/dt.test00/graphql",
+              "https://stable.knowledge.maana.io:8443/service/cli.test00/graphql",
             "headers": { "Authorization": "Bearer ${env:MAANA_AUTH_TOKEN}" }
           }
         }
@@ -40,7 +40,7 @@
         "endpoints": {
           "default": {
             "url":
-              "https://stable.knowledge.maana.io:8443/service/dt.test01/graphql",
+              "https://stable.knowledge.maana.io:8443/service/cli.test01/graphql",
             "headers": { "Authorization": "Bearer ${env:MAANA_AUTH_TOKEN}" }
           }
         }
@@ -52,7 +52,7 @@
         "endpoints": {
           "default": {
             "url":
-              "https://stable.knowledge.maana.io:8443/service/dt.test02/graphql",
+              "https://stable.knowledge.maana.io:8443/service/cli.test02/graphql",
             "headers": { "Authorization": "Bearer ${env:MAANA_AUTH_TOKEN}" }
           }
         }
@@ -64,7 +64,7 @@
         "endpoints": {
           "default": {
             "url":
-              "https://stable.knowledge.maana.io:8443/service/dt.test03/graphql",
+              "https://stable.knowledge.maana.io:8443/service/cli.test03/graphql",
             "headers": { "Authorization": "Bearer ${env:MAANA_AUTH_TOKEN}" }
           }
         }
@@ -76,7 +76,7 @@
         "endpoints": {
           "default": {
             "url":
-              "https://stable.knowledge.maana.io:8443/service/dt.test04/graphql",
+              "https://stable.knowledge.maana.io:8443/service/cli.test04/graphql",
             "headers": { "Authorization": "Bearer ${env:MAANA_AUTH_TOKEN}" }
           }
         }
@@ -88,7 +88,19 @@
         "endpoints": {
           "default": {
             "url":
-              "https://stable.knowledge.maana.io:8443/service/dt.test05/graphql",
+              "https://stable.knowledge.maana.io:8443/service/cli.test05/graphql",
+            "headers": { "Authorization": "Bearer ${env:MAANA_AUTH_TOKEN}" }
+          }
+        }
+      }
+    },
+    "test06": {
+      "schemaPath": "06/schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": {
+            "url":
+              "https://stable.knowledge.maana.io:8443/service/cli.test06/graphql",
             "headers": { "Authorization": "Bearer ${env:MAANA_AUTH_TOKEN}" }
           }
         }
