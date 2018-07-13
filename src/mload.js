@@ -232,7 +232,7 @@ const getField = (type, fieldName) => {
     const namedType = getNamedType(field.type);
     // console.log("- namedType:", namedType.name);
 
-    const isList = isListType(field.type);
+    const isList = typeIsList(field.type);
     // console.log("- isList:", isList);
 
     const isNonNull = isNonNullType(field.type);
@@ -611,12 +611,10 @@ const convertToNdf = async (context, parsedPath) => {
     Object.keys(entity)
       .filter(x => x != "id")
       .forEach(fieldName => {
-        // console.log("fieldName", fieldName);
+        const fieldRes = getField(baseType, fieldName);
+        // console.log("field", fieldName, fieldRes);
 
-        const { field, isList, isNonNull, isObject, namedType } = getField(
-          baseType,
-          fieldName
-        );
+        const { field, isList, isNonNull, isObject, namedType } = fieldRes;
 
         // What type of field is it?
         if (isList) {
