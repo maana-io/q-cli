@@ -105,6 +105,16 @@
           }
         }
       }
+    },
+    "test07": {
+      "schemaPath": "07/schema.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": {
+            "url": "http://localhost:4466"
+          }
+        }
+      }
     }
   },
   "extensions": {
