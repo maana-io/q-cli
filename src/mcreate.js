@@ -15,7 +15,7 @@ export const defaultBoilerplates = [
   {
     name: "js-service-bot",
     description: "A modern JavaScript-based Knowledge Microservice/Bot",
-    repo: "https://github.com/maana-io/js-service-bot/tree/master"
+    repo: "https://github.com/maana-io/js-service-bot/tree/master/advanced"
   },
   {
     name: "ts-service-bot",

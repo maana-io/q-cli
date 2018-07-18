@@ -28,7 +28,6 @@ import {
   readFile,
   readJson
 } from "./util";
-import { isPrimitive } from "util";
 
 const DEFAULT_BATCH_SIZE = 1000000;
 
@@ -358,13 +357,13 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
       return dateStr;
     };
     rval = !val || val == "" ? def : cvtDate();
-  } else if (!quoted && type == "String" && typeof val == "string") {
+  } else if (!quoted && typeof val == "string") {
     rval = val;
   } else {
     rval = JSON.stringify(val);
   }
 
-  // console.log("type", type, "rval", rval);
+  // console.log("type", type, "rval", rval, "quoted", quoted);
   return rval;
 };
 
