@@ -20,6 +20,8 @@ The NDF is an [emerging standard](https://www.prisma.io/docs/reference/data-impo
 
 The `mload` command offers a conversion option to take CSV or JSON input data conforming to some GraphQL schema and convert it to the required _nodes_, _lists_, and _relations_ that the Prisma endpoint expects. The data is conformed to the matching schema type definitions using the same rules described above.
 
+Note that IDs must be marked with `@unique` and are (currently) limited to `CHAR(25)`. If IDs are specified that are longer than this limit, then they will be automatically MD5 hashed into a compact Base64 representation.
+
 #### Arguments and Options
 
 - `fileOrDir` (required) - specifies a supported file (.csv or .json) or a directory (recursively processed)
@@ -229,5 +231,5 @@ npm i -g
 
 ```sh
 npm adduser --registry https://registry.npmjs.org
-npm publish --registry https://registry.npmjs.org
+npm publish --registry https://registry.npmjs.org [--tag beta]
 ```

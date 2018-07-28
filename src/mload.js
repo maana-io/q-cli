@@ -76,7 +76,7 @@ const fileResults = {
 /**
  * NDF ids are CHAR(25), so we translate all original ID references to conform
  */
-const mkNdfId = id => md5Base64(id).slice(0, -2);
+const mkNdfId = id => (id.length > 25 ? md5Base64(id).slice(0, -2) : id);
 
 /**
  * Get the GraphQL schema for the project
