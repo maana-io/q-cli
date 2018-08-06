@@ -12,16 +12,16 @@ import papa from 'papaparse'
 import fs from 'fs-extra'
 import path from 'path'
 import chalk from 'chalk'
-
+import yaml from 'js-yaml'
+//
 import { ellipse, getEndpoint, readFile, readJson } from './util'
 
 // Plugin boilerplate
 export const command =
-  'maddsvc <name> [--id] [--desc] [--source] [--manifest] [--project] [--endpoint]'
+  'maddsvc [name] [--id] [--desc] [--source] [--manifest] [--project] [--endpoint]'
 export const desc = 'Add or update a Maana Q service from source or manifest'
 export const builder = {
   name: {
-    alias: 'n',
     description:
       'Name of the service (required for source, ignored for manifest)'
   },
@@ -72,32 +72,45 @@ export const handler = async (context, argv) => {
   let manifest
 
   if (argv.manifest) {
-    manifest = fs.readFileSync(argv.manifest)
-  }
-  console.log('manifest', manifest)
-
-  if (argv.source) {
-    const name = argv.name
-    if (!name) {
-      console.log(chalk.red(`✘ Must specify a service name`))
+    const filePath = path.parse(argv.manifest)
+    const content = fs.readFileSync(argv.manifest, 'utf-8')
+    if (filePath.ext === '.yml' || filePath.ext === '.yaml') {
+      manifest = yaml.safeLoad(content)
+    } else if (filePath.ext === '.json') {
+      manifest = JSON.parse(content)
+    } else {
+      console.log(
+        chalk.red(`✘ Unsupported manifest file type: ${filePath.ext}`)
+      )
       return
     }
-    const id = argv.id
-    const description = argv.desc
-    const schema = readFile(argv.source)
-    variables = {
-      input: { id, name, description, schema }
+  } else if (argv.source) {
+    manifest = {
+      id: argv.id,
+      name: argv.name,
+      description: argv.desc,
+      source: argv.source
     }
-    query = `
-      mutation addServiceSource($input: AddServiceSourceInput!) {
-        addServiceSource(input: $input)
-      }
-    `
-  } else if (argv.manifest) {
   } else {
     console.log(chalk.red(`✘ Must specify either a service source or manifest`))
     return
   }
+  console.log('manifest', manifest)
+
+  const schema = readFile(manifest.source)
+  variables = {
+    input: {
+      id: manifest.id,
+      name: manifest.name,
+      description: manifest.description,
+      schema
+    }
+  }
+  query = `
+    mutation addServiceSource($input: AddServiceSourceInput!) {
+      addServiceSource(input: $input)
+    }
+  `
 
   context.spinner.start(chalk.yellow(`Adding service`))
   const result = await client.request(query, variables)

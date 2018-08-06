@@ -37,6 +37,7 @@
     "graphql-config": "^2.1.0",
     "graphql-request": "^1.8.0",
     "graphql-tag": "^2.9.2",
+    "js-yaml": "^3.12.0",
     "md5-base64": "0.0.3",
     "merge-graphql-schemas": "^1.5.3",
     "mkdirp": "^0.5.1",
