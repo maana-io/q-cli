@@ -1,182 +1,182 @@
-import Zip from "adm-zip";
-import chalk from "chalk";
-import commandExists from "command-exists";
-import gh from "parse-github-url";
-import { spawn } from "cross-spawn";
-import fs from "fs";
-import { padEnd } from "lodash";
-import Path from "path";
-import request from "request";
-import tmp from "tmp";
-import rimraf from "rimraf";
+import Zip from 'adm-zip'
+import chalk from 'chalk'
+import commandExists from 'command-exists'
+import gh from 'parse-github-url'
+import { spawn } from 'cross-spawn'
+import fs from 'fs'
+import { padEnd } from 'lodash'
+import Path from 'path'
+import request from 'request'
+import tmp from 'tmp'
+import rimraf from 'rimraf'
 
 // Project boilerplates
 export const defaultBoilerplates = [
   {
-    name: "js-service-bot",
-    description: "A modern JavaScript-based Knowledge Microservice/Bot",
-    repo: "https://github.com/maana-io/js-service-bot/tree/master/advanced"
+    name: 'js-service-bot',
+    description: 'A modern JavaScript-based Knowledge Microservice/Bot',
+    repo: 'https://github.com/maana-io/js-service-bot/tree/master/advanced'
   },
   {
-    name: "ts-service-bot",
-    description: "A TypeScript-based Knowledge Microservice/Bot",
+    name: 'ts-service-bot',
+    description: 'A TypeScript-based Knowledge Microservice/Bot',
     repo:
-      "https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/advanced"
+      'https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/advanced'
   },
   {
-    name: "react-app",
-    description: "React-based Knowledge Application",
+    name: 'react-app',
+    description: 'React-based Knowledge Application',
     repo:
-      "https://github.com/graphql-boilerplates/react-fullstack-graphql/tree/master/advanced"
+      'https://github.com/graphql-boilerplates/react-fullstack-graphql/tree/master/advanced'
   },
   {
-    name: "vue-app",
-    description: "Vue-based Knowledge Application",
+    name: 'vue-app',
+    description: 'Vue-based Knowledge Application',
     repo:
-      "https://github.com/graphql-boilerplates/vue-fullstack-graphql/tree/master/advanced"
+      'https://github.com/graphql-boilerplates/vue-fullstack-graphql/tree/master/advanced'
   }
-];
+]
 
 // Plugin boilerplate
-export const command = "mcreate [directory]";
+export const command = 'mcreate [directory]'
 export const describe =
-  "Bootstrap a new Maana Knowledge Microservice/Bot or Knowledge Application";
+  'Bootstrap a new Maana Knowledge Microservice/Bot or Knowledge Application'
 
 export const builder = {
   boilerplate: {
-    alias: "b",
+    alias: 'b',
     describe:
-      "Full URL or repo shorthand (e.g. `owner/repo`) to boilerplate GitHub repository",
-    type: "string"
+      'Full URL or repo shorthand (e.g. `owner/repo`) to boilerplate GitHub repository',
+    type: 'string'
   },
-  "no-install": {
+  'no-install': {
     describe: `Don't install project dependencies`,
-    type: "boolean",
+    type: 'boolean',
     default: false
   }
-};
+}
 
 //
 // Internal helpers
 //
 const getZipInfo = boilerplate => {
-  let baseUrl = boilerplate;
-  let branch = "master";
-  let subDir = "";
+  let baseUrl = boilerplate
+  let branch = 'master'
+  let subDir = ''
 
   const branchMatches = boilerplate.match(
     /^(.*)\/tree\/([a-zA-Z-_0-9]*)\/?(.*)$/
-  );
+  )
   if (branchMatches) {
-    baseUrl = branchMatches[1];
-    branch = branchMatches[2];
-    subDir = branchMatches[3];
+    baseUrl = branchMatches[1]
+    branch = branchMatches[2]
+    subDir = branchMatches[3]
   }
 
   if (subDir === undefined) {
-    subDir = "";
+    subDir = ''
   }
 
-  if (!subDir.startsWith("/")) {
-    subDir = "/" + subDir;
+  if (!subDir.startsWith('/')) {
+    subDir = '/' + subDir
   }
-  if (!subDir.endsWith("/")) {
-    subDir = subDir + "/";
+  if (!subDir.endsWith('/')) {
+    subDir = subDir + '/'
   }
 
-  const nameMatches = baseUrl.match(/github\.com\/(.*)\/(.*)$/);
-  if (!nameMatches) return;
+  const nameMatches = baseUrl.match(/github\.com\/(.*)\/(.*)$/)
+  if (!nameMatches) return
 
-  const repoName = nameMatches[2];
+  const repoName = nameMatches[2]
 
-  const url = `${baseUrl}/archive/${branch}.zip`;
-  const path = `${repoName}-${branch}${subDir}`;
+  const url = `${baseUrl}/archive/${branch}.zip`
+  const path = `${repoName}-${branch}${subDir}`
 
-  return { url, path };
-};
+  return { url, path }
+}
 
 const getGitHubUrl = boilerplate => {
-  const details = gh(boilerplate);
+  const details = gh(boilerplate)
 
   if (details.host && details.owner && details.repo) {
-    const branch = details.branch ? `/tree/${details.branch}` : "";
-    return `https://${details.host}/${details.repo}${branch}`;
+    const branch = details.branch ? `/tree/${details.branch}` : ''
+    return `https://${details.host}/${details.repo}${branch}`
   }
-};
+}
 
 const shell = command => {
   return new Promise((resolve, reject) => {
-    const commandParts = command.split(" ");
+    const commandParts = command.split(' ')
     const cmd = spawn(commandParts[0], commandParts.slice(1), {
       cwd: process.cwd(),
       detached: false,
-      stdio: "inherit"
-    });
+      stdio: 'inherit'
+    })
 
-    cmd.on("error", reject);
-    cmd.on("close", resolve);
-  });
-};
+    cmd.on('error', reject)
+    cmd.on('close', resolve)
+  })
+}
 
 //
 // Exported functions
 //
 
 export const handler = async (context, argv) => {
-  let { boilerplate, directory, noInstall } = argv;
+  let { boilerplate, directory, noInstall } = argv
 
   if (directory && directory.match(/[A-Z]/)) {
     console.log(
       `Project/directory name cannot contain uppercase letters: ${directory}`
-    );
-    directory = undefined;
+    )
+    directory = undefined
   }
 
   if (!directory) {
     const { newDir } = await context.prompt({
-      type: "input",
-      name: "newDir",
-      default: ".",
-      message: "Directory for new Maana project",
+      type: 'input',
+      name: 'newDir',
+      default: '.',
+      message: 'Directory for new Maana project',
       validate: dir => {
         if (dir.match(/[A-Z]/)) {
-          return `Project/directory name cannot contain uppercase letters: ${directory}`;
+          return `Project/directory name cannot contain uppercase letters: ${directory}`
         }
-        return true;
+        return true
       }
-    });
+    })
 
-    directory = newDir;
+    directory = newDir
   }
-  if (!directory) return;
+  if (!directory) return
 
   // make sure that project directory is empty
-  const projectPath = Path.resolve(directory);
+  const projectPath = Path.resolve(directory)
 
   if (fs.existsSync(projectPath)) {
-    const allowedFiles = [".git", ".gitignore"];
+    const allowedFiles = ['.git', '.gitignore']
     const conflictingFiles = fs
       .readdirSync(projectPath)
-      .filter(f => !allowedFiles.includes(f));
+      .filter(f => !allowedFiles.includes(f))
 
     if (conflictingFiles.length > 0) {
-      console.log(`Directory ${chalk.cyan(projectPath)} must be empty.`);
-      return;
+      console.log(`Directory ${chalk.cyan(projectPath)} must be empty.`)
+      return
     }
   } else {
-    fs.mkdirSync(projectPath);
+    fs.mkdirSync(projectPath)
   }
 
   // allow short handle boilerplate (e.g. `node-basic`)
-  if (boilerplate && !boilerplate.startsWith("http")) {
+  if (boilerplate && !boilerplate.startsWith('http')) {
     const matchedBoilerplate = defaultBoilerplates.find(
       b => b.name === boilerplate
-    );
+    )
     if (matchedBoilerplate) {
-      boilerplate = matchedBoilerplate.repo;
+      boilerplate = matchedBoilerplate.repo
     } else {
       // allow shorthand GitHub URLs (e.g. `graphcool/graphcool-server-example`)
-      boilerplate = getGitHubUrl(boilerplate);
+      boilerplate = getGitHubUrl(boilerplate)
     }
   }
 
@@ -184,85 +184,85 @@ export const handler = async (context, argv) => {
   if (!boilerplate) {
     const maxNameLength = defaultBoilerplates
       .map(bp => bp.name.length)
-      .reduce((max, x) => Math.max(max, x), 0);
+      .reduce((max, x) => Math.max(max, x), 0)
     const choices = defaultBoilerplates.map(
       bp => `${padEnd(bp.name, maxNameLength + 2)} ${bp.description}`
-    );
+    )
     const { choice } = await context.prompt({
-      type: "list",
-      name: "choice",
+      type: 'list',
+      name: 'choice',
       message: `Choose Maana boilerplate project:`,
       choices
-    });
+    })
 
-    boilerplate = defaultBoilerplates[choices.indexOf(choice)].repo;
+    boilerplate = defaultBoilerplates[choices.indexOf(choice)].repo
   }
-  if (!boilerplate) return;
+  if (!boilerplate) return
 
   // download repo contents
-  const zipInfo = getZipInfo(boilerplate);
-  const downloadUrl = zipInfo.url;
-  const tmpFile = tmp.fileSync();
+  const zipInfo = getZipInfo(boilerplate)
+  const downloadUrl = zipInfo.url
+  const tmpFile = tmp.fileSync()
 
   console.log(
     `[mcreate] Downloading boilerplate from ${downloadUrl} to ${
       tmpFile.name
     }...`
-  );
+  )
 
   await new Promise(resolve => {
     request(downloadUrl)
       .pipe(fs.createWriteStream(tmpFile.name))
-      .on("close", resolve);
-  });
+      .on('close', resolve)
+  })
 
-  const zip = new Zip(tmpFile.name);
-  zip.extractEntryTo(zipInfo.path, projectPath, false);
-  tmpFile.removeCallback();
+  const zip = new Zip(tmpFile.name)
+  zip.extractEntryTo(zipInfo.path, projectPath, false)
+  tmpFile.removeCallback()
 
   // run npm/yarn install
   if (!noInstall) {
     const subDirs = fs
       .readdirSync(projectPath)
       .map(f => Path.join(projectPath, f))
-      .filter(f => fs.statSync(f).isDirectory());
+      .filter(f => fs.statSync(f).isDirectory())
 
     const installPaths = [projectPath, ...subDirs]
-      .map(dir => Path.join(dir, "package.json"))
-      .filter(p => fs.existsSync(p));
+      .map(dir => Path.join(dir, 'package.json'))
+      .filter(p => fs.existsSync(p))
 
     for (const packageJsonPath of installPaths) {
-      process.chdir(Path.dirname(packageJsonPath));
+      process.chdir(Path.dirname(packageJsonPath))
       console.log(
         `[mcreate] Installing node dependencies for ${packageJsonPath}...`
-      );
-      if (commandExists.sync("yarn")) {
-        await shell("yarn install");
+      )
+      if (commandExists.sync('yarn')) {
+        await shell('yarn install')
       } else {
-        await shell("npm install");
+        await shell('npm install')
       }
     }
   }
 
   // change dir to projectPath for install steps
-  process.chdir(projectPath);
+  process.chdir(projectPath)
 
   // run & delete setup script
-  let installPath = Path.join(projectPath, "install.js");
+  let installPath = Path.join(projectPath, 'install.js')
   if (!fs.existsSync(installPath)) {
-    installPath = Path.join(projectPath, ".install");
+    installPath = Path.join(projectPath, '.install')
   }
 
   if (fs.existsSync(installPath)) {
-    console.log(`[mcreate] Running boilerplate install script... `);
-    const installFunction = require(installPath);
+    console.log(`[mcreate] Running boilerplate install script... `)
+    const installFunction = require(installPath)
 
     await installFunction({
       context,
       project: Path.basename(projectPath),
       projectDir: directory
-    });
+    })
 
-    rimraf.sync(installPath);
+    rimraf.sync(installPath)
   }
-};
+}
