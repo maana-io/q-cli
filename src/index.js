@@ -3,6 +3,7 @@ module.exports = [
   require('./maddsvc'),
   require('./mcreate'),
   require('./menv'),
+  require('./mintrospect'),
   require('./mload'),
   require('./monto'),
   require('./mrefreshauth'),

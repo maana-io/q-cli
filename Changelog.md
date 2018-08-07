@@ -6,11 +6,15 @@
 
 #### `mcreate` (new command)
 
-- Easy bootstrap / scaffolding of Maana models, bots, assistants, and apps.
+- Easy bootstrap / scaffolding of Maana models, bots, assistants, and apps
+
+#### `mintrospect` (new command)
+
+- Introspect a service and write its JSON schema to a file
 
 #### `monto` (new experimental command)
 
-- Support for converting semantic triples to Kinds and Relations.
+- Support for converting semantic triples to Kinds and Relations
 
 #### `maddsvc`
 

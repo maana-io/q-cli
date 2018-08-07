@@ -1,5 +1,5 @@
-# source: https://latest.knowledge.maana.io:8443/service/com.almo/graphql
-# timestamp: Thu Jul 12 2018 10:26:31 GMT-0700 (PDT)
+# source: http://h4dev.knowledge.maana.io:8003/service/cli.test00/graphql
+# timestamp: Tue Aug 07 2018 05:04:37 GMT-0700 (PDT)
 
 input AddBotActionInput {
   name: String
@@ -183,7 +183,7 @@ type FieldValue {
   KIND: ID
 
   """List forms"""
-  l_IDENTITY: [ID]
+  l_ID: [ID]
   l_STRING: [String]
   l_INT: [Int]
   l_FLOAT: [Float]
@@ -206,7 +206,7 @@ input FieldValueInput {
   DATETIME: DATETIME
   JSON: JSON
   KIND: ID
-  l_IDENTITY: [ID]
+  l_ID: [ID]
   l_STRING: [String]
   l_INT: [Int]
   l_FLOAT: [Float]
@@ -271,6 +271,9 @@ input InstanceRefInput {
 type InstanceSet {
   kindId: ID!
   kind: Kind!
+
+  """Continuation token"""
+  token: String
   fieldIds: [ID]
 
   """rowKeys: [Int]"""
@@ -332,6 +335,7 @@ input KindQueryInput {
   toFieldId: ID
   toFieldName: String
   take: Int
+  token: String
 }
 
 type Link {
