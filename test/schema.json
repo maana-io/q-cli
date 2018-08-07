@@ -15,7 +15,7 @@
         "fields": [
           {
             "name": "service",
-            "description": "Services",
+            "description": "",
             "args": [
               {
                 "name": "id",
@@ -133,7 +133,7 @@
           },
           {
             "name": "user",
-            "description": "Users",
+            "description": "",
             "args": [
               {
                 "name": "id",
@@ -215,7 +215,7 @@
           },
           {
             "name": "kind",
-            "description": "Kinds",
+            "description": "",
             "args": [
               {
                 "name": "tenantId",
@@ -366,7 +366,7 @@
           },
           {
             "name": "instance",
-            "description": "Instances",
+            "description": "",
             "args": [
               {
                 "name": "tenantId",
@@ -407,7 +407,7 @@
           },
           {
             "name": "instanceRef",
-            "description": "Fill in missing pieces of an instance ref",
+            "description": "",
             "args": [
               {
                 "name": "tenantId",
@@ -674,16 +674,6 @@
                   "ofType": null
                 },
                 "defaultValue": null
-              },
-              {
-                "name": "token",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null
               }
             ],
             "type": {
@@ -696,7 +686,7 @@
           },
           {
             "name": "relation",
-            "description": "Relations",
+            "description": "",
             "args": [
               {
                 "name": "tenantId",
@@ -817,7 +807,7 @@
           },
           {
             "name": "link",
-            "description": "Links",
+            "description": "",
             "args": [
               {
                 "name": "tenantId",
@@ -907,7 +897,7 @@
           },
           {
             "name": "allLinks",
-            "description": "If relationId is provided, list all links, otherwise list only links of specific relation",
+            "description": "",
             "args": [
               {
                 "name": "tenantId",
@@ -1081,7 +1071,7 @@
           },
           {
             "name": "workspace",
-            "description": "Workspaces",
+            "description": "",
             "args": [
               {
                 "name": "id",
@@ -1178,7 +1168,7 @@
           },
           {
             "name": "allKindsOfService",
-            "description": "List all kinds by a service",
+            "description": "",
             "args": [
               {
                 "name": "tenantId",
@@ -1223,7 +1213,7 @@
           },
           {
             "name": "knowledgeGraph",
-            "description": "Knowledge Graphs",
+            "description": "",
             "args": [
               {
                 "name": "id",
@@ -1277,7 +1267,7 @@
           },
           {
             "name": "queryGraph",
-            "description": "Query Graph",
+            "description": "",
             "args": [
               {
                 "name": "id",
@@ -1304,7 +1294,7 @@
           },
           {
             "name": "kindDBQuery",
-            "description": "Query for the instances of a kind",
+            "description": "",
             "args": [
               {
                 "name": "kindQuery",
@@ -1358,7 +1348,7 @@
           },
           {
             "name": "search",
-            "description": "Search!",
+            "description": "",
             "args": [
               {
                 "name": "text",
@@ -1424,7 +1414,7 @@
           },
           {
             "name": "document",
-            "description": "unique people",
+            "description": "",
             "args": [
               {
                 "name": "id",
@@ -1490,7 +1480,7 @@
           },
           {
             "name": "file",
-            "description": "unique people",
+            "description": "",
             "args": [
               {
                 "name": "id",
@@ -1556,7 +1546,7 @@
           },
           {
             "name": "image",
-            "description": "unique people",
+            "description": "",
             "args": [
               {
                 "name": "id",
@@ -1619,263 +1609,6 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "AllLogisticClassifiers",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "LogisticClassifier",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "LogisticClassifier",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "LogisticClassifier",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "AllRandomForestClassifiers",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "RandomForestClassifier",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RandomForestClassifier",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "RandomForestClassifier",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "AllGradientBoostingClassifiers",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "GradientBoostingClassifier",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "GradientBoostingClassifier",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "GradientBoostingClassifier",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "AllSGDClassifiers",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "SGDClassifier",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "SGDClassifier",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "SGDClassifier",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "AllLSVClassifiers",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "LSVClassifier",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "LSVClassifier",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "LSVClassifier",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "AllMultiNBClassifiers",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "MultiNBClassifier",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "MultiNBClassifier",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MultiNBClassifier",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "DataSet",
-            "description": "",
-            "args": [
-              {
-                "name": "id",
-                "description": "",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "DataSet",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -1900,7 +1633,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -1964,7 +1697,7 @@
           },
           {
             "name": "description",
-            "description": "optional",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2068,7 +1801,7 @@
           },
           {
             "name": "kinds",
-            "description": "inferred",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -2207,7 +1940,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2298,7 +2031,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2330,7 +2063,7 @@
           },
           {
             "name": "serviceId",
-            "description": "optional",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2495,7 +2228,7 @@
           },
           {
             "name": "relationsFrom",
-            "description": "inferred",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -2758,11 +2491,11 @@
       {
         "kind": "OBJECT",
         "name": "Field",
-        "description": "extend io.maana.kinddb's Field type",
+        "description": "",
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -2810,7 +2543,7 @@
           },
           {
             "name": "description",
-            "description": "optional",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2850,7 +2583,7 @@
           },
           {
             "name": "displayAs",
-            "description": "UI hints",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -2902,7 +2635,7 @@
           },
           {
             "name": "kind",
-            "description": "inferred",
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -3138,7 +2871,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3170,7 +2903,7 @@
           },
           {
             "name": "inverseName",
-            "description": "optional",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3218,7 +2951,7 @@
           },
           {
             "name": "links",
-            "description": "inferred",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -3245,7 +2978,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3277,7 +3010,7 @@
           },
           {
             "name": "fromKind",
-            "description": "Optional to work around the case when either kind is deleted",
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -3301,7 +3034,7 @@
           },
           {
             "name": "name",
-            "description": "optional",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3432,7 +3165,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -3448,7 +3181,7 @@
           },
           {
             "name": "name",
-            "description": "optional",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3504,7 +3237,7 @@
           },
           {
             "name": "fieldValues",
-            "description": "rowKey: Int",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -3520,7 +3253,7 @@
           },
           {
             "name": "linksFrom",
-            "description": "inferred",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -3703,7 +3436,7 @@
         "fields": [
           {
             "name": "ID",
-            "description": "Types",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -3823,7 +3556,7 @@
           },
           {
             "name": "l_ID",
-            "description": "List forms",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -4142,7 +3875,7 @@
           },
           {
             "name": "name",
-            "description": "Name of the field that will be added to original kind to call implicit conversion. If omitted, field will not be added. Field name must be unique within a fromKind, and must be safe (i.e. proper graphql name). Adding a binding with mapping function will add a function",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -4154,7 +3887,7 @@
           },
           {
             "name": "fromKind",
-            "description": "Optional. If not provided, means input is not a kind of workspace (e.g. scalar)",
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -4166,7 +3899,7 @@
           },
           {
             "name": "toKind",
-            "description": "Optional. If not provided, means output is not a kind of workspace/service (e.g. scalar)",
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -4178,7 +3911,7 @@
           },
           {
             "name": "serviceId",
-            "description": "Even though kinds are uniquely identifying services, to avoid constant roundtrips to kinddb i would prefer to have a service (or workspace) ID to filter on",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4194,7 +3927,7 @@
           },
           {
             "name": "fieldMappings",
-            "description": "Optional. If not provided, means that there's no mappings (e.g. just importing query into workspace)",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -4214,7 +3947,7 @@
           },
           {
             "name": "serviceQuery",
-            "description": "Reference to actual 'ServiceQuery' instance (mapping function) - that contains reference to name, arguments etc. If not defined, QueryBinding will be treated only as Kind Mapping",
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -4297,7 +4030,7 @@
           },
           {
             "name": "transformations",
-            "description": "Executed sequentially",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -4332,20 +4065,20 @@
       {
         "kind": "ENUM",
         "name": "OnTypeErrorBehavior",
-        "description": "Behavior if type doesn't match, for instance: - FLOAT can be converted to STRING, but not all STRING can't be converted to FLOAT",
+        "description": "",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
           {
             "name": "SKIP",
-            "description": "Skip instance that produced error",
+            "description": "",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "STOP",
-            "description": "Query of this kind will produce error even if single instance has produced error",
+            "description": "",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -4355,7 +4088,7 @@
       {
         "kind": "ENUM",
         "name": "Transformation",
-        "description": "Currently a convenience - may need to use either a string for encoding function, or interface, or strongly typed hierarchy",
+        "description": "",
         "fields": null,
         "inputFields": null,
         "interfaces": null,
@@ -4460,7 +4193,7 @@
           },
           {
             "name": "fields",
-            "description": "Input arguments",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -4480,7 +4213,7 @@
           },
           {
             "name": "outputType",
-            "description": "Output",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4524,7 +4257,7 @@
           },
           {
             "name": "kind",
-            "description": "Inferred",
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -4579,7 +4312,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4627,7 +4360,7 @@
           },
           {
             "name": "description",
-            "description": "optional",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -4764,7 +4497,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -4900,7 +4633,7 @@
           },
           {
             "name": "services",
-            "description": "optional",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -5031,7 +4764,7 @@
       {
         "kind": "OBJECT",
         "name": "User",
-        "description": "merged with io.maana.idam",
+        "description": "",
         "fields": [
           {
             "name": "id",
@@ -5586,7 +5319,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5602,7 +5335,7 @@
           },
           {
             "name": "kindId",
-            "description": "- one of:",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -5626,7 +5359,7 @@
           },
           {
             "name": "name",
-            "description": "optional",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -5650,7 +5383,7 @@
           },
           {
             "name": "kind",
-            "description": "inferred",
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -5880,7 +5613,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -5912,7 +5645,7 @@
           },
           {
             "name": "service",
-            "description": "optional",
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -6141,7 +5874,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "required",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6228,7 +5961,7 @@
       {
         "kind": "OBJECT",
         "name": "QueryGraphNode",
-        "description": "QueryGraphNode type",
+        "description": "",
         "fields": [
           {
             "name": "id",
@@ -6248,7 +5981,7 @@
           },
           {
             "name": "kindId",
-            "description": "projected kind",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6264,7 +5997,7 @@
           },
           {
             "name": "fieldFilters",
-            "description": "filters (where)",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -6304,7 +6037,7 @@
           },
           {
             "name": "kind",
-            "description": "Inferred",
+            "description": "",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -6323,7 +6056,7 @@
       {
         "kind": "OBJECT",
         "name": "QueryGraphFieldFilter",
-        "description": "FieldFilter type",
+        "description": "",
         "fields": [
           {
             "name": "id",
@@ -6394,11 +6127,11 @@
       {
         "kind": "OBJECT",
         "name": "QueryGraphNodeConnection",
-        "description": "QueryGraphNodeConnection type used to define the connectin between two nodes",
+        "description": "",
         "fields": [
           {
             "name": "id",
-            "description": "ID used to identify the connection",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6414,7 +6147,7 @@
           },
           {
             "name": "childId",
-            "description": "Information on the child's side of the connection",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6446,7 +6179,7 @@
           },
           {
             "name": "parentId",
-            "description": "Information on the parent's side of the connection",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6611,7 +6344,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "ID of Service Source will be used as service id.",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6651,7 +6384,7 @@
           },
           {
             "name": "schema",
-            "description": "GraphQL Schema",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -6796,18 +6529,6 @@
             "deprecationReason": null
           },
           {
-            "name": "token",
-            "description": "Continuation token",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "fieldIds",
             "description": "",
             "args": [],
@@ -6825,7 +6546,7 @@
           },
           {
             "name": "records",
-            "description": "rowKeys: [Int]",
+            "description": "",
             "args": [],
             "type": {
               "kind": "LIST",
@@ -6912,7 +6633,7 @@
         "inputFields": [
           {
             "name": "kindId",
-            "description": "projected kind (one of the following is required)",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -6932,7 +6653,7 @@
           },
           {
             "name": "alias",
-            "description": "optional alias for projection binding",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -6942,7 +6663,7 @@
           },
           {
             "name": "projection",
-            "description": "projected fields",
+            "description": "",
             "type": {
               "kind": "LIST",
               "name": null,
@@ -6956,7 +6677,7 @@
           },
           {
             "name": "distinct",
-            "description": "distinct Projected result",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "Boolean",
@@ -6966,7 +6687,7 @@
           },
           {
             "name": "fieldFilters",
-            "description": "filters (where)",
+            "description": "",
             "type": {
               "kind": "LIST",
               "name": null,
@@ -6980,7 +6701,7 @@
           },
           {
             "name": "and",
-            "description": "conjunction (where)",
+            "description": "",
             "type": {
               "kind": "LIST",
               "name": null,
@@ -6994,7 +6715,7 @@
           },
           {
             "name": "or",
-            "description": "disjunction (where)",
+            "description": "",
             "type": {
               "kind": "LIST",
               "name": null,
@@ -7008,7 +6729,7 @@
           },
           {
             "name": "fromFieldId",
-            "description": "join (if conjunction or disjunction)",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -7055,16 +6776,6 @@
               "ofType": null
             },
             "defaultValue": null
-          },
-          {
-            "name": "token",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
           }
         ],
         "interfaces": null,
@@ -7079,7 +6790,7 @@
         "inputFields": [
           {
             "name": "fieldId",
-            "description": "one of the following is required - except in the case of count queries",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -7099,7 +6810,7 @@
           },
           {
             "name": "alias",
-            "description": "optional if omitted outer query is used",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -7165,7 +6876,7 @@
         "inputFields": [
           {
             "name": "fieldId",
-            "description": "one of the following is required",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -7224,7 +6935,7 @@
         "inputFields": [
           {
             "name": "ID",
-            "description": "Types",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -7324,7 +7035,7 @@
           },
           {
             "name": "l_ID",
-            "description": "List forms",
+            "description": "",
             "type": {
               "kind": "LIST",
               "name": null,
@@ -7736,7 +7447,7 @@
         "inputFields": [
           {
             "name": "entitySurfaceForms",
-            "description": "what to search for",
+            "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -7758,7 +7469,7 @@
           },
           {
             "name": "scopeKindId",
-            "description": "where to search (all optional)",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -7778,7 +7489,7 @@
           },
           {
             "name": "scopeInstanceId",
-            "description": "optionally a specific instances",
+            "description": "",
             "type": {
               "kind": "LIST",
               "name": null,
@@ -7807,7 +7518,7 @@
         "inputFields": [
           {
             "name": "kindId",
-            "description": "The entity (i.e., a Kind instance)",
+            "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -7839,7 +7550,7 @@
           },
           {
             "name": "surfaceForms",
-            "description": "Various textual representations",
+            "description": "",
             "type": {
               "kind": "LIST",
               "name": null,
@@ -7867,7 +7578,7 @@
         "fields": [
           {
             "name": "scopeKindId",
-            "description": "Context (i.e., where found)",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -7915,7 +7626,7 @@
           },
           {
             "name": "cooccurrences",
-            "description": "Cooccurring instances and their locations (i.e., what found)",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -7950,7 +7661,7 @@
         "fields": [
           {
             "name": "kindId",
-            "description": "The entity (i.e., a Kind instance)",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -7982,7 +7693,7 @@
           },
           {
             "name": "locations",
-            "description": "Offsets where one of its surface forms was found",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8013,11 +7724,11 @@
       {
         "kind": "OBJECT",
         "name": "Document",
-        "description": "Documents",
+        "description": "",
         "fields": [
           {
             "name": "id",
-            "description": "Kind fields",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8049,7 +7760,7 @@
           },
           {
             "name": "text",
-            "description": "Domain-specific fields",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -8621,7 +8332,7 @@
           },
           {
             "name": "id",
-            "description": "Kind fields",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8653,7 +8364,7 @@
           },
           {
             "name": "url",
-            "description": "Domain-specific fields",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -8676,7 +8387,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "Required Kind",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8704,7 +8415,7 @@
           },
           {
             "name": "image",
-            "description": "Source image",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8720,7 +8431,7 @@
           },
           {
             "name": "area",
-            "description": "Image region with face",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8800,7 +8511,7 @@
           },
           {
             "name": "detectionConfidence",
-            "description": "Normalized confidence score",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8823,11 +8534,11 @@
       {
         "kind": "OBJECT",
         "name": "RecognizedFace",
-        "description": "Person recognized by face in an image",
+        "description": "",
         "fields": [
           {
             "name": "id",
-            "description": "Required Kind",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8859,7 +8570,7 @@
           },
           {
             "name": "personId",
-            "description": "Recognized person",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8891,7 +8602,7 @@
           },
           {
             "name": "detectedFaceId",
-            "description": "Based on detected face",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8919,7 +8630,7 @@
           },
           {
             "name": "recognitionConfidence",
-            "description": "Normalized confidence score",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8962,7 +8673,7 @@
           },
           {
             "name": "id",
-            "description": "Kind fields",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -8994,7 +8705,7 @@
           },
           {
             "name": "givenName",
-            "description": "Domain-specific fields",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -9112,7 +8823,7 @@
         "fields": [
           {
             "name": "id",
-            "description": "Kind fields",
+            "description": "",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -9144,7 +8855,7 @@
           },
           {
             "name": "url",
-            "description": "Domain-specific fields",
+            "description": "",
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -9230,1690 +8941,12 @@
       },
       {
         "kind": "OBJECT",
-        "name": "LogisticClassifier",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "features",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "FeatureColumn",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "preprocessor",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Preprocessor",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "saved",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "accuracy",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "labels",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Label",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "norm",
-            "description": "Specify normalization",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tolerance",
-            "description": "Tolerance for stopping criteria",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "C",
-            "description": "Inverse regularization strength > 0",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "balance",
-            "description": "If true will use the target training data to weight training.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "solver",
-            "description": "The optimization algorithm",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "maxIterations",
-            "description": "For the newton-cg, sag and lbfgs solvers. Max iterations taken to converge.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "FeatureColumn",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "feature",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "Preprocessor",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "Label",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "precision",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "recall",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "fBetaScore",
-            "description": "F-beta Score is the weighted harmonic mean of the precision and recall",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "support",
-            "description": "Number of occurrences of each label of this class in training data",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "RandomForestClassifier",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "features",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "FeatureColumn",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "preprocessor",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Preprocessor",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "saved",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "accuracy",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "labels",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Label",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "trees",
-            "description": "Number of trees",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "criterion",
-            "description": "Measure quality of tree split",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "maxDepth",
-            "description": "Maximum depth of the tree",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "maxFeatures",
-            "description": "Number of features to consider when looking for the best split",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "minSamplesSplit",
-            "description": "Minimum samples before node split",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "minSamplesLeaf",
-            "description": "Minimum number of samples required to be at a leaf node",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "minImpurityDecrease",
-            "description": "Minimum decrease in purity before a split",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "bootstrap",
-            "description": "If bootstrap samples are used to build tree",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "GradientBoostingClassifier",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "features",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "FeatureColumn",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "preprocessor",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Preprocessor",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "saved",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "accuracy",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "labels",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Label",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "trees",
-            "description": "Number of trees",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "loss",
-            "description": "Measure quality of tree split",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "maxDepth",
-            "description": "Maximum depth of the tree",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "maxFeatures",
-            "description": "Number of features to consider when looking for the best split",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "minSamplesSplit",
-            "description": "Minimum samples before node split",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "minSamplesLeaf",
-            "description": "Minimum number of samples required to be at a leaf node",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "minImpurityDecrease",
-            "description": "Minimum decrease in purity before a split",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "SGDClassifier",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "features",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "FeatureColumn",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "preprocessor",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Preprocessor",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "saved",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "accuracy",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "labels",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Label",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "loss",
-            "description": "The loss function to be used. Defaults to ‘hinge’, which gives a linear SVM.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "norm",
-            "description": "The penalty (aka regularization term) to be used. Defaults to ‘l2’.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "alpha",
-            "description": "Constant that multiplies the regularization term. Defaults to 0.0001/",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "L1Ratio",
-            "description": "The Elastic Net mixing parameter",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "fitIntercept",
-            "description": "Whether the intercept should be estimated. F: the data is assumed centered.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "maxIterations",
-            "description": "The maximum number of passes over the training data (aka epochs).",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tolerance",
-            "description": "The stopping criterion.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "epsilon",
-            "description": "Epsilon in the epsilon-insensitive loss functions; for some loss functions.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "learningRate",
-            "description": "The learning rate schedule",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "etaZero",
-            "description": "The initial learning rate for the ‘constant’ or ‘invscaling’ schedules.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "balance",
-            "description": "If true will use the target training data to weight training.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "LSVClassifier",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "features",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "FeatureColumn",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "preprocessor",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Preprocessor",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "saved",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "accuracy",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "labels",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Label",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "loss",
-            "description": "The loss function to be used. Defaults to ‘hinge’, which gives a linear SVM.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "norm",
-            "description": "The penalty (aka regularization term) to be used. Defaults to ‘l2’.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "dual",
-            "description": "Select the algorithm to either solve the dual or primal optimization problem.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "tolerance",
-            "description": "The stopping criterion.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "C",
-            "description": "Penalty parameter C of the error term.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "multiClass",
-            "description": "The multi-class strategy if y contains more than two classes.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "fitIntercept",
-            "description": "Whether the intercept should be estimated. F: the data is assumed centered.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "interceptScaling",
-            "description": "When self.fit_intercept is True x becomes [x, self.intercept_scaling]",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "balance",
-            "description": "If true will use the target training data to weight training.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "maxIterations",
-            "description": "The maximum number of passes over the training data (aka epochs).",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "MultiNBClassifier",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "features",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "FeatureColumn",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "preprocessor",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Preprocessor",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "saved",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "accuracy",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "labels",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Label",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "alpha",
-            "description": "Additive (Laplace/Lidstone) smoothing parameter (0 for no smoothing).",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "fitPrior",
-            "description": "Whether to learn class prior probabilities or not. F: a uniform prior will be used.",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "classPrior",
-            "description": "If prior probabilities of the classes were specified",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "DataSet",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "policies",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "MetaPolicy",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "finalModel",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MachineLearningModel",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "targetAccuracy",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "timeToLearn",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "MetaPolicy",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "actions",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "MetaPolicyAction",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "failed",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "quality",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "rho",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "RhoTable",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "accuracy",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "MetaPolicyAction",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "name",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "timestamp",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "RhoTable",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "score",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "model",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "MachineLearningModel",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "features",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "FeatureColumn",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "preprocessor",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Preprocessor",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "MachineLearningModel",
-        "description": "",
-        "fields": [
-          {
-            "name": "id",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "modelId",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "kindName",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "kindId",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "features",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "FeatureColumn",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "preprocessor",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "OBJECT",
-              "name": "Preprocessor",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "saved",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "accuracy",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "labels",
-            "description": "",
-            "args": [],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Label",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
         "name": "Mutation",
         "description": "",
         "fields": [
           {
             "name": "addService",
-            "description": "Services",
+            "description": "",
             "args": [
               {
                 "name": "input",
@@ -11095,7 +9128,7 @@
           },
           {
             "name": "addApplication",
-            "description": "Applications",
+            "description": "",
             "args": [
               {
                 "name": "input",
@@ -11227,7 +9260,7 @@
           },
           {
             "name": "addUser",
-            "description": "Users",
+            "description": "",
             "args": [
               {
                 "name": "input",
@@ -11254,7 +9287,7 @@
           },
           {
             "name": "addKind",
-            "description": "Kinds and Fields",
+            "description": "",
             "args": [
               {
                 "name": "tenantId",
@@ -11336,7 +9369,7 @@
           },
           {
             "name": "addInstance",
-            "description": "Instances",
+            "description": "",
             "args": [
               {
                 "name": "tenantId",
@@ -11549,7 +9582,7 @@
           },
           {
             "name": "addRelation",
-            "description": "Relations",
+            "description": "",
             "args": [
               {
                 "name": "input",
@@ -11576,7 +9609,7 @@
           },
           {
             "name": "addLink",
-            "description": "Links",
+            "description": "",
             "args": [
               {
                 "name": "input",
@@ -11638,7 +9671,7 @@
           },
           {
             "name": "setTheme",
-            "description": "Users",
+            "description": "",
             "args": [
               {
                 "name": "userId",
@@ -11683,7 +9716,7 @@
           },
           {
             "name": "addFieldMapping",
-            "description": "QueryBinding",
+            "description": "",
             "args": [
               {
                 "name": "input",
@@ -11846,7 +9879,7 @@
           },
           {
             "name": "duplicateKind",
-            "description": "Duplicate things",
+            "description": "",
             "args": [
               {
                 "name": "id",
@@ -11970,7 +10003,7 @@
           },
           {
             "name": "addWorkspace",
-            "description": "Workspaces",
+            "description": "",
             "args": [
               {
                 "name": "input",
@@ -12386,7 +10419,7 @@
           },
           {
             "name": "addKnowledgeGraph",
-            "description": "Knowledge Graphs",
+            "description": "",
             "args": [
               {
                 "name": "input",
@@ -12644,7 +10677,7 @@
           },
           {
             "name": "updateKnowledgeGraphLayout",
-            "description": "Knowledge Graph Layout",
+            "description": "",
             "args": [
               {
                 "name": "input",
@@ -12720,7 +10753,7 @@
           },
           {
             "name": "addQueryGraph",
-            "description": "Query Graphs",
+            "description": "",
             "args": [
               {
                 "name": "input",
@@ -13959,7 +11992,7 @@
           },
           {
             "name": "addEntities",
-            "description": "Entities",
+            "description": "",
             "args": [
               {
                 "name": "input",
@@ -13980,91 +12013,6 @@
               "kind": "SCALAR",
               "name": "Boolean",
               "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "TrainClassifierFromCSV",
-            "description": "meta",
-            "args": [
-              {
-                "name": "input",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "TrainingCSVInput",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "DataSet",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "TrainClassifierFromKind",
-            "description": "",
-            "args": [
-              {
-                "name": "input",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "TrainingKindInput",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "classifyInstance",
-            "description": "",
-            "args": [
-              {
-                "name": "input",
-                "description": "",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "ClassifyInstanceInput",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null
-              }
-            ],
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -14619,7 +12567,7 @@
           },
           {
             "name": "fields",
-            "description": "Input arguments",
+            "description": "",
             "type": {
               "kind": "LIST",
               "name": null,
@@ -14637,7 +12585,7 @@
           },
           {
             "name": "outputType",
-            "description": "Output",
+            "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -15055,7 +13003,7 @@
           },
           {
             "name": "fromKind",
-            "description": "Optional. If not provided, means input is not a kind of workspace (e.g. scalar)",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -15065,7 +13013,7 @@
           },
           {
             "name": "toKind",
-            "description": "Optional. If not provided, means output is not a kind of workspace/service (e.g. scalar)",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -15089,7 +13037,7 @@
           },
           {
             "name": "fieldMappings",
-            "description": "Optional. If not provided, means that there's no mappings (e.g. just importing query into workspace)",
+            "description": "",
             "type": {
               "kind": "LIST",
               "name": null,
@@ -15433,7 +13381,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "RecognizedFaceInput",
-        "description": "Person recognized by face in an image",
+        "description": "",
         "fields": null,
         "inputFields": [
           {
@@ -16198,7 +14146,7 @@
         "inputFields": [
           {
             "name": "name",
-            "description": "required",
+            "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -16212,7 +14160,7 @@
           },
           {
             "name": "id",
-            "description": "optional",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -16273,7 +14221,7 @@
         "inputFields": [
           {
             "name": "fromKindId",
-            "description": "one of the following is required",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -16293,7 +14241,7 @@
           },
           {
             "name": "toKindId",
-            "description": "one of the following is required",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -16313,7 +14261,7 @@
           },
           {
             "name": "relationId",
-            "description": "one of the following is required",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -16333,7 +14281,7 @@
           },
           {
             "name": "id",
-            "description": "optional",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -16474,7 +14422,7 @@
         "inputFields": [
           {
             "name": "queryBinding",
-            "description": "You need to give query binding Id or fromKind and toKind",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -17336,7 +15284,7 @@
           },
           {
             "name": "kindId",
-            "description": "projected kind",
+            "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -17350,7 +15298,7 @@
           },
           {
             "name": "fieldFilters",
-            "description": "filters (where)",
+            "description": "",
             "type": {
               "kind": "LIST",
               "name": null,
@@ -17368,7 +15316,7 @@
           },
           {
             "name": "children",
-            "description": "child kind queries",
+            "description": "",
             "type": {
               "kind": "LIST",
               "name": null,
@@ -17392,7 +15340,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "QueryGraphFieldFilterInput",
-        "description": "QueryGraphFieldFilterInput type",
+        "description": "",
         "fields": null,
         "inputFields": [
           {
@@ -17451,12 +15399,12 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "QueryGraphNodeConnectionInput",
-        "description": "Specifies a connection between QueryGraphNode when adding a QueryGraphNode",
+        "description": "",
         "fields": null,
         "inputFields": [
           {
             "name": "childId",
-            "description": "The ID of the child QueryGraphNode",
+            "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -17470,7 +15418,7 @@
           },
           {
             "name": "childFieldId",
-            "description": "The ID of the field in the child QueryGraphNode to join to the parent kind query",
+            "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -17484,7 +15432,7 @@
           },
           {
             "name": "parentFieldId",
-            "description": "The ID of the field in the parent QueryGraphNode",
+            "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -17498,7 +15446,7 @@
           },
           {
             "name": "type",
-            "description": "The type of connection this is (defaults to AND)",
+            "description": "",
             "type": {
               "kind": "ENUM",
               "name": "QueryGraphNodeJoinType",
@@ -17654,7 +15602,7 @@
         "inputFields": [
           {
             "name": "id",
-            "description": "If id is not provided, it will be generated automatically. Must be unique if provided.",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -17684,7 +15632,7 @@
           },
           {
             "name": "schema",
-            "description": "GraphQL Schema",
+            "description": "",
             "type": {
               "kind": "NON_NULL",
               "name": null,
@@ -17704,7 +15652,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "AddDocumentInput",
-        "description": "Create a Document instance",
+        "description": "",
         "fields": null,
         "inputFields": [
           {
@@ -17719,7 +15667,7 @@
           },
           {
             "name": "name",
-            "description": "these are all optional, but the resolver(s) must produce a 'name' value, since it is required",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -17797,7 +15745,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "UpdateDocumentInput",
-        "description": "Create a Document instance",
+        "description": "",
         "fields": null,
         "inputFields": [
           {
@@ -17816,7 +15764,7 @@
           },
           {
             "name": "name",
-            "description": "only what is changing",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -17894,7 +15842,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "AddFileInput",
-        "description": "Create a File instance",
+        "description": "",
         "fields": null,
         "inputFields": [
           {
@@ -17909,7 +15857,7 @@
           },
           {
             "name": "name",
-            "description": "these are all optional, but the resolver(s) must produce a 'name' value, since it is required",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -17989,7 +15937,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "AddFileFromUrlInput",
-        "description": "Create a File instance",
+        "description": "",
         "fields": null,
         "inputFields": [
           {
@@ -18004,7 +15952,7 @@
           },
           {
             "name": "name",
-            "description": "these are all optional, but the resolver(s) must produce a 'name' value, since it is required",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -18054,7 +16002,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "UpdateFileInput",
-        "description": "Create a File instance",
+        "description": "",
         "fields": null,
         "inputFields": [
           {
@@ -18073,7 +16021,7 @@
           },
           {
             "name": "name",
-            "description": "only what is changing",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -18139,7 +16087,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "AddImageInput",
-        "description": "Create a Image instance",
+        "description": "",
         "fields": null,
         "inputFields": [
           {
@@ -18154,7 +16102,7 @@
           },
           {
             "name": "name",
-            "description": "these are all optional, but the resolver(s) must produce a 'name' value, since it is required",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -18180,7 +16128,7 @@
       {
         "kind": "INPUT_OBJECT",
         "name": "UpdateImageInput",
-        "description": "Create a Image instance",
+        "description": "",
         "fields": null,
         "inputFields": [
           {
@@ -18199,7 +16147,7 @@
           },
           {
             "name": "name",
-            "description": "only what is changing",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -18322,347 +16270,6 @@
               "kind": "SCALAR",
               "name": "Float",
               "ofType": null
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "TrainingCSVInput",
-        "description": "",
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "modelId",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "accuracy",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "dataFolder",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "labelField",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "featureFields",
-            "description": "",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "featureTypes",
-            "description": "",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "folds",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "candidateModels",
-            "description": "",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "candidateFeaturizers",
-            "description": "",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "candidatePreprocessors",
-            "description": "",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "modelProfilingEpisode",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "modelSearchEpisode",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "TrainingKindInput",
-        "description": "",
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "modelId",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "accuracy",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "kindId",
-            "description": "",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "labelField",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "featureFields",
-            "description": "",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "excludeFields",
-            "description": "",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "folds",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "candidateModels",
-            "description": "",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "candidateFeaturizers",
-            "description": "",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "candidatePreprocessors",
-            "description": "",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "modelProfilingEpisode",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "modelSearchEpisode",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "Int",
-              "ofType": null
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
-        "name": "ClassifyInstanceInput",
-        "description": "",
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "trainedModelId",
-            "description": "",
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "data",
-            "description": "",
-            "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
             },
             "defaultValue": null
           }
@@ -19511,59 +17118,6 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "ClassifyKindInput",
-        "description": "",
-        "fields": null,
-        "inputFields": [
-          {
-            "name": "trainedModelId",
-            "description": "",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "fromKindId",
-            "description": "",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          },
-          {
-            "name": "fromInstanceIdentifierFieldName",
-            "description": "This is the id field of the kind you are classifying",
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "defaultValue": null
-          }
-        ],
-        "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "INPUT_OBJECT",
         "name": "UpdateUserInput",
         "description": "",
         "fields": null,
@@ -19584,7 +17138,7 @@
           },
           {
             "name": "name",
-            "description": "optional",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -19870,7 +17424,7 @@
           },
           {
             "name": "name",
-            "description": "optional",
+            "description": "",
             "type": {
               "kind": "SCALAR",
               "name": "String",
@@ -20056,7 +17610,7 @@
       {
         "kind": "OBJECT",
         "name": "Entity",
-        "description": "Entities",
+        "description": "",
         "fields": [
           {
             "name": "id",

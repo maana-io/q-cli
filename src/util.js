@@ -1,6 +1,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import chalk from 'chalk'
+import { buildASTSchema, parse } from 'graphql'
 
 //
 // String utilities
@@ -168,4 +169,15 @@ export function addHeadersToConfig(config) {
       endpoints[name] = result
     })
   }
+}
+
+/**
+ * Get the GraphQL schema for the project
+ *
+ * @param {*} config
+ */
+export const getSchema = config => {
+  const schemaPath = config.schemaPath
+  const schemaContents = fs.readFileSync(schemaPath).toString()
+  return buildASTSchema(parse(schemaContents))
 }

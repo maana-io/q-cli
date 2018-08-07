@@ -1,16 +1,4 @@
-import {
-  buildASTSchema,
-  getNamedType,
-  graphql,
-  isListType,
-  isNonNullType,
-  isObjectType,
-  parse,
-  GraphQLID,
-  GraphQLNonNull,
-  GraphQLObjectType,
-  GraphQLSchema
-} from 'graphql'
+import { getNamedType, isListType, isNonNullType, isObjectType } from 'graphql'
 import papa from 'papaparse'
 import fs from 'fs-extra'
 import path from 'path'
@@ -24,14 +12,13 @@ import {
   ellipse,
   getAllFiles,
   getEndpoint,
+  getSchema,
   isNullOrEmpty,
   readFile,
   readJson
 } from './util'
 
 const DEFAULT_BATCH_SIZE = 1000000
-
-const SupportedTypes = ['.csv', '.json'] // NOTE: all lowercase!
 
 /**
  * Plugin boilerplate
@@ -77,17 +64,6 @@ const fileResults = {
  * NDF ids are CHAR(25), so we translate all original ID references to conform
  */
 const mkNdfId = id => (id.length > 25 ? md5Base64(id).slice(0, -2) : id)
-
-/**
- * Get the GraphQL schema for the project
- *
- * @param {*} config
- */
-const getSchema = config => {
-  const schemaPath = config.schemaPath
-  const schemaContents = fs.readFileSync(schemaPath).toString()
-  return buildASTSchema(parse(schemaContents))
-}
 
 /**
  *
