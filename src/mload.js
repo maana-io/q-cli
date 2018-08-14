@@ -711,7 +711,7 @@ const writeNdfFile = (ndfPath, valueType, typeName, values) => {
  */
 const uploadViaMutation = async (context, parsedPath) => {
   // Generate a mutation name from base name
-  const genMutationName = baseName => `add${capitalize(baseName)}s`
+  const genMutationName = baseName => `add${baseName}s`
 
   // Infer the mutation
   const mutationName = context.argv.mutation || genMutationName(parsedPath.name)
