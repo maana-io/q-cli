@@ -3,4 +3,4 @@
 #
 set -e
 
-gql mload "08/data" -p ckg
+gql mload "08/Relation.json" -m addRelation -p ckg

@@ -1,8 +1,6 @@
-[
-  {
-    "id": "hasEvent",
-    "name": "hasEvent",
-    "inverseName": "isEventOf",
-    "description": "A relation from an event to an entity it is related to."
-  }
-]
+{
+  "id": "hasEvent2",
+  "name": "hasEvent2",
+  "inverseName": "isEventOf",
+  "description": "A relation from an event to an entity it is related to."
+}
