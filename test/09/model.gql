@@ -1,82 +1,83 @@
+scalar Date
 scalar DateTime
+scalar Time
 
 type movie_actors {
- movieID: movies!
- actorID: ID!
+  movieID: movies!
+  actorID: ID!
   actorName: String!
   ranking: Int!
 }
 
 type movies {
- id: ID!
- title: String!
- imdbID: Int!
- spanishTitle: String
- imdbPictureURL: String
- year: Int!
- rtID: String
- rtAllCriticsRating: Float
- rtAllCriticsNumReviews: Int
- rtAllCriticsNumFresh: Int
- rtAllCriticsNumRotten: Int
- rtAllCriticsScore: Int
- rtTopCriticsRating: Float
- rtTopCriticsNumReviews: Int
- rtTopCriticsNumFresh: Int
- rtTopCriticsNumRotten: Int
- rtTopCriticsScore: Int
- rtAudienceRating: Float
- rtAudienceNumRatings: Int
- rtAudienceScore: Int
- rtPictureURL: String
-   
+  id: ID!
+  title: String!
+  imdbID: Int!
+  spanishTitle: String
+  imdbPictureURL: String
+  year: Int!
+  rtID: String
+  rtAllCriticsRating: Float
+  rtAllCriticsNumReviews: Int
+  rtAllCriticsNumFresh: Int
+  rtAllCriticsNumRotten: Int
+  rtAllCriticsScore: Int
+  rtTopCriticsRating: Float
+  rtTopCriticsNumReviews: Int
+  rtTopCriticsNumFresh: Int
+  rtTopCriticsNumRotten: Int
+  rtTopCriticsScore: Int
+  rtAudienceRating: Float
+  rtAudienceNumRatings: Int
+  rtAudienceScore: Int
+  rtPictureURL: String
 }
-  
-  type movie_genres{
-  movieID:movies!
+
+type movie_genres {
+  movieID: movies!
   genre: String!
-  }
-  
-  type movie_countries{
+}
+
+type movie_countries {
   movieID: movies!
   country: String!
-  }
-  
-  type movie_locations{
+}
+
+type movie_locations {
   movieID: movies!
   location1: String
   location2: String
   location3: String
   location4: String
-  }
-  
-  type movie_locations_numbered{
+}
+
+type movie_locations_numbered {
   id: ID!
   movieID: movies!
   location1: String
   location2: String
   location3: String
   location4: String
-  }
-  
-  type movie_directors{
+}
+
+type movie_directors {
   movieID: movies!
   directorID: ID!
   dicertorName: String!
-  }
-  
-  type movie_tags{
+}
+
+type movie_tags {
   movieID: movies!
   tagID: tags!
   tagWeight: Int
-  }
-  
-  type tags{
+}
+
+type tags {
   id: ID!
   value: String!
-  }
-  
-  type users{
+}
+
+type users {
   id: ID!
   name: String!
   thumbnail: String
@@ -84,26 +85,19 @@ type movies {
   age: Int
   occupation: Int
   zip: Int
-  }
-  
-   type user_taggedmovies{
-   userID: users!
-   movieID: movies!
-   tagID: tags!
-   date_day: Int
-   date_month: Int
-   date_year: Int
-   date_hour: Int
-   date_minute: Int
-   date_second: Int
-   }
-   
-  type user_taggedmovies_timestamps{
+}
+
+type user_taggedmovies {
+  userID: users!
+  movieID: movies!
+  tagID: tags!
+  date: Date
+  time: Time
+}
+
+type user_taggedmovies_timestamps {
   userID: users!
   movieID: movies!
   tagID: tags!
   timestamp: DateTime
-  }
-  
-  
-  
+}

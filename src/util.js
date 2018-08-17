@@ -21,6 +21,13 @@ export const ellipse = (str, max = 200) => {
   return str
 }
 
+export const parseTime = time => {
+  const currentDateString = new Date().toISOString()
+  return new Date(
+    currentDateString.substr(0, currentDateString.indexOf('T') + 1) + time
+  )
+}
+
 /**
  * Update the set of values for this indexed collection
  */

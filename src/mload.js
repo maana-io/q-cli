@@ -14,6 +14,7 @@ import {
   getEndpoint,
   getSchema,
   isNullOrEmpty,
+  parseTime,
   readFile,
   readJson
 } from './util'
@@ -114,15 +115,24 @@ const readCsvFile = (context, parsedPath) => {
         )}`
       )
     }
+
     context.spinner.succeed(
       chalk.green(
-        `Done parsing CSV file ${chalk.yellow(
-          filePath
-        )} entities: ${chalk.yellow(
+        `Parsed ${chalk.yellow(filePath)} entities: ${chalk.yellow(
           parsedCsv.data.length
         )} meta: ${chalk.yellow(JSON.stringify(parsedCsv.meta))}`
       )
     )
+    if (parsedCsv.errors && parsedCsv.errors.length) {
+      console.log(
+        chalk.red(
+          `✘ Parse errors (${chalk.yellow(parsedCsv.errors.length)}): ${ellipse(
+            JSON.stringify(parsedCsv.errors, null, 2),
+            500
+          )}`
+        )
+      )
+    }
     return parsedCsv.data
   } catch (error) {
     context.spinner.fail(chalk.red(error))
@@ -168,6 +178,8 @@ const readData = (context, parsedPath) => {
   const ext = parsedPath.ext
   switch (ext) {
     case '.csv':
+    case '.tsv':
+    case '.dat':
       return readCsvFile(context, parsedPath)
     case '.json':
       return readJsonFile(context, parsedPath)
@@ -319,17 +331,21 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
     }
   } else if (type == 'Date' || type == 'DateTime' || type == 'Time') {
     const cvtDate = () => {
-      const date = moment(val)
       let dateStr
-      if ((type == 'Date' && isoDate) || type == 'DateTime') {
-        dateStr = date.toISOString()
-      } else if (type == 'Date') {
-        dateStr = date.format('YYYY-MM-DD')
-      } else if (type == 'Time') {
-        dateStr = date.format('hh:mm::ss') + 'Z'
+      if (type == 'Time') {
+        const date = parseTime(val)
+        if (isNaN(date)) throw new Error(`Invalid time: ${val}`)
+        dateStr = val
+      } else {
+        const date = moment(val)
+        if (!date.isValid()) throw new Error(`Invalid date/time: ${val}`)
+        if ((type == 'Date' && isoDate) || type == 'DateTime') {
+          dateStr = date.toISOString()
+        } else if (type == 'Date') {
+          dateStr = date.format('YYYY-MM-DD')
+        }
       }
       if (quoted) dateStr = `"${dateStr}"`
-      // console.log(dateStr);
       return dateStr
     }
     rval = !val || val == '' ? def : cvtDate()
@@ -353,51 +369,55 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
 const buildMutation = (mutationField, inputType, typeDef, data) => {
   // console.log("data", data);
   const instances = data.map(row => {
-    const fields = Object.keys(row)
-      .map(fieldName => {
-        const value = row[fieldName]
+    try {
+      const fields = Object.keys(row)
+        .map(fieldName => {
+          const value = row[fieldName]
 
-        const { field, isList, isNonNull, namedType } = getField(
-          typeDef,
-          fieldName
-        )
+          const { field, isList, isNonNull, namedType } = getField(
+            typeDef,
+            fieldName
+          )
 
-        const valueType = typeof value
-        // console.log("valueType", valueType);
+          const valueType = typeof value
+          // console.log("valueType", valueType);
 
-        if (Array.isArray(value)) {
-          if (!isList) {
-            const msg = `Unexpected collection for ${chalk.yellow(
-              fieldName
-            )}: ${chalk.yellow(field.type)} => ${chalk.yellow(
-              JSON.stringify(value)
-            )}`
+          if (Array.isArray(value)) {
+            if (!isList) {
+              const msg = `Unexpected collection for ${chalk.yellow(
+                fieldName
+              )}: ${chalk.yellow(field.type)} => ${chalk.yellow(
+                JSON.stringify(value)
+              )}`
+              console.log(chalk.red(`✘ ${msg}`))
+              throw msg
+            }
+
+            if (value.length === 0) {
+              return `${fieldName}: null`
+            }
+            const values = value.map(v =>
+              coerce({ type: namedType, val: v, quoted: true })
+            )
+            return `${fieldName}: [${values.join(',')}]`
+          } else if (isList) {
+            const msg = `Expected collection for ${chalk.yellow(fieldName)}: ${
+              field.type
+            } => ${JSON.stringify(value)}`
             console.log(chalk.red(`✘ ${msg}`))
             throw msg
           }
-
-          if (value.length === 0) {
-            return `${fieldName}: null`
-          }
-          const values = value.map(v =>
-            coerce({ type: namedType, val: v, quoted: true })
-          )
-          return `${fieldName}: [${values.join(',')}]`
-        } else if (isList) {
-          const msg = `Expected collection for ${chalk.yellow(fieldName)}: ${
-            field.type
-          } => ${JSON.stringify(value)}`
-          console.log(chalk.red(`✘ ${msg}`))
-          throw msg
-        }
-        return `${fieldName}: ${coerce({
-          type: namedType,
-          val: value,
-          quoted: true
-        })}\n`
-      })
-      .join(',')
-    return `{${fields}}`
+          return `${fieldName}: ${coerce({
+            type: namedType,
+            val: value,
+            quoted: true
+          })}\n`
+        })
+        .join(',')
+      return `{${fields}}`
+    } catch (error) {
+      console.log(chalk.red(`✘ ${error}`))
+    }
   })
 
   // Handle list input type
@@ -433,6 +453,8 @@ const load = async (context, filePath) => {
   const ext = parsedPath.ext.toLowerCase()
   switch (ext) {
     case '.csv':
+    case '.tsv':
+    case '.dat':
       break
     case '.json':
       break
@@ -813,7 +835,7 @@ const uploadViaMutation = async (context, parsedPath) => {
         } else {
           const total = Object.keys(result).length
           context.spinner.fail(
-            chalk.red(`${nulls.length} out of ${total} mutations failed (null)`)
+            chalk.red(`${nulls.length} out of ${total} mutations failed`)
           )
           incErrors()
         }
@@ -827,14 +849,14 @@ const uploadViaMutation = async (context, parsedPath) => {
             response.status
           }`
         } else if (response.errors) {
-          const errMsgs = response.errors.map(e => ellipse(e.message, 75))
+          const errMsgs = response.errors.map(e => ellipse(e.message, 2000))
           if (errMsgs.length === 1) {
             msg = errMsgs[0]
           } else {
-            msg = `[${errMsgs.join(', ')}]`
+            msg = `[${errMsgs.join(',\n')}]`
           }
         } else {
-          msg = ellipse(JSON.stringify(error), 75)
+          msg = ellipse(JSON.stringify(error), 2000)
         }
       } else if (typeof error === 'string') {
         msg = error
@@ -1024,7 +1046,7 @@ const buildReport = () => {
         console.log(
           `    ${chalk.yellow('File')} ${file} ${chalk.yellow('in')} ${
             fileResults.errors.uploading[file]
-          } ${chalk.yellow('batches')}`
+          } ${chalk.yellow('batch(es)')}`
         )
       )
     }
