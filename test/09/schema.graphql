@@ -1,0 +1,1142 @@
+# source: http://h4dev.knowledge.maana.io:8003/service/cli.test09/graphql
+# timestamp: Thu Aug 16 2018 14:42:47 GMT-0700 (PDT)
+
+input AddBotActionInput {
+  name: String
+  serviceName: String!
+  serviceId: ID
+  eventName: String
+  mutationName: String
+  queryName: String
+  inputInstanceRef: InstanceRefInput
+  outputInstanceRef: InstanceRefInput
+}
+
+enum AggregateOp {
+  MIN
+  MAX
+  SUM
+  COUNT
+}
+
+type BotAction {
+  """io.maana.kind"""
+  id: ID!
+  name: String!
+
+  """bookkeeping"""
+  created: DateTime!
+  lastUpdated: DateTime!
+  status: BotActionStatus!
+  progress: Float
+  errors: [JSON!]
+
+  """operation"""
+  service: Service!
+  eventName: String
+  mutation: ServiceMutation
+  query: ServiceQuery
+  input: InstanceRef
+  output: InstanceRef
+}
+
+type BotActionAddedEvent {
+  id: ID!
+  name: String!
+  serviceName: String!
+  serviceId: ID
+  eventName: String
+  mutationName: String
+  queryName: String
+  inputInstanceRef: InstanceRef
+  outputInstanceRef: InstanceRef
+}
+
+enum BotActionStatus {
+  PENDING
+  IN_PROGRESS
+  STOPPING
+  STOPPED
+  ERROR
+  COMPLETE
+}
+
+type BotActionUpdatedEvent {
+  id: ID!
+  oldStatus: BotActionStatus!
+  newStatus: BotActionStatus!
+  progress: Float
+  errors: [JSON!]
+}
+
+scalar Date
+
+scalar DATE
+
+scalar DateTime
+
+scalar DATETIME
+
+type Field {
+  """required"""
+  id: ID!
+  name: String!
+  type: FieldType!
+
+  """optional"""
+  description: String
+  modifiers: [FieldModifiers]
+  typeKindId: ID
+
+  """UI hints"""
+  displayAs: [String]
+  hide: Boolean
+  autoFocus: Boolean
+  readonly: Boolean
+
+  """inferred"""
+  kind: Kind
+  acceptedFieldClassification: FieldClassification
+}
+
+type FieldClassification {
+  id: ID!
+  fieldId: ID!
+  name: String!
+  score: Float!
+}
+
+input FieldFilterInput {
+  """one of the following is required"""
+  fieldId: ID
+  fieldName: String
+  op: String!
+  value: FieldValueInput!
+}
+
+enum FieldModifiers {
+  NONULL
+  LIST
+  NOIDX
+}
+
+input FieldProjectionInput {
+  """
+  one of the following is required - except in the case of count queries
+  """
+  fieldId: ID
+  fieldName: String
+
+  """optional if omitted outer query is used"""
+  alias: String
+  op: AggregateOp
+}
+
+enum FieldType {
+  ID
+  STRING
+  INT
+  FLOAT
+  BOOLEAN
+  DATE
+  TIME
+  DATETIME
+  JSON
+  KIND
+}
+
+type FieldValue {
+  """Types"""
+  ID: ID
+  STRING: String
+  INT: Int
+  FLOAT: Float
+  BOOLEAN: Boolean
+  DATE: Date
+  TIME: Time
+  DATETIME: DateTime
+  JSON: JSON
+  KIND: ID
+
+  """List forms"""
+  l_ID: [ID]
+  l_STRING: [String]
+  l_INT: [Int]
+  l_FLOAT: [Float]
+  l_BOOLEAN: [Boolean]
+  l_DATE: [Date]
+  l_TIME: [Time]
+  l_DATETIME: [DateTime]
+  l_JSON: [JSON]
+  l_KIND: [ID]
+}
+
+input FieldValueInput {
+  """Types"""
+  ID: ID
+  STRING: String
+  INT: Int
+  FLOAT: Float
+  BOOLEAN: Boolean
+  DATE: Date
+  TIME: Time
+  DATETIME: DateTime
+  JSON: JSON
+  KIND: ID
+
+  """List forms"""
+  l_ID: [ID]
+  l_STRING: [String]
+  l_INT: [Int]
+  l_FLOAT: [Float]
+  l_BOOLEAN: [Boolean]
+  l_DATE: [Date]
+  l_TIME: [Time]
+  l_DATETIME: [DateTime]
+  l_JSON: [JSON]
+  l_KIND: [ID]
+}
+
+type Info {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type Instance {
+  """required"""
+  id: ID!
+
+  """optional"""
+  name: String
+  kindId: ID!
+  kind: Kind
+  fieldIds: [ID]
+
+  """rowKey: Int"""
+  fieldValues: [FieldValue]
+
+  """inferred"""
+  linksFrom: [Link]
+  linksTo: [Link]
+}
+
+type InstanceRef {
+  """required"""
+  id: ID!
+
+  """- one of:"""
+  kindId: ID
+  kindName: String
+
+  """optional"""
+  name: String
+  url: String
+
+  """inferred"""
+  kind: Kind
+  instance: Instance
+  innerKind: Kind
+}
+
+input InstanceRefInput {
+  id: ID
+  name: String
+  kindId: ID
+  kindName: String
+  url: String
+}
+
+type InstanceSet {
+  kindId: ID!
+  kind: Kind!
+
+  """Continuation token"""
+  token: String
+  fieldIds: [ID]
+
+  """rowKeys: [Int]"""
+  records: [[FieldValue]]
+}
+
+scalar JSON
+
+type Kind {
+  """required"""
+  id: ID!
+  name: String!
+
+  """optional"""
+  serviceId: ID
+  description: String
+  thumbnailUrl: String
+  isPublic: Boolean
+  isManaged: Boolean
+  isSystem: Boolean
+  schema(includeDeleted: Boolean = false, fieldIds: [ID!], fieldNames: [String!], fieldKinds: [ID!]): [Field]
+  nameField: ID
+
+  """inferred"""
+  relationsFrom: [Relation]
+  relationsTo: [Relation]
+  linksFrom: [Link]
+  linksTo: [Link]
+  service: Service
+}
+
+input KindQueryInput {
+  """projected kind (one of the following is required)"""
+  kindId: ID
+  kindName: String
+  serviceId: ID
+
+  """optional alias for projection binding"""
+  alias: String
+
+  """projected fields"""
+  projection: [FieldProjectionInput]
+
+  """distinct Projected result"""
+  distinct: Boolean
+
+  """filters (where)"""
+  fieldFilters: [FieldFilterInput]
+
+  """conjunction (where)"""
+  and: [KindQueryInput]
+
+  """disjunction (where)"""
+  or: [KindQueryInput]
+
+  """join (if conjunction or disjunction)"""
+  fromFieldId: ID
+  fromFieldName: String
+  toFieldId: ID
+  toFieldName: String
+  take: Int
+  token: String
+}
+
+type Link {
+  """required"""
+  id: ID!
+  relation: Relation!
+
+  """Optional to work around the case when either kind is deleted"""
+  fromKind: Kind
+  toKind: Kind
+
+  """optional"""
+  name: String
+  weight: Float
+  fromField: Field
+  fromInstance: Instance
+  fromOffset: String
+  fromSpan: String
+  toField: Field
+  toInstance: Instance
+  toOffset: String
+  toSpan: String
+}
+
+type movie_actors {
+  """id"""
+  id: ID!
+  movieID: movies!
+  actorID: ID!
+  actorName: String!
+  ranking: Int!
+}
+
+"""Autogenerated input for adding or modifying instance of movie_actors"""
+input movie_actorsInput {
+  """id"""
+  id: ID
+  movieID: ID
+  actorID: ID
+  actorName: String
+  ranking: Int
+}
+
+type movie_countries {
+  """id"""
+  id: ID!
+  movieID: movies!
+  country: String!
+}
+
+"""
+Autogenerated input for adding or modifying instance of movie_countries
+"""
+input movie_countriesInput {
+  """id"""
+  id: ID
+  movieID: ID
+  country: String
+}
+
+type movie_directors {
+  """id"""
+  id: ID!
+  movieID: movies!
+  directorID: ID!
+  dicertorName: String!
+}
+
+"""
+Autogenerated input for adding or modifying instance of movie_directors
+"""
+input movie_directorsInput {
+  """id"""
+  id: ID
+  movieID: ID
+  directorID: ID
+  dicertorName: String
+}
+
+type movie_genres {
+  """id"""
+  id: ID!
+  movieID: movies!
+  genre: String!
+}
+
+"""Autogenerated input for adding or modifying instance of movie_genres"""
+input movie_genresInput {
+  """id"""
+  id: ID
+  movieID: ID
+  genre: String
+}
+
+type movie_locations {
+  """id"""
+  id: ID!
+  movieID: movies!
+  location1: String
+  location2: String
+  location3: String
+  location4: String
+}
+
+type movie_locations_numbered {
+  id: ID!
+  movieID: movies!
+  location1: String
+  location2: String
+  location3: String
+  location4: String
+}
+
+"""
+Autogenerated input for adding or modifying instance of movie_locations_numbered
+"""
+input movie_locations_numberedInput {
+  id: ID
+  movieID: ID
+  location1: String
+  location2: String
+  location3: String
+  location4: String
+}
+
+"""
+Autogenerated input for adding or modifying instance of movie_locations
+"""
+input movie_locationsInput {
+  """id"""
+  id: ID
+  movieID: ID
+  location1: String
+  location2: String
+  location3: String
+  location4: String
+}
+
+type movie_tags {
+  """id"""
+  id: ID!
+  movieID: movies!
+  tagID: tags!
+  tagWeight: Int
+}
+
+"""Autogenerated input for adding or modifying instance of movie_tags"""
+input movie_tagsInput {
+  """id"""
+  id: ID
+  movieID: ID
+  tagID: ID
+  tagWeight: Int
+}
+
+type movies {
+  id: ID!
+  title: String!
+  imdbID: Int!
+  spanishTitle: String
+  imdbPictureURL: String
+  year: Int!
+  rtID: String
+  rtAllCriticsRating: Float
+  rtAllCriticsNumReviews: Int
+  rtAllCriticsNumFresh: Int
+  rtAllCriticsNumRotten: Int
+  rtAllCriticsScore: Int
+  rtTopCriticsRating: Float
+  rtTopCriticsNumReviews: Int
+  rtTopCriticsNumFresh: Int
+  rtTopCriticsNumRotten: Int
+  rtTopCriticsScore: Int
+  rtAudienceRating: Float
+  rtAudienceNumRatings: Int
+  rtAudienceScore: Int
+  rtPictureURL: String
+}
+
+"""Autogenerated input for adding or modifying instance of movies"""
+input moviesInput {
+  id: ID
+  title: String
+  imdbID: Int
+  spanishTitle: String
+  imdbPictureURL: String
+  year: Int
+  rtID: String
+  rtAllCriticsRating: Float
+  rtAllCriticsNumReviews: Int
+  rtAllCriticsNumFresh: Int
+  rtAllCriticsNumRotten: Int
+  rtAllCriticsScore: Int
+  rtTopCriticsRating: Float
+  rtTopCriticsNumReviews: Int
+  rtTopCriticsNumFresh: Int
+  rtTopCriticsNumRotten: Int
+  rtTopCriticsScore: Int
+  rtAudienceRating: Float
+  rtAudienceNumRatings: Int
+  rtAudienceScore: Int
+  rtPictureURL: String
+}
+
+type Mutation {
+  """Autogenerated mutation for adding single instance of movie_actors"""
+  addmovie_actors(input: movie_actorsInput!): ID
+
+  """Autogenerated mutation for adding multiple instances of movie_actors"""
+  addmovie_actorss(input: [movie_actorsInput]!): [ID]
+
+  """Autogenerated mutation for updating single instance of movie_actors"""
+  updatemovie_actors(input: movie_actorsInput!): ID
+
+  """Autogenerated mutation for updating multiple instance of movie_actors"""
+  updatemovie_actorss(input: [movie_actorsInput]!): [ID]
+
+  """Autogenerated mutation for deleting single instance of movie_actors"""
+  deletemovie_actors(id: ID!): movie_actors
+
+  """Autogenerated mutation for deleting multiple instance of movie_actors"""
+  deletemovie_actorss(ids: [ID!]): [movie_actors]
+
+  """Autogenerated mutation for adding single instance of movies"""
+  addmovies(input: moviesInput!): ID
+
+  """Autogenerated mutation for adding multiple instances of movies"""
+  addmoviess(input: [moviesInput]!): [ID]
+
+  """Autogenerated mutation for updating single instance of movies"""
+  updatemovies(input: moviesInput!): ID
+
+  """Autogenerated mutation for updating multiple instance of movies"""
+  updatemoviess(input: [moviesInput]!): [ID]
+
+  """Autogenerated mutation for deleting single instance of movies"""
+  deletemovies(id: ID!): movies
+
+  """Autogenerated mutation for deleting multiple instance of movies"""
+  deletemoviess(ids: [ID!]): [movies]
+
+  """Autogenerated mutation for adding single instance of movie_genres"""
+  addmovie_genres(input: movie_genresInput!): ID
+
+  """Autogenerated mutation for adding multiple instances of movie_genres"""
+  addmovie_genress(input: [movie_genresInput]!): [ID]
+
+  """Autogenerated mutation for updating single instance of movie_genres"""
+  updatemovie_genres(input: movie_genresInput!): ID
+
+  """Autogenerated mutation for updating multiple instance of movie_genres"""
+  updatemovie_genress(input: [movie_genresInput]!): [ID]
+
+  """Autogenerated mutation for deleting single instance of movie_genres"""
+  deletemovie_genres(id: ID!): movie_genres
+
+  """Autogenerated mutation for deleting multiple instance of movie_genres"""
+  deletemovie_genress(ids: [ID!]): [movie_genres]
+
+  """Autogenerated mutation for adding single instance of movie_countries"""
+  addmovie_countries(input: movie_countriesInput!): ID
+
+  """
+  Autogenerated mutation for adding multiple instances of movie_countries
+  """
+  addmovie_countriess(input: [movie_countriesInput]!): [ID]
+
+  """
+  Autogenerated mutation for updating single instance of movie_countries
+  """
+  updatemovie_countries(input: movie_countriesInput!): ID
+
+  """
+  Autogenerated mutation for updating multiple instance of movie_countries
+  """
+  updatemovie_countriess(input: [movie_countriesInput]!): [ID]
+
+  """
+  Autogenerated mutation for deleting single instance of movie_countries
+  """
+  deletemovie_countries(id: ID!): movie_countries
+
+  """
+  Autogenerated mutation for deleting multiple instance of movie_countries
+  """
+  deletemovie_countriess(ids: [ID!]): [movie_countries]
+
+  """Autogenerated mutation for adding single instance of movie_locations"""
+  addmovie_locations(input: movie_locationsInput!): ID
+
+  """
+  Autogenerated mutation for adding multiple instances of movie_locations
+  """
+  addmovie_locationss(input: [movie_locationsInput]!): [ID]
+
+  """
+  Autogenerated mutation for updating single instance of movie_locations
+  """
+  updatemovie_locations(input: movie_locationsInput!): ID
+
+  """
+  Autogenerated mutation for updating multiple instance of movie_locations
+  """
+  updatemovie_locationss(input: [movie_locationsInput]!): [ID]
+
+  """
+  Autogenerated mutation for deleting single instance of movie_locations
+  """
+  deletemovie_locations(id: ID!): movie_locations
+
+  """
+  Autogenerated mutation for deleting multiple instance of movie_locations
+  """
+  deletemovie_locationss(ids: [ID!]): [movie_locations]
+
+  """
+  Autogenerated mutation for adding single instance of movie_locations_numbered
+  """
+  addmovie_locations_numbered(input: movie_locations_numberedInput!): ID
+
+  """
+  Autogenerated mutation for adding multiple instances of movie_locations_numbered
+  """
+  addmovie_locations_numbereds(input: [movie_locations_numberedInput]!): [ID]
+
+  """
+  Autogenerated mutation for updating single instance of movie_locations_numbered
+  """
+  updatemovie_locations_numbered(input: movie_locations_numberedInput!): ID
+
+  """
+  Autogenerated mutation for updating multiple instance of movie_locations_numbered
+  """
+  updatemovie_locations_numbereds(input: [movie_locations_numberedInput]!): [ID]
+
+  """
+  Autogenerated mutation for deleting single instance of movie_locations_numbered
+  """
+  deletemovie_locations_numbered(id: ID!): movie_locations_numbered
+
+  """
+  Autogenerated mutation for deleting multiple instance of movie_locations_numbered
+  """
+  deletemovie_locations_numbereds(ids: [ID!]): [movie_locations_numbered]
+
+  """Autogenerated mutation for adding single instance of movie_directors"""
+  addmovie_directors(input: movie_directorsInput!): ID
+
+  """
+  Autogenerated mutation for adding multiple instances of movie_directors
+  """
+  addmovie_directorss(input: [movie_directorsInput]!): [ID]
+
+  """
+  Autogenerated mutation for updating single instance of movie_directors
+  """
+  updatemovie_directors(input: movie_directorsInput!): ID
+
+  """
+  Autogenerated mutation for updating multiple instance of movie_directors
+  """
+  updatemovie_directorss(input: [movie_directorsInput]!): [ID]
+
+  """
+  Autogenerated mutation for deleting single instance of movie_directors
+  """
+  deletemovie_directors(id: ID!): movie_directors
+
+  """
+  Autogenerated mutation for deleting multiple instance of movie_directors
+  """
+  deletemovie_directorss(ids: [ID!]): [movie_directors]
+
+  """Autogenerated mutation for adding single instance of movie_tags"""
+  addmovie_tags(input: movie_tagsInput!): ID
+
+  """Autogenerated mutation for adding multiple instances of movie_tags"""
+  addmovie_tagss(input: [movie_tagsInput]!): [ID]
+
+  """Autogenerated mutation for updating single instance of movie_tags"""
+  updatemovie_tags(input: movie_tagsInput!): ID
+
+  """Autogenerated mutation for updating multiple instance of movie_tags"""
+  updatemovie_tagss(input: [movie_tagsInput]!): [ID]
+
+  """Autogenerated mutation for deleting single instance of movie_tags"""
+  deletemovie_tags(id: ID!): movie_tags
+
+  """Autogenerated mutation for deleting multiple instance of movie_tags"""
+  deletemovie_tagss(ids: [ID!]): [movie_tags]
+
+  """Autogenerated mutation for adding single instance of tags"""
+  addtags(input: tagsInput!): ID
+
+  """Autogenerated mutation for adding multiple instances of tags"""
+  addtagss(input: [tagsInput]!): [ID]
+
+  """Autogenerated mutation for updating single instance of tags"""
+  updatetags(input: tagsInput!): ID
+
+  """Autogenerated mutation for updating multiple instance of tags"""
+  updatetagss(input: [tagsInput]!): [ID]
+
+  """Autogenerated mutation for deleting single instance of tags"""
+  deletetags(id: ID!): tags
+
+  """Autogenerated mutation for deleting multiple instance of tags"""
+  deletetagss(ids: [ID!]): [tags]
+
+  """Autogenerated mutation for adding single instance of users"""
+  addusers(input: usersInput!): ID
+
+  """Autogenerated mutation for adding multiple instances of users"""
+  adduserss(input: [usersInput]!): [ID]
+
+  """Autogenerated mutation for updating single instance of users"""
+  updateusers(input: usersInput!): ID
+
+  """Autogenerated mutation for updating multiple instance of users"""
+  updateuserss(input: [usersInput]!): [ID]
+
+  """Autogenerated mutation for deleting single instance of users"""
+  deleteusers(id: ID!): users
+
+  """Autogenerated mutation for deleting multiple instance of users"""
+  deleteuserss(ids: [ID!]): [users]
+
+  """
+  Autogenerated mutation for adding single instance of user_taggedmovies
+  """
+  adduser_taggedmovies(input: user_taggedmoviesInput!): ID
+
+  """
+  Autogenerated mutation for adding multiple instances of user_taggedmovies
+  """
+  adduser_taggedmoviess(input: [user_taggedmoviesInput]!): [ID]
+
+  """
+  Autogenerated mutation for updating single instance of user_taggedmovies
+  """
+  updateuser_taggedmovies(input: user_taggedmoviesInput!): ID
+
+  """
+  Autogenerated mutation for updating multiple instance of user_taggedmovies
+  """
+  updateuser_taggedmoviess(input: [user_taggedmoviesInput]!): [ID]
+
+  """
+  Autogenerated mutation for deleting single instance of user_taggedmovies
+  """
+  deleteuser_taggedmovies(id: ID!): user_taggedmovies
+
+  """
+  Autogenerated mutation for deleting multiple instance of user_taggedmovies
+  """
+  deleteuser_taggedmoviess(ids: [ID!]): [user_taggedmovies]
+
+  """
+  Autogenerated mutation for adding single instance of user_taggedmovies_timestamps
+  """
+  adduser_taggedmovies_timestamps(input: user_taggedmovies_timestampsInput!): ID
+
+  """
+  Autogenerated mutation for adding multiple instances of user_taggedmovies_timestamps
+  """
+  adduser_taggedmovies_timestampss(input: [user_taggedmovies_timestampsInput]!): [ID]
+
+  """
+  Autogenerated mutation for updating single instance of user_taggedmovies_timestamps
+  """
+  updateuser_taggedmovies_timestamps(input: user_taggedmovies_timestampsInput!): ID
+
+  """
+  Autogenerated mutation for updating multiple instance of user_taggedmovies_timestamps
+  """
+  updateuser_taggedmovies_timestampss(input: [user_taggedmovies_timestampsInput]!): [ID]
+
+  """
+  Autogenerated mutation for deleting single instance of user_taggedmovies_timestamps
+  """
+  deleteuser_taggedmovies_timestamps(id: ID!): user_taggedmovies_timestamps
+
+  """
+  Autogenerated mutation for deleting multiple instance of user_taggedmovies_timestamps
+  """
+  deleteuser_taggedmovies_timestampss(ids: [ID!]): [user_taggedmovies_timestamps]
+  addBotAction(input: AddBotActionInput!): ID
+  runBotAction(id: ID!): BotActionStatus
+  stopBotAction(id: ID!): BotActionStatus
+  updateBotAction(input: UpdateBotActionInput!): BotActionStatus
+}
+
+type Query {
+  """All instances of movie_actors kind"""
+  allmovie_actorss(take: Int = 1000): [movie_actors]
+
+  """Get single instance of movie_actors kind by ID"""
+  movie_actors(id: ID!): movie_actors
+
+  """Get list of instance of movie_actors kind by IDs"""
+  movie_actorss(ids: [ID]!): [movie_actors]
+
+  """Get instances of movie_actors kind based on one or more field filters"""
+  movie_actorsFilter(filters: [FieldFilterInput]!, take: Int = 1000): [movie_actors]
+
+  """All instances of movies kind"""
+  allmoviess(take: Int = 1000): [movies]
+
+  """Get single instance of movies kind by ID"""
+  movies(id: ID!): movies
+
+  """Get list of instance of movies kind by IDs"""
+  moviess(ids: [ID]!): [movies]
+
+  """Get instances of movies kind based on one or more field filters"""
+  moviesFilter(filters: [FieldFilterInput]!, take: Int = 1000): [movies]
+
+  """All instances of movie_genres kind"""
+  allmovie_genress(take: Int = 1000): [movie_genres]
+
+  """Get single instance of movie_genres kind by ID"""
+  movie_genres(id: ID!): movie_genres
+
+  """Get list of instance of movie_genres kind by IDs"""
+  movie_genress(ids: [ID]!): [movie_genres]
+
+  """Get instances of movie_genres kind based on one or more field filters"""
+  movie_genresFilter(filters: [FieldFilterInput]!, take: Int = 1000): [movie_genres]
+
+  """All instances of movie_countries kind"""
+  allmovie_countriess(take: Int = 1000): [movie_countries]
+
+  """Get single instance of movie_countries kind by ID"""
+  movie_countries(id: ID!): movie_countries
+
+  """Get list of instance of movie_countries kind by IDs"""
+  movie_countriess(ids: [ID]!): [movie_countries]
+
+  """
+  Get instances of movie_countries kind based on one or more field filters
+  """
+  movie_countriesFilter(filters: [FieldFilterInput]!, take: Int = 1000): [movie_countries]
+
+  """All instances of movie_locations kind"""
+  allmovie_locationss(take: Int = 1000): [movie_locations]
+
+  """Get single instance of movie_locations kind by ID"""
+  movie_locations(id: ID!): movie_locations
+
+  """Get list of instance of movie_locations kind by IDs"""
+  movie_locationss(ids: [ID]!): [movie_locations]
+
+  """
+  Get instances of movie_locations kind based on one or more field filters
+  """
+  movie_locationsFilter(filters: [FieldFilterInput]!, take: Int = 1000): [movie_locations]
+
+  """All instances of movie_locations_numbered kind"""
+  allmovie_locations_numbereds(take: Int = 1000): [movie_locations_numbered]
+
+  """Get single instance of movie_locations_numbered kind by ID"""
+  movie_locations_numbered(id: ID!): movie_locations_numbered
+
+  """Get list of instance of movie_locations_numbered kind by IDs"""
+  movie_locations_numbereds(ids: [ID]!): [movie_locations_numbered]
+
+  """
+  Get instances of movie_locations_numbered kind based on one or more field filters
+  """
+  movie_locations_numberedFilter(filters: [FieldFilterInput]!, take: Int = 1000): [movie_locations_numbered]
+
+  """All instances of movie_directors kind"""
+  allmovie_directorss(take: Int = 1000): [movie_directors]
+
+  """Get single instance of movie_directors kind by ID"""
+  movie_directors(id: ID!): movie_directors
+
+  """Get list of instance of movie_directors kind by IDs"""
+  movie_directorss(ids: [ID]!): [movie_directors]
+
+  """
+  Get instances of movie_directors kind based on one or more field filters
+  """
+  movie_directorsFilter(filters: [FieldFilterInput]!, take: Int = 1000): [movie_directors]
+
+  """All instances of movie_tags kind"""
+  allmovie_tagss(take: Int = 1000): [movie_tags]
+
+  """Get single instance of movie_tags kind by ID"""
+  movie_tags(id: ID!): movie_tags
+
+  """Get list of instance of movie_tags kind by IDs"""
+  movie_tagss(ids: [ID]!): [movie_tags]
+
+  """Get instances of movie_tags kind based on one or more field filters"""
+  movie_tagsFilter(filters: [FieldFilterInput]!, take: Int = 1000): [movie_tags]
+
+  """All instances of tags kind"""
+  alltagss(take: Int = 1000): [tags]
+
+  """Get single instance of tags kind by ID"""
+  tags(id: ID!): tags
+
+  """Get list of instance of tags kind by IDs"""
+  tagss(ids: [ID]!): [tags]
+
+  """Get instances of tags kind based on one or more field filters"""
+  tagsFilter(filters: [FieldFilterInput]!, take: Int = 1000): [tags]
+
+  """All instances of users kind"""
+  alluserss(take: Int = 1000): [users]
+
+  """Get single instance of users kind by ID"""
+  users(id: ID!): users
+
+  """Get list of instance of users kind by IDs"""
+  userss(ids: [ID]!): [users]
+
+  """Get instances of users kind based on one or more field filters"""
+  usersFilter(filters: [FieldFilterInput]!, take: Int = 1000): [users]
+
+  """All instances of user_taggedmovies kind"""
+  alluser_taggedmoviess(take: Int = 1000): [user_taggedmovies]
+
+  """Get single instance of user_taggedmovies kind by ID"""
+  user_taggedmovies(id: ID!): user_taggedmovies
+
+  """Get list of instance of user_taggedmovies kind by IDs"""
+  user_taggedmoviess(ids: [ID]!): [user_taggedmovies]
+
+  """
+  Get instances of user_taggedmovies kind based on one or more field filters
+  """
+  user_taggedmoviesFilter(filters: [FieldFilterInput]!, take: Int = 1000): [user_taggedmovies]
+
+  """All instances of user_taggedmovies_timestamps kind"""
+  alluser_taggedmovies_timestampss(take: Int = 1000): [user_taggedmovies_timestamps]
+
+  """Get single instance of user_taggedmovies_timestamps kind by ID"""
+  user_taggedmovies_timestamps(id: ID!): user_taggedmovies_timestamps
+
+  """Get list of instance of user_taggedmovies_timestamps kind by IDs"""
+  user_taggedmovies_timestampss(ids: [ID]!): [user_taggedmovies_timestamps]
+
+  """
+  Get instances of user_taggedmovies_timestamps kind based on one or more field filters
+  """
+  user_taggedmovies_timestampsFilter(filters: [FieldFilterInput]!, take: Int = 1000): [user_taggedmovies_timestamps]
+  info: Info!
+  botAction(id: ID!): BotAction
+  botActions(ids: [ID!]!): [BotAction]
+  allBotActions: [BotAction]
+
+  """
+  Returns kind by ID, regardless of whether kind is used by the service or not.
+  Can only be used to find kind in a tenant of a service.
+  OR
+  Returns kind by name. If serviceId is omitted, will return kind of a current service/workspace,
+  otherwise can be used to find a kind with specific name of a specific service (e.g. kind 'Workspace' of Portal Service)
+  """
+  kind(id: ID, name: String, serviceId: ID): Kind
+
+  """
+  Returns all kinds defined *in this service* (sic!).
+  This includes managed kinds and kinds used by workspace/service
+  """
+  allKinds(take: Int): [Kind]
+
+  """Kind Query"""
+  query(input: KindQueryInput!): InstanceSet
+  queryJSON(input: KindQueryInput!): JSON
+}
+
+type Relation {
+  """required"""
+  id: ID!
+  name: String!
+
+  """optional"""
+  description: String
+  undirected: Boolean
+  weight: Float
+
+  """inferred"""
+  links: [Link]
+}
+
+type Service {
+  """required"""
+  id: ID!
+  name: String!
+  isSystem: Boolean!
+  endpointUrl: String!
+
+  """optional"""
+  description: String
+  subscriptionEndpointUrl: String
+  thumbnailUrl: String
+  tags: [String]
+  status: Int
+  lastChecked: Date
+  instances: [ServiceInstance]
+  isReadOnly: Boolean
+
+  """inferred"""
+  kinds: [Kind]
+  queries: [ServiceQuery]
+  mutations: [ServiceMutation]
+  subscriptions: [ServiceSubscription]
+}
+
+type ServiceInstance {
+  """required"""
+  id: ID!
+  dockerServiceName: String!
+  hostName: String!
+  desiredState: String!
+  currentState: String!
+}
+
+type ServiceMutation {
+  id: ID!
+  name: String!
+}
+
+type ServiceQuery {
+  id: ID!
+  name: String!
+}
+
+type ServiceSubscription {
+  id: ID!
+  name: String!
+}
+
+type Subscription {
+  botActionAdded: BotActionAddedEvent!
+  botActionUpdated: BotActionUpdatedEvent!
+}
+
+type tags {
+  id: ID!
+  value: String!
+}
+
+"""Autogenerated input for adding or modifying instance of tags"""
+input tagsInput {
+  id: ID
+  value: String
+}
+
+scalar Time
+
+scalar TIME
+
+input UpdateBotActionInput {
+  status: BotActionStatus!
+  progress: Float
+  error: JSON
+}
+
+type user_taggedmovies {
+  """id"""
+  id: ID!
+  userID: users!
+  movieID: movies!
+  tagID: tags!
+  date: Date
+  time: Time
+}
+
+type user_taggedmovies_timestamps {
+  """id"""
+  id: ID!
+  userID: users!
+  movieID: movies!
+  tagID: tags!
+  timestamp: DateTime
+}
+
+"""
+Autogenerated input for adding or modifying instance of user_taggedmovies_timestamps
+"""
+input user_taggedmovies_timestampsInput {
+  """id"""
+  id: ID
+  userID: ID
+  movieID: ID
+  tagID: ID
+  timestamp: DateTime
+}
+
+"""
+Autogenerated input for adding or modifying instance of user_taggedmovies
+"""
+input user_taggedmoviesInput {
+  """id"""
+  id: ID
+  userID: ID
+  movieID: ID
+  tagID: ID
+  date: Date
+  time: Time
+}
+
+type users {
+  id: ID!
+  name: String!
+  thumbnail: String
+  gender: String!
+  age: Int
+  occupation: Int
+  zip: Int
+}
+
+"""Autogenerated input for adding or modifying instance of users"""
+input usersInput {
+  id: ID
+  name: String
+  thumbnail: String
+  gender: String
+  age: Int
+  occupation: Int
+  zip: Int
+}

@@ -1,0 +1,649 @@
+type MyThing {
+  id: ID! @unique
+  refs: [MyOtherThing!]!
+}
+
+type MyOtherThing {
+  id: ID! @unique
+}
+
+type SurfaceForm {
+  # required
+  kindId: ID!
+  instanceId: String!
+  surfaceForms: String
+}
+
+# Event is the 'top-level' Kind, from which all others can be traversed
+type Event {
+  # A unique ID
+  id: ID! @unique
+  # This is the name of the Event, ideally shown in the title of the event when visualized
+  name: String!
+  # Where the data came from, for example there might be different types of sources like OpenWells, BOEM, etc.
+  source: R_SOURCE!
+  # This is the well that the event belongs to, this should be an API number if possible
+  well: Well!
+  # This is the rig being used when the event occurred.
+  rig: Rig
+  # This is a summary of the event, if showing the timeline this should be under the name of the event.
+  summary: String
+  # When the event started
+  start: DateTime
+  # When the event ended
+  end: DateTime
+  # What depth the event occured at, measured depth.
+  depthMD: PhysicalQuantity @relation(name: "Event_depthMD")
+  # What Total Vertical Depth the event the event occured at
+  depthTVD: PhysicalQuantity @relation(name: "Event_depthTVD")
+  # A measure from 1 - 100 describing the importance, calculated as per business rules.
+  importance: Int
+  # Part of well lifecycle in which this event occurred.
+  lifecycle: WellLifecycle
+  # Code identifier for the event. For example, 'HSSE', 'DRO'.
+  code: String
+  # Subcode identfier for the event. For example, if the 'code' was 'HSSE' then the subcode could be 'MTG' for 'meeting'.
+  subcode: String
+  # ID of the Observation Kind instance for the given Event
+  observation: Observation
+  # ID of the Problem Kind instance for the given Event
+  problem: Problem
+  # ID of the Activity Kind instance for the given Event
+  activity: Activity
+  # ID of the Documentation Kind instance for the given Event
+  documentation: Documentation
+  # One or more ID of the derived events from this event
+  events: [Event!]!
+  # The ID of the reporter
+  reporter: ID
+  # The type of  reporter
+  reporterDefinition: EventReporterDefinition
+}
+
+type Person {
+  id: ID! @unique
+  # Name of a person
+  name: String!
+  # Phone number for the person
+  phone: String
+}
+
+type EventReporterDefinition {
+  id: ID! @unique
+  name: String!
+  # Name of the detail kind, e.g. 'Person', that corresponds to the name of the EventReporterDefinition.
+  detailKindName: [String!]
+  # URL for additional, external information
+  externalReference: String
+}
+
+# Well has many fields from PPDM
+type Well {
+  # A unique ID, same as UWI
+  id: ID! @unique
+  # Well name
+  name: String!
+  # Unique Well Identifier
+  UWI: String
+  # Spud date of well
+  SPUD_DATE: DateTime
+  # Latitude of well
+  SURFACE_LATITUDE: String
+  # Longitude of well
+  SURFACE_LONGITUDE: String
+  # From PPDM: BOTTOM HOLE LATITUDE: Latitude of bottom hole point projected to surface. For straight wells this would be exactly the same as surface latitude or null (denormalized form well_node).
+  BOTTOM_HOLE_LATITUDE: String
+  # From PPDMN: BOTTOM HOLE LONGITUDE: Longitude of bottom hole point projected to surface. For straight wells this would be exactly the same as surface longitude or null (denormalized form well_node).
+  BOTTOM_HOLE_LONGITUDE: String
+  # Water depth of well
+  WATER_DEPTH: PhysicalQuantity @relation(name: "Well_WATER_DEPTH")
+  # Field where the well is located
+  ASSIGNED_FIELD: Field
+  # Organization that operates the well
+  OPERATOR: Organization
+  # Final total depth of the well
+  FINAL_TD: PhysicalQuantity @relation(name: "Well_FINAL_TD")
+  # Format MM/DD/YYYY
+  FINAL_DRILL_DATE: DateTime
+  # From PPDM: 'COMPLETION DATE: DateTime on the official filing or completion report indicating the well is established as ready to produce, inject or abandon.'
+  COMPLETION_DATE: DateTime
+  # From PPDM: 'ABANDONMENT DATE: DateTime the well was plugged and permanently abandoned.'
+  ABANDONMENT_DATE: DateTime
+  # From PPDM: 'ENVIRONMENT: the type of environment that the well is in, such as land, marine, transition zone etc.'
+  ENVIRONMENT_TYPE: String
+  # Source of the well data
+  SURF_AREA_CODE: String
+  SURF_BLOCK_NUMBER: String
+  SURF_LEASE_NUMBER: String
+  BOTM_AREA_CODE: String
+  BOTM_BLOCK_NUMBER: String
+  BOTM_LEASE_NUMBER: String
+  source: R_SOURCE
+  # ID of the WellSourceDetails Kind instance for the given well
+  wellSourceDetail: WellSourceDetail
+}
+
+# WellSourceDetails is primarily for storage of source-proprietary information; flexible Kind with fields created on a per-engagement and as-needed basis.
+type WellSourceDetail {
+  id: ID! @unique
+  name: String!
+  # Source of the details
+  source: R_SOURCE
+}
+
+type WellLifecycle {
+  id: ID! @unique
+  # Portion of the well lifecycle, e.g. 'Drilling', 'Production'
+  name: String!
+}
+
+type Rig {
+  id: ID! @unique
+  # Rig name
+  name: String!
+  # Rig type, e.g. 'Drillship'
+  type: String
+  # Organization that operates the well
+  owner: Organization
+  # Rig water depth
+  ratedWaterDepth: PhysicalQuantity
+  # URL for additional, external information
+  externalReference: String
+}
+
+# R_SOURCE comes primarily from PPDM
+type R_SOURCE {
+  id: ID! @unique
+  # Source name
+  name: String!
+  # Source name abbreviation
+  ABBREVIATION: String
+  # Note(s) about the source
+  remark: String
+  # Expiration date of the source, e.g. when the data should be deprecated, deleted, etc.
+  EXPIRY_DATE: DateTime
+}
+
+type Organization {
+  id: ID! @unique
+  # Organization name
+  name: String
+}
+
+type Field {
+  id: ID! @unique
+  # Field name
+  name: String!
+  DISCOVERY_DATE: DateTime
+  FIELD_ABBREVIATION: String
+}
+
+# Derived from a Maana service, PhysicalQuantity is a quantifiable observation of a physical phenomenon (aka a measurement); each physical quantity has a magnitude, representing the value of the measurement, and a unit of measure that identifies a reference scale for comparing that value with other observations.
+type PhysicalQuantity {
+  id: ID! @unique
+  name: String!
+  # A quantity
+  magnitude: Float!
+  # The quantity's unit of measure, e.g. 'm' (for 'meter'), 'psi' (for 'pounds per square inch')
+  unitOfMeasure: String!
+}
+
+type Problem {
+  # A unique ID
+  id: ID! @unique
+  # This is the name of the problem
+  name: String!
+  # This is the length of the problem measured in hours.
+  duration: PhysicalQuantity
+  # This is the organization responsible for the problem
+  responsibleOrganization: Organization
+  # ID of the ProblemDefinition Kind instance for the given problem
+  definition: ProblemDefinition
+  # ID of an individual Problem Detail instance.  Requires a 'two-pass' query: once the Problem Definition is known, e.g. Lost Circulation, then this ID would logically point to the LostCirculationProblemDetail Kind.
+  detailInstance: ID
+  # This is the severity of the problem. This is could be calculated based on a business rule.
+  severity: Int
+  # ID of one or more Observation Kind IDs that may describe the problem
+  observations: [Observation!]!
+  # ID of equipment
+  affectedEquipment: Equipment
+  # One or more causes of the problem
+  causes: [Cause!]!
+  # Used if data contains non-productive time (NPT) levels
+  nptLevel: Int
+  # Allows for traversal to other, related Event(s)
+  events: [Event!]!
+}
+
+type Equipment {
+  id: ID! @unique
+  name: String!
+  # Shortened string identifier(s) for the equipment
+  codes: [String!]
+  supplier: Organization
+  subsystem: Equipment
+  source: R_SOURCE
+  surfaceForms: [String!]
+}
+
+# One or more causes of the problem
+type Cause {
+  id: ID! @unique
+  name: String!
+  definition: String
+  source: R_SOURCE
+}
+
+type ProblemDefinition {
+  id: ID! @unique
+  name: String!
+  # Name of the detail kind, e.g. 'StuckPipeProblemDetail', that corresponds to the name of the ProblemDefinition.
+  detailKindName: String
+  # URL for additional, external information
+  externalReference: String
+  # Potential mechanisms that could contribute to or lead to the cause of the problem
+  mechanisms: [Mechanism!]!
+  resolutions: [Event!]!
+}
+
+type Mechanism {
+  id: ID! @unique
+  name: String!
+  summary: String
+  # URL for additional, external information
+  externalReference: String
+}
+
+type StuckPipeProblemDetail {
+  id: ID! @unique
+  name: String!
+  depth: PhysicalQuantity @relation(name: "StuckPipeProblemDetail_depth")
+  jarForce: PhysicalQuantity @relation(name: "StuckPipeProblemDetail_jarForce")
+}
+
+type LostCirculationProblemDetail {
+  id: ID! @unique
+  name: String!
+  depth: PhysicalQuantity @relation(name: "LostCirculationProblemDetail_depth")
+  volume: PhysicalQuantity
+    @relation(name: "LostCirculationProblemDetail_volume")
+}
+
+type KickProblemDetail {
+  id: ID! @unique
+  name: String!
+  depth: PhysicalQuantity @relation(name: "KickProblemDetail_depth")
+  volume: PhysicalQuantity @relation(name: "KickProblemDetail_volume")
+}
+
+type FishingProblemDetail {
+  id: ID! @unique
+  name: String!
+  depth: PhysicalQuantity
+}
+
+type BallooningProblemDetail {
+  id: ID! @unique
+  name: String!
+  depth: PhysicalQuantity @relation(name: "BallooningProblemDetail_depth")
+  volume: PhysicalQuantity @relation(name: "BallooningProblemDetail_volume")
+}
+
+type WaitingOnProblemDetail {
+  id: ID! @unique
+  name: String!
+  what: String
+}
+
+type Observation {
+  id: ID! @unique
+  name: String!
+  # ID of the ObservationDefinition Kind instance for the given observation
+  definition: ObservationDefinition!
+  # ID of an individual Observation Detail instance; model currently has no Observation Details specified, but they could be added similar to Problem Details.  Requires a 'two-pass' query: once the Observation Definition is known, this ID would logically point to the the Detail Kind for the given Definition.
+  detailInstance: ID
+  # Allows for traversal to other, related Event(s)
+  events: [Event!]!
+}
+
+type ObservationDefinition {
+  id: ID! @unique
+  name: String!
+  # ID of the detail kind, if any, that corresponds to the name of the ObservationDefinition; model currently has no Observation Details specified, but they could be added similar to Problem Details
+  detailKindName: String
+  # URL for additional, external information
+  externalReference: String
+}
+
+type Activity {
+  id: ID! @unique
+  name: String!
+  # ID of the ActivityDefinition Kind instance for the given activity
+  definition: ActivityDefinition!
+  # ID of an individual Activity Detail instance.  Requires a 'two-pass' query: once the Activity Definition is known, e.g. Tripping, then this ID would logically point to the TrippingActivityDetail Kind.
+  detailInstance: ID
+  # This is the length of the activity measured in hours.
+  duration: PhysicalQuantity
+  # This is the organization responsible for the activity
+  responsibleOrganization: Organization
+  # Used if data contains non-productive time (NPT) levels
+  nptLevel: Int
+  # Used if data contains well phase data
+  phase: String
+  # Allows for traversal to other, related Event(s)
+  events: [Event!]!
+}
+
+type ActivityDefinition {
+  id: ID! @unique
+  name: String!
+  # ID of the detail kind, e.g. 'TrippingActivityDetail', that corresponds to the name of the ActivityDefinition
+  detailKindName: String
+  # URL for additional, external information
+  externalReference: String
+}
+
+type TrippingActivityDetail {
+  id: ID! @unique
+  name: String!
+  from: PhysicalQuantity @relation(name: "TrippingActivityDetail_from")
+  to: PhysicalQuantity @relation(name: "TrippingActivityDetail_to")
+}
+
+type CirculatingActivityDetail {
+  id: ID! @unique
+  name: String!
+  numberOfCirculations: Float
+  ECD: PhysicalQuantity
+}
+
+type DrillingActivityDetail {
+  id: ID! @unique
+  name: String!
+  from: PhysicalQuantity @relation(name: "DrillingActivityDetail_from")
+  to: PhysicalQuantity @relation(name: "DrillingActivityDetail_to")
+  holeSize: PhysicalQuantity @relation(name: "DrillingActivityDetail_holeSize")
+  # e.g. 'Rotating', 'Sliding'
+  drillingMethod: String
+}
+
+type CementingActivityDetail {
+  id: ID! @unique
+  name: String!
+  topOfCement: PhysicalQuantity
+    @relation(name: "CementingActivityDetail_topOfCement")
+  bottomOfCement: PhysicalQuantity
+    @relation(name: "CementingActivityDetail_bottomOfCement")
+}
+
+type LoggingActivityDetail {
+  id: ID! @unique
+  name: String!
+  topOfInterval: PhysicalQuantity
+    @relation(name: "LoggingActivityDetail_topOfInterval")
+  bottomOfInterval: PhysicalQuantity
+    @relation(name: "LoggingActivityDetail_bottomOfInterval")
+}
+
+type PerforatingActivityDetail {
+  id: ID! @unique
+  name: String!
+  # Depth perforating started
+  from: PhysicalQuantity @relation(name: "PerforatingActivityDetail_from")
+  # Depth perforating ended
+  to: PhysicalQuantity @relation(name: "PerforatingActivityDetail_to")
+}
+
+type TestingActivityDetail {
+  id: ID! @unique
+  name: String!
+  # e.g. 'Formation integrity test', 'Leak-off test'
+  typeOfTest: String
+  pressure: PhysicalQuantity @relation(name: "TestingActivityDetail_pressure")
+  timeHeld: PhysicalQuantity @relation(name: "TestingActivityDetail_timeHeld")
+}
+
+type RiggingActivityDetail {
+  id: ID! @unique
+  name: String!
+  equipment: Equipment
+}
+
+type CasingActivityDetail {
+  id: ID! @unique
+  name: String!
+  casingSize: PhysicalQuantity
+    @relation(name: "CasingActivityDetail_casingSize")
+  holeSize: PhysicalQuantity @relation(name: "CasingActivityDetail_holeSize")
+  from: PhysicalQuantity @relation(name: "CasingActivityDetail_from")
+  to: PhysicalQuantity @relation(name: "CasingActivityDetail_to")
+  weight: PhysicalQuantity @relation(name: "CasingActivityDetail_weight")
+  grade: String
+  linerTestPressure: PhysicalQuantity
+    @relation(name: "CasingActivityDetail_linerTestPressure")
+  shoeTestPressure: PhysicalQuantity
+    @relation(name: "CasingActivityDetail_shoeTestPressure")
+  cementVolumePumped: PhysicalQuantity
+    @relation(name: "CasingActivityDetail_cementVolumePumped")
+}
+
+type ChangeMudWeightActivityDetail {
+  id: ID! @unique
+  name: String!
+  mudWeight: PhysicalQuantity
+}
+
+type Documentation {
+  id: ID! @unique
+  name: String!
+  # Allows for traversal to other, related Event(s)
+  events: [Event!]!
+}
+
+# *********
+# Reference Files
+# *********
+
+type R_ADDITIVE_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_CEMENT_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_COMPLETION_METHOD {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_COMPLETION_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_DOCUMENT_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_DRILL_BIT_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_DRILL_TOOL_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_DRILLING_MEDIA {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_LINER_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_LITH_ROCK_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  rockType: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_LITHOLOGY {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_LOG_TOOL_TYPE {
+  id: ID! @unique
+  name: String
+  type: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_PROPPANT_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_RIG_BLOWOUT_PREVENTER {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_RIG_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_WELL_CLASS {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_WELL_DRILL_OP_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_WELL_STATUS {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type R_WELL_TEST_TYPE {
+  id: ID! @unique
+  name: String
+  ABBREVIATION: String
+  LONG_NAME: String
+  REMARK: String
+  SHORT_NAME: String
+  SOURCE: R_SOURCE
+}
+
+type US_OFFSHORE_LEASE {
+  id: ID! @unique
+  name: String
+  AREA_CODE: String
+  BLOCK_NUM: String
+  LEASE_STATUS_CD: String
+  LEASE_EFF_DATE: DateTime
+  LEASE_EXPIR_DATE: DateTime
+  BLK_MAX_WTR_DPTH: Int
+  SOURCE: R_SOURCE
+}

@@ -1,5 +1,5 @@
-# source: https://latest.knowledge.maana.io:8443/graphql
-# timestamp: Wed Jul 11 2018 04:56:17 GMT-0700 (PDT)
+# source: http://h4dev.knowledge.maana.io:8003/graphql
+# timestamp: Tue Aug 07 2018 04:58:53 GMT-0700 (PDT)
 
 input AddApplicationInput {
   id: ID!
@@ -584,6 +584,36 @@ type File {
   status: Int!
 }
 
+type GradientBoostingClassifier {
+  id: ID
+  features: [FeatureColumn]
+  preprocessor: Preprocessor
+  saved: Boolean
+  accuracy: Float
+  labels: [Label]
+
+  """Number of trees"""
+  trees: Int
+
+  """Measure quality of tree split"""
+  loss: String
+
+  """Maximum depth of the tree"""
+  maxDepth: Int
+
+  """Number of features to consider when looking for the best split"""
+  maxFeatures: String
+
+  """Minimum samples before node split"""
+  minSamplesSplit: Float
+
+  """Minimum number of samples required to be at a leaf node"""
+  minSamplesLeaf: Float
+
+  """Minimum decrease in purity before a split"""
+  minImpurityDecrease: Float
+}
+
 type Image {
   detectedFaces: [DetectedFace]
   recognizedFaces: [RecognizedFace]
@@ -619,6 +649,10 @@ type Instance {
   """inferred"""
   linksFrom: [Link]
   linksTo: [Link]
+  linkedKindsTo(relationId: ID): [LinkedKind!]!
+  linkedKindsFrom(relationId: ID): [LinkedKind!]!
+  linkedInstancesTo(relationId: ID): [LinkedInstance!]!
+  linkedInstancesFrom(relationId: ID): [LinkedInstance!]!
 }
 
 type InstanceRef {
@@ -646,11 +680,15 @@ input InstanceRefInput {
   kindId: ID
   kindName: String
   url: String
+  instance: ID
 }
 
 type InstanceSet {
   kindId: ID!
   kind: Kind!
+
+  """Continuation token"""
+  token: String
   fieldIds: [ID]
 
   """rowKeys: [Int]"""
@@ -691,6 +729,10 @@ type Kind {
   service: Service
   fromQueryBindings: [QueryBinding!]
   toQueryBindings: [QueryBinding!]
+  linkedKindsTo(relationId: ID): [LinkedKind!]!
+  linkedKindsFrom(relationId: ID): [LinkedKind!]!
+  linkedInstancesTo(relationId: ID): [LinkedInstance!]!
+  linkedInstancesFrom(relationId: ID): [LinkedInstance!]!
 }
 
 input KindInput {
@@ -733,6 +775,7 @@ input KindQueryInput {
   toFieldId: ID
   toFieldName: String
   take: Int
+  token: String
 }
 
 type KnowledgeGraph {
@@ -813,6 +856,17 @@ type Link {
   toSpan: String
 }
 
+type LinkedInstance {
+  relation: Relation!
+  kind: Kind!
+  instance: Instance!
+}
+
+type LinkedKind {
+  relation: Relation!
+  kind: Kind!
+}
+
 type LogisticClassifier {
   id: ID
   features: [FeatureColumn]
@@ -889,6 +943,7 @@ type LSVClassifier {
 
 type MachineLearningModel {
   id: ID
+  modelId: ID
   kindName: String
   kindId: ID
   features: [FeatureColumn]
@@ -1130,7 +1185,7 @@ type Query {
   populateInstanceRef(tenantId: ID!, instanceRef: InstanceRefInput!): InstanceRef
   instances(tenantId: ID!, kindId: ID, kindName: String, ids: [ID!]!): InstanceSet
   instancesByRef(tenantId: ID!, instanceRefs: [InstanceRefInput!]!): [Instance]
-  allInstances(tenantId: ID!, kindId: ID, kindName: String, fieldIds: [ID!], take: Int): InstanceSet
+  allInstances(tenantId: ID!, kindId: ID, kindName: String, fieldIds: [ID!], take: Int, token: String): InstanceSet
 
   """Relations"""
   relation(tenantId: ID!, id: ID!): Relation
@@ -1188,6 +1243,8 @@ type Query {
   LogisticClassifier(id: ID): LogisticClassifier
   AllRandomForestClassifiers: [RandomForestClassifier]
   RandomForestClassifier(id: ID): RandomForestClassifier
+  AllGradientBoostingClassifiers: [GradientBoostingClassifier]
+  GradientBoostingClassifier(id: ID): GradientBoostingClassifier
   AllSGDClassifiers: [SGDClassifier]
   SGDClassifier(id: ID): SGDClassifier
   AllLSVClassifiers: [LSVClassifier]

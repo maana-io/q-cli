@@ -8,13 +8,19 @@ Custom [graphql-cli](https://github.com/graphql-cli/graphql-cli) plugin to progr
 
 ### mload
 
-Upload CSV and JSON files to a Maana cloud instance, with possible NDF conversion.
+Upload CSV and JSON files to various GraphQL-based storage targets, e.g., [neo4j-graphql](https://github.com/neo4j-graphql), [Prisma](https://github.com/prismagraphql/prisma) ([OpenCRUD](https://www.opencrud.org/)), or Maana's KindDB.
 
-Note: JSON files must be a collection (array) of instances.
+The only required argument is `fileOrDir`. Filename are then assumed to match their corresponding GraphQL type definition. For example, `type Person {}` would have data in a file `Person.json` or `Person.csv`. This is especially useful for uploading an entire set of data (many kinds) from an entire directory to a **persistent subgraph**.
+
+Otherwise, if uploading a single or multiple files of the same kind but with different names from the corresponding GraphQL type, then the type may be explicitly specified (`-t`) and/or the mutation to use (`-m`).
 
 #### Normalized Document Format
 
-The NDF is an [emerging standard](https://www.prisma.io/docs/reference/data-import-and-export/normalized-data-format-teroo5uxih) used by the [Prisma ORM-like layer](https://www.prisma.io/).
+The NDF is an [emerging standard](https://www.prisma.io/docs/reference/data-import-and-export/normalized-data-format-teroo5uxih) used by the [Prisma ORM-like layer](https://www.prisma.io/) to abstract various underlying storage systems, such as MySQL, Postgres, MongoDB, and a growing list of other connectors.
+
+The `mload` command offers a conversion option to take CSV or JSON input data conforming to some GraphQL schema and convert it to the required _nodes_, _lists_, and _relations_ that the Prisma endpoint expects. The data is conformed to the matching schema type definitions using the same rules described above.
+
+Note that IDs must be marked with `@unique` and are (currently) limited to `CHAR(25)`. If IDs are specified that are longer than this limit, then they will be automatically MD5 hashed into a compact Base64 representation.
 
 #### Arguments and Options
 
@@ -225,5 +231,5 @@ npm i -g
 
 ```sh
 npm adduser --registry https://registry.npmjs.org
-npm publish --registry https://registry.npmjs.org
+npm publish --registry https://registry.npmjs.org [--tag beta]
 ```

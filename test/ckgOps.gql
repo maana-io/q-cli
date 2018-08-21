@@ -5,3 +5,11 @@ mutation addServiceSource($input: AddServiceSourceInput!) {
 mutation addRelation($input: AddRelationInput!) {
   addRelation(input: $input)
 }
+
+query getImage($id: ID!) {
+  image(id: $id) {
+    id
+    name
+    url
+  }
+}
