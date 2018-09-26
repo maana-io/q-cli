@@ -14,8 +14,9 @@ import rimraf from 'rimraf'
 export const defaultBoilerplates = [
   {
     name: 'js-service-bot',
-    description: 'A modern JavaScript-based Knowledge Microservice/Bot',
-    repo: 'https://github.com/maana-io/js-service-bot/tree/master/advanced'
+    description:
+      'A modern JavaScript-based Knowledge Microservice/Bot (Docker+K8S)',
+    repo: 'https://github.com/maana-io/Q-ksvc-templates/tree/master/node'
   },
   {
     name: 'ts-service-bot',
@@ -236,10 +237,14 @@ export const handler = async (context, argv) => {
       console.log(
         `[mcreate] Installing node dependencies for ${packageJsonPath}...`
       )
-      if (commandExists.sync('yarn')) {
+      if (commandExists.sync('npm')) {
+        await shell('npm install')
+      } else if (commandExists.sync('yarn')) {
         await shell('yarn install')
       } else {
-        await shell('npm install')
+        console.log(
+          `Skipping install (no ${chalk.cyan('NPM')} or ${chalk.cyan('yarn')})`
+        )
       }
     }
   }
