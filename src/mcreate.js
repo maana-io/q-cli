@@ -13,9 +13,16 @@ import rimraf from 'rimraf'
 // Project boilerplates
 export const defaultBoilerplates = [
   {
-    name: 'js-service-bot',
-    description: 'A modern JavaScript-based Knowledge Microservice/Bot',
-    repo: 'https://github.com/maana-io/Q-ksvc-templates/tree/master/node'
+    name: 'node-js-basic-service-bot',
+    description: 'A Node-based Knowledge Microservice/Bot (JavaScript)',
+    repo: 'https://github.com/maana-io/Q-ksvc-templates/tree/master/node/basic'
+  },
+  {
+    name: 'node-js-advanced-service-bot',
+    description:
+      'A Node-based 3-tier service stack (model+logic+ui) (Prisma/JavaScript/React)',
+    repo:
+      'https://github.com/maana-io/Q-ksvc-templates/tree/master/node/advanced'
   },
   {
     name: 'python-service-bot',
