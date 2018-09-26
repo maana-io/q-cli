@@ -14,15 +14,30 @@ import rimraf from 'rimraf'
 export const defaultBoilerplates = [
   {
     name: 'js-service-bot',
-    description:
-      'A modern JavaScript-based Knowledge Microservice/Bot (Docker+K8S)',
+    description: 'A modern JavaScript-based Knowledge Microservice/Bot',
     repo: 'https://github.com/maana-io/Q-ksvc-templates/tree/master/node'
   },
   {
-    name: 'ts-service-bot',
-    description: 'A TypeScript-based Knowledge Microservice/Bot',
+    name: 'python-service-bot',
+    description: 'A Python-based Knowledge Microservice/Bot (Simple)',
     repo:
-      'https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/advanced'
+      'https://github.com/maana-io/Q-ksvc-templates/tree/master/python/basic'
+  },
+  {
+    name: 'python-graphene-service-bot',
+    description: 'A Python-based Knowledge Microservice/Bot (Graphene)',
+    repo:
+      'https://github.com/maana-io/Q-ksvc-templates/tree/master/python/graphene'
+  },
+  {
+    name: 'scala-service-bot',
+    description: 'A Scala-based Knowledge Microservice/Bot',
+    repo: 'https://github.com/maana-io/Q-ksvc-templates/tree/master/scala'
+  },
+  {
+    name: 'go-service-bot',
+    description: 'A Go Knowledge Microservice/Bot',
+    repo: 'https://github.com/maana-io/Q-ksvc-templates/tree/master/go'
   },
   {
     name: 'react-app',
