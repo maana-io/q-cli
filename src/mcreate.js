@@ -13,6 +13,12 @@ import rimraf from 'rimraf'
 // Project boilerplates
 export const defaultBoilerplates = [
   {
+    name: 'node-ts-basic-service-bot',
+    description: 'A Node-based Knowledge Microservice/Bot (TypeScript)',
+    repo:
+      'https://github.com/maana-io/Q-ksvc-templates/tree/master/node/basic-ts'
+  },
+  {
     name: 'node-js-basic-service-bot',
     description: 'A Node-based Knowledge Microservice/Bot (JavaScript)',
     repo: 'https://github.com/maana-io/Q-ksvc-templates/tree/master/node/basic'
@@ -20,7 +26,7 @@ export const defaultBoilerplates = [
   {
     name: 'node-js-advanced-service-bot',
     description:
-      'A Node-based 3-tier service stack (model+logic+ui) (Prisma/JavaScript/React)',
+      'A Node-based 3-tier (model+logic+ui) Microservice/Bot (Prisma/JavaScript/React)',
     repo:
       'https://github.com/maana-io/Q-ksvc-templates/tree/master/node/advanced'
   },
@@ -49,14 +55,17 @@ export const defaultBoilerplates = [
   {
     name: 'react-app',
     description: 'React-based Knowledge Application',
-    repo:
-      'https://github.com/graphql-boilerplates/react-fullstack-graphql/tree/master/advanced'
+    repo: 'https://github.com/maana-io/Q-kapp-templates/tree/master/react'
   },
   {
     name: 'vue-app',
     description: 'Vue-based Knowledge Application',
-    repo:
-      'https://github.com/graphql-boilerplates/vue-fullstack-graphql/tree/master/advanced'
+    repo: 'https://github.com/maana-io/Q-kapp-templates/tree/master/vue'
+  },
+  {
+    name: 'django-app',
+    description: 'Django-based Knowledge Application',
+    repo: 'https://github.com/maana-io/Q-kapp-templates/tree/master/django'
   }
 ]
 
