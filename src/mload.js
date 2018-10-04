@@ -797,7 +797,7 @@ const uploadViaMutation = async (context, parsedPath) => {
       })
       return
     }
-    // console.log("mutation", mutation);
+    // console.log('mutation', mutation)
 
     const incErrors = () => {
       if (!fileResults.errors.uploading[filePath]) {
@@ -831,10 +831,11 @@ const uploadViaMutation = async (context, parsedPath) => {
           )
         } else {
           const total = Object.keys(result).length
-          context.spinner.fail(
-            chalk.red(`${nulls.length} out of ${total} mutations failed`)
+          context.spinner.succeed(
+            chalk.green(
+              `${nulls.length} out of ${total} mutations changed nothing`
+            )
           )
-          incErrors()
         }
       }
     } catch (error) {

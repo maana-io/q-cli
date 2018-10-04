@@ -1,85 +1,85 @@
----
 projects:
   ckg:
     schemaPath: ckg.graphql
     extensions:
       endpoints:
         default:
-          url: http://h4dev.knowledge.maana.io:8003/graphql
+          url: 'https://latest.knowledge.maana.io:8443/graphql'
           headers:
-            Authorization: Bearer ${env:MAANA_AUTH_TOKEN}
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
   test00:
     schemaPath: 00/schema.graphql
     extensions:
       endpoints:
         default:
-          url: http://h4dev.knowledge.maana.io:8003/service/cli.test00/graphql
+          url: 'https://latest.knowledge.maana.io:8443/service/cli.test00/graphql'
           headers:
-            Authorization: Bearer ${env:MAANA_AUTH_TOKEN}
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
   test01:
     schemaPath: 01/schema.graphql
     extensions:
       endpoints:
         default:
-          url: http://h4dev.knowledge.maana.io:8003/service/cli.test01/graphql
+          url: 'http://h4dev.knowledge.maana.io:8003/service/cli.test01/graphql'
           headers:
-            Authorization: Bearer ${env:MAANA_AUTH_TOKEN}
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
   test02:
     schemaPath: 02/schema.graphql
     extensions:
       endpoints:
         default:
-          url: http://h4dev.knowledge.maana.io:8003/service/cli.test02/graphql
+          url: 'http://h4dev.knowledge.maana.io:8003/service/cli.test02/graphql'
           headers:
-            Authorization: Bearer ${env:MAANA_AUTH_TOKEN}
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
   test03:
     schemaPath: 03/schema.graphql
     extensions:
       endpoints:
         default:
-          url: http://h4dev.knowledge.maana.io:8003/service/cli.test03/graphql
+          url: 'http://h4dev.knowledge.maana.io:8003/service/cli.test03/graphql'
           headers:
-            Authorization: Bearer ${env:MAANA_AUTH_TOKEN}
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
   test04:
     schemaPath: 04/schema.graphql
     extensions:
       endpoints:
         default:
-          url: http://h4dev.knowledge.maana.io:8003/service/cli.test04/graphql
+          url: 'http://h4dev.knowledge.maana.io:8003/service/cli.test04/graphql'
           headers:
-            Authorization: Bearer ${env:MAANA_AUTH_TOKEN}
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
   test05:
     schemaPath: 05/schema.graphql
     extensions:
       endpoints:
         default:
-          url: http://h4dev.knowledge.maana.io:8003/service/cli.test05/graphql
+          url: 'http://h4dev.knowledge.maana.io:8003/service/cli.test05/graphql'
           headers:
-            Authorization: Bearer ${env:MAANA_AUTH_TOKEN}
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
   test06:
     schemaPath: 06/schema.graphql
     extensions:
       endpoints:
         default:
-          url: http://h4dev.knowledge.maana.io:8003/service/cli.test06/graphql
+          url: 'http://h4dev.knowledge.maana.io:8003/service/cli.test06/graphql'
           headers:
-            Authorization: Bearer ${env:MAANA_AUTH_TOKEN}
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
   test07:
     schemaPath: 07/schema.graphql
     extensions:
       endpoints:
         default:
-          url: http://localhost:4466
+          url: 'http://localhost:4466'
           headers:
-            Authorization: Bearer ${env:MAANA_AUTH_TOKEN}
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
   test09:
     schemaPath: 09/schema.graphql
     extensions:
       endpoints:
         default:
-          url: http://h4dev.knowledge.maana.io:8003/service/cli.test09/graphql
+          url: 'http://h4dev.knowledge.maana.io:8003/service/cli.test09/graphql'
           headers:
-            Authorization: Bearer ${env:MAANA_AUTH_TOKEN}
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
 extensions:
   maana:
-    auth: eyJhY2Nlc3NfdG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklsSkVVa1JSYW1NMFVXcEZOVTE2U1hwTmEwNUdUWHBOTlUxcVdrUk9SRlV6VVd0Tk5GSkVhRVZPZWxrelVXcFJNMDlVUWtaT2R5SjkuZXlKcGMzTWlPaUpvZEhSd2N6b3ZMMjFoWVc1aExtRjFkR2d3TG1OdmJTOGlMQ0p6ZFdJaU9pSjNZV0ZrZkdvNVlWSlFUVmhZUTJkVE9VeEtZWGxPVlhOclVuaDFabmh5WVhKa1kybHpiblJtYjB4amVYVnphRkVpTENKaGRXUWlPaUpvZEhSd2N6b3ZMMmcwTG0xaFlXNWhMbWx2THlJc0ltbGhkQ0k2TVRVek1UazJNREl4TlN3aVpYaHdJam94TlRNME5UZzVPVFl4TENKaGVuQWlPaUkwYjNoVFZESTVTMUF4WkVneE16QlBSa0ozTVdVMFRWQkVPRFp2V1dWclZpSXNJbk5qYjNCbElqb2liMlptYkdsdVpWOWhZMk5sYzNNaWZRLkhVUi1xZ2JybjZiRTZLQi10cFMwWUp4WllRUVZfd0xId3hMZGVwX3d4bVlLR2JOLWk5d0NNUklhYUQzVGJvbFRaR3QweTFQeWwtOURFUlZ1ZnU4NjlFQXAyTjlRdTQ5ZkVaUmwxcjlldy1KODNPZWpUbGVLZ1BvVUFwcDdhUW9tQlF1QjNfZjd4ckhWanpiMThuSGFGcU9lRkVVOFZsRW44QUg5dS1jSzgxTU9ycFNHTkFzVVBaUU4tbDg5R1FyUlkwcW5iV29HWVd6N2ppQ0wzNVNNbDctNkdhSDlya3JiMnFGZThjbkl0NlltaHV0ZU94cElXS1VDbkRza2VzMV9GSFBvejJWSWozd2VBVFdQblBERkRFb2s1RVR5TmZlWWRlY2FEVFNMenhQMkk1T2twUDVObVI4LU9UUmNLaUZBNzBtNDFnUnhmbW9iNlhDNlZ6WHZsZyIsInJlZnJlc2hfdG9rZW4iOiJRM1dDVGpTLXhmSjdDVXVhQTNYcHFXZjBYUUJsTWFjT0RRRS1YZ3pNM2pMclQiLCJleHBpcmVzX2luIjoyNjI5NzQ2LCJ0b2tlbl90eXBlIjoiQmVhcmVyIiwiZXhwaXJlc19hdCI6MTUzNDU4OTk2MTQxOCwidXJsIjoiaHR0cHM6Ly9tYWFuYS5hdXRoMC5jb20vb2F1dGgvdG9rZW4iLCJpZCI6IjRveFNUMjlLUDFkSDEzME9GQncxZTRNUEQ4Nm9ZZWtWIn0=
+    auth: >-
+      eyJhY2Nlc3NfdG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklsSkVVa1JSYW1NMFVXcEZOVTE2U1hwTmEwNUdUWHBOTlUxcVdrUk9SRlV6VVd0Tk5GSkVhRVZPZWxrelVXcFJNMDlVUWtaT2R5SjkuZXlKcGMzTWlPaUpvZEhSd2N6b3ZMMjFoWVc1aExtRjFkR2d3TG1OdmJTOGlMQ0p6ZFdJaU9pSjNZV0ZrZkdvNVlWSlFUVmhZUTJkVE9VeEtZWGxPVlhOclVuaDFabmh5WVhKa1kybHpiblJtYjB4amVYVnphRkVpTENKaGRXUWlPaUpvZEhSd2N6b3ZMMmcwTG0xaFlXNWhMbWx2THlJc0ltbGhkQ0k2TVRVek9EWTNNelF3Tml3aVpYaHdJam94TlRReE16QXpNVFV5TENKaGVuQWlPaUkwYjNoVFZESTVTMUF4WkVneE16QlBSa0ozTVdVMFRWQkVPRFp2V1dWclZpSXNJbk5qYjNCbElqb2liMlptYkdsdVpWOWhZMk5sYzNNaWZRLlphaVRPOGI3X0c5czE1THVIVVZUQzNTUUtFNE15ZTV0X0Utc2pUclFYNHNMWVRFbngwVnk1dnllUUdzNVpJaWpiM1lIbEZGbkRZMDRqakhjaHU3QTlVYkxoVlJyeWg5RG1lNmdRcmswMFY2U09HQVV2Um9qd3Rudmdfdk9BTkd4WjNIeXNOLU80cGZxRFJYSDdXWDhteXBpZEV1SmtKMllOT3lhcVlucnBWVjZ5Mjh5TU1yTVhLa3lPZF90aTZVVEtTdUc4eFhQaXplU0NFMkVkcW1qWTNfUlNZVS0zREJ3cW9VQ01BaGMySjRtRVhXUFlGaTF1TGxFOVpxam1vanNNLUhoN2NxbVhQQVJHdlpFVlg5WU1tVWQzLUxBdTFXa1pkcUNueUc2LU5yc1VkMGZucjdkSDZ6Vl9lbTRkRXE3MTFYZFdSLTV1bTdvUFVEYnpDN01rdyIsInJlZnJlc2hfdG9rZW4iOiJpaEJPeFQtdzliN0VUem1GX0dTX2dzUzBmNVBHMFh6MmJrREpvaktmc3k3R0oiLCJleHBpcmVzX2luIjoyNjI5NzQ2LCJ0b2tlbl90eXBlIjoiQmVhcmVyIiwiZXhwaXJlc19hdCI6MTU0MTMwMzE1MjI2NiwidXJsIjoiaHR0cHM6Ly9tYWFuYS5hdXRoMC5jb20vb2F1dGgvdG9rZW4iLCJpZCI6IjRveFNUMjlLUDFkSDEzME9GQncxZTRNUEQ4Nm9ZZWtWIn0=
