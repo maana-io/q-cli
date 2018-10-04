@@ -27,7 +27,7 @@
     "node": "current"
   },
   "dependencies": {
-    "adm-zip": "0.4.7",
+    "adm-zip": "0.4.11",
     "chalk": "^2.4.1",
     "command-exists": "^1.2.7",
     "cross-spawn": "^6.0.5",
