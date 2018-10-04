@@ -10,62 +10,60 @@ import request from 'request'
 import tmp from 'tmp'
 import rimraf from 'rimraf'
 
+const REPO_ROOT = 'https://github.com/maana-io/Q-templates/tree/master'
+
 // Project boilerplates
 export const defaultBoilerplates = [
   {
     name: 'node-ts-basic-service-bot',
     description: 'A Node-based Knowledge Microservice/Bot (TypeScript)',
-    repo:
-      'https://github.com/maana-io/Q-ksvc-templates/tree/master/node/basic-ts'
+    repo: `${REPO_ROOT}/basic-ts`
   },
   {
     name: 'node-js-basic-service-bot',
     description: 'A Node-based Knowledge Microservice/Bot (JavaScript)',
-    repo: 'https://github.com/maana-io/Q-ksvc-templates/tree/master/node/basic'
+    repo: `${REPO_ROOT}/node/basic`
   },
   {
     name: 'node-js-advanced-service-bot',
     description:
       'A Node-based 3-tier (model+logic+ui) Microservice/Bot (Prisma/JavaScript/React)',
-    repo:
-      'https://github.com/maana-io/Q-ksvc-templates/tree/master/node/advanced'
+    repo: `${REPO_ROOT}/node/advanced`
   },
   {
     name: 'python-service-bot',
     description: 'A Python-based Knowledge Microservice/Bot (Simple)',
-    repo:
-      'https://github.com/maana-io/Q-ksvc-templates/tree/master/python/basic'
+    repo: `${REPO_ROOT}/python/basic`
   },
   {
     name: 'python-graphene-service-bot',
     description: 'A Python-based Knowledge Microservice/Bot (Graphene)',
-    repo:
-      'https://github.com/maana-io/Q-ksvc-templates/tree/master/python/graphene'
+    repo: `${REPO_ROOT}/python/graphene`
   },
   {
     name: 'scala-service-bot',
     description: 'A Scala-based Knowledge Microservice/Bot',
-    repo: 'https://github.com/maana-io/Q-ksvc-templates/tree/master/scala'
+    repo: `${REPO_ROOT}/scala`
   },
   {
     name: 'go-service-bot',
     description: 'A Go Knowledge Microservice/Bot',
-    repo: 'https://github.com/maana-io/Q-ksvc-templates/tree/master/go'
+    repo: `${REPO_ROOT}/go`
   },
   {
     name: 'react-app',
     description: 'React-based Knowledge Application',
-    repo: 'https://github.com/maana-io/Q-kapp-templates/tree/master/react'
+    repo: `${REPO_ROOT}/node/react`
   },
   {
     name: 'vue-app',
     description: 'Vue-based Knowledge Application',
-    repo: 'https://github.com/maana-io/Q-kapp-templates/tree/master/vue'
+    repo: `${REPO_ROOT}/node/vue`
   },
   {
     name: 'django-app',
     description: 'Django-based Knowledge Application',
-    repo: 'https://github.com/maana-io/Q-kapp-templates/tree/master/django'
+    repo: `${REPO_ROOT}/python/django`
   }
 ]
 
