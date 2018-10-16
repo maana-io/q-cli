@@ -306,15 +306,33 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
 
   if (type == 'Float') {
     if (typeof val == 'string') {
-      rval = parseFloat(val)
-      if (isNaN(rval)) rval = def
+      rval = Number(val)
+      if (isNaN(rval)) {
+        console.log(
+          chalk.yellow(
+            `✘ Was not able to coerce Float from String--"${chalk.red(
+              val
+            )}": Not a number (NaN).`
+          )
+        )
+        rval = def
+      }
     } else if (typeof val == 'number') {
       rval = val
     }
   } else if (type == 'Int') {
     if (typeof val == 'string') {
-      rval = parseInt(val)
-      if (isNaN(rval)) rval = def
+      rval = Number(val)
+      if (isNaN(rval)) {
+        console.log(
+          chalk.yellow(
+            `✘ Was not able to coerce Int from String--"${chalk.red(
+              val
+            )}": Not a number (NaN).`
+          )
+        )
+        rval = def
+      }
     } else if (typeof val == 'number') {
       rval = val
     }
