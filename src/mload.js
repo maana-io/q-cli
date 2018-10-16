@@ -309,8 +309,8 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
       rval = Number(val)
       if (isNaN(rval)) {
         console.log(
-          chalk.red(
-            `✘ Was not able to coerce Float from String--"${chalk.yellow(
+          chalk.yellow(
+            `✘ Was not able to coerce Float from String--"${chalk.red(
               val
             )}": Not a number (NaN).`
           )
@@ -325,8 +325,8 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
       rval = Number(val)
       if (isNaN(rval)) {
         console.log(
-          chalk.red(
-            `✘ Was not able to coerce Int from String--"${chalk.yellow(
+          chalk.yellow(
+            `✘ Was not able to coerce Int from String--"${chalk.red(
               val
             )}": Not a number (NaN).`
           )
