@@ -306,32 +306,48 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
 
   if (type == 'Float') {
     if (typeof val == 'string') {
-      rval = Number(val)
-      if (isNaN(rval)) {
+      if (val && val.trim()) {
+        rval = Number(val)
+        if (isNaN(rval)) {
+          console.log(
+            chalk.yellow(
+              `✘ Was not able to coerce Float from String--"${chalk.red(
+                val
+              )}": Not a number (NaN).`
+            )
+          )
+          rval = def
+        }
+      } else {
         console.log(
           chalk.yellow(
-            `✘ Was not able to coerce Float from String--"${chalk.red(
-              val
-            )}": Not a number (NaN).`
+            `✘ Was not able to coerce Float from null or empty string input`
           )
         )
-        rval = def
       }
     } else if (typeof val == 'number') {
       rval = val
     }
   } else if (type == 'Int') {
     if (typeof val == 'string') {
-      rval = Number(val)
-      if (isNaN(rval)) {
+      if (val && val.trim()) {
+        rval = parseInt(Number(val))
+        if (isNaN(rval)) {
+          console.log(
+            chalk.yellow(
+              `✘ Was not able to coerce Int from String--"${chalk.red(
+                val
+              )}": Not a number (NaN).`
+            )
+          )
+          rval = def
+        }
+      } else {
         console.log(
           chalk.yellow(
-            `✘ Was not able to coerce Int from String--"${chalk.red(
-              val
-            )}": Not a number (NaN).`
+            `✘ Was not able to coerce Int from null or empty string input`
           )
         )
-        rval = def
       }
     } else if (typeof val == 'number') {
       rval = val
