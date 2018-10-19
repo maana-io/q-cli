@@ -1106,9 +1106,7 @@ const buildReport = () => {
   if (warnNum) {
     console.log(chalk.yellowBright(DIVIDER))
     console.log(
-      chalk.yellowBright(
-        `☛ Warning summary: ${warnNum} warning(s) total -- (see preceding terminal output for more details).`
-      )
+      chalk.yellowBright(`☛ Warning summary: ${warnNum} warning(s) total`)
     )
 
     if (fileResults.warnings.typeCoercion.length > 0) {
@@ -1119,6 +1117,10 @@ const buildReport = () => {
           }`
         )
       )
+
+      fileResults.warnings.typeCoercion.forEach(warn => {
+        console.log(warn)
+      })
     }
   }
 }
