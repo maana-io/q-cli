@@ -58,7 +58,8 @@ const fileResults = {
   ndfFileCnt: 0, // how many NDF files were written
   succeed: 0,
   total: 0,
-  errors: { mutation: [], dataRead: [], uploading: {}, ndf: [] }
+  errors: { mutation: [], dataRead: [], uploading: {}, ndf: [] },
+  warnings: { typeCoercion: [] }
 }
 
 /**
@@ -309,21 +310,21 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
       if (val && val.trim()) {
         rval = Number(val)
         if (isNaN(rval)) {
-          console.log(
-            chalk.yellow(
-              `✘ Was not able to coerce Float from String--"${chalk.red(
-                val
-              )}": Not a number (NaN).`
-            )
+          const message = chalk.yellow(
+            `☛ WARNING: Was not able to coerce Float from String--"${chalk.red(
+              val
+            )}": Not a number (NaN). Instead used default value: ${def}`
           )
+          console.log(message)
+          fileResults.warnings.typeCoercion.push(message)
           rval = def
         }
       } else {
-        console.log(
-          chalk.yellow(
-            `✘ Was not able to coerce Float from null or empty string input`
-          )
+        const message = chalk.yellow(
+          `☛ WARNING: Was not able to coerce Float from null or empty string input. Instead used default value: ${def}`
         )
+        console.log(message)
+        fileResults.warnings.typeCoercion.push(message)
       }
     } else if (typeof val == 'number') {
       rval = val
@@ -333,21 +334,21 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
       if (val && val.trim()) {
         rval = parseInt(Number(val))
         if (isNaN(rval)) {
-          console.log(
-            chalk.yellow(
-              `✘ Was not able to coerce Int from String--"${chalk.red(
-                val
-              )}": Not a number (NaN).`
-            )
+          const message = chalk.yellow(
+            `☛ WARNING: Was not able to coerce Int from String--"${chalk.red(
+              val
+            )}": Not a number (NaN). Instead used default value: ${def}`
           )
+          console.log(message)
+          fileResults.warnings.typeCoercion.push(message)
           rval = def
         }
       } else {
-        console.log(
-          chalk.yellow(
-            `✘ Was not able to coerce Int from null or empty string input`
-          )
+        const message = chalk.yellow(
+          `☛ WARNING: Was not able to coerce Int from null or empty string input. Instead used default value: ${def}`
         )
+        console.log(message)
+        fileResults.warnings.typeCoercion.push(message)
       }
     } else if (typeof val == 'number') {
       rval = val
@@ -1094,5 +1095,32 @@ const buildReport = () => {
     // let the user know that no issues happened during the command
     console.log(chalk.green(DIVIDER))
     console.log(chalk.green('✔ No errors'))
+  }
+
+  //-----------------------------WARNINGS---------------------------------
+
+  //Let user know about warnings during file upload process
+
+  const warnNum = fileResults.warnings.typeCoercion.length
+
+  if (warnNum) {
+    console.log(chalk.yellowBright(DIVIDER))
+    console.log(
+      chalk.yellowBright(`☛ Warning summary: ${warnNum} warning(s) total`)
+    )
+
+    if (fileResults.warnings.typeCoercion.length > 0) {
+      console.log(
+        chalk.yellow(
+          `☛ Type coercion warnings: ${
+            fileResults.warnings.typeCoercion.length
+          }`
+        )
+      )
+
+      fileResults.warnings.typeCoercion.forEach(warn => {
+        console.log(warn)
+      })
+    }
   }
 }
