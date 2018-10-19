@@ -1,10 +1,4 @@
-import {
-  getNamedType,
-  isListType,
-  isNonNullType,
-  isObjectType,
-  GraphQLNonNull
-} from 'graphql'
+import { getNamedType, isListType, isNonNullType, isObjectType } from 'graphql'
 import papa from 'papaparse'
 import fs from 'fs-extra'
 import path from 'path'
