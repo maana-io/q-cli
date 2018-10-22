@@ -306,15 +306,49 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
 
   if (type == 'Float') {
     if (typeof val == 'string') {
-      rval = parseFloat(val)
-      if (isNaN(rval)) rval = def
+      if (val && val.trim()) {
+        rval = Number(val)
+        if (isNaN(rval)) {
+          console.log(
+            chalk.yellow(
+              `✘ Was not able to coerce Float from String--"${chalk.red(
+                val
+              )}": Not a number (NaN).`
+            )
+          )
+          rval = def
+        }
+      } else {
+        console.log(
+          chalk.yellow(
+            `✘ Was not able to coerce Float from null or empty string input`
+          )
+        )
+      }
     } else if (typeof val == 'number') {
       rval = val
     }
   } else if (type == 'Int') {
     if (typeof val == 'string') {
-      rval = parseInt(val)
-      if (isNaN(rval)) rval = def
+      if (val && val.trim()) {
+        rval = parseInt(Number(val))
+        if (isNaN(rval)) {
+          console.log(
+            chalk.yellow(
+              `✘ Was not able to coerce Int from String--"${chalk.red(
+                val
+              )}": Not a number (NaN).`
+            )
+          )
+          rval = def
+        }
+      } else {
+        console.log(
+          chalk.yellow(
+            `✘ Was not able to coerce Int from null or empty string input`
+          )
+        )
+      }
     } else if (typeof val == 'number') {
       rval = val
     }
@@ -482,7 +516,6 @@ const load = async (context, filePath) => {
 const convertToNdf = async (context, parsedPath) => {
   // Construct string version of file path
   const filePath = path.format(parsedPath)
-
   context.spinner.start(`Converting ${chalk.yellow(filePath)}`)
 
   // Get the NDF output directory
@@ -490,11 +523,11 @@ const convertToNdf = async (context, parsedPath) => {
   const ndfPath = path.isAbsolute(ndfOut)
     ? ndfOut
     : path.resolve(process.cwd(), ndfOut)
-  // console.log("ndfPath", ndfPath);
+  // console.log('ndfPath', ndfPath)
 
   // Infer the typenaame
   const typeName = context.argv.type || parsedPath.name
-  // console.log("useTypeName", useTypeName);
+  // console.log('typeName', typeName)
 
   // Get the GraphQL type definition
   const baseType = context.schema.getType(typeName)
@@ -507,9 +540,9 @@ const convertToNdf = async (context, parsedPath) => {
   }
   // console.log(
   //   `Base type ${chalk.yellow(baseType.name)}: ${chalk.yellow(
-  //     baseType.description || "(no description)"
+  //     baseType.description || '(no description)'
   //   )}`
-  // );
+  // )
 
   // Ensure the type has an id field
   const idFieldInfo = getField(baseType, 'id')
@@ -528,7 +561,7 @@ const convertToNdf = async (context, parsedPath) => {
     fileResults.errors.dataRead.push({ file: filePath })
     return
   }
-  // console.log("data", data);
+  // console.log('data', data)
 
   // Build internal state (resettable) for the different NDF value types
   let nodes = []
@@ -574,7 +607,7 @@ const convertToNdf = async (context, parsedPath) => {
   const dedupe = {}
 
   data.forEach(entity => {
-    // console.log("entity", entity);
+    // console.log('entity', entity)
 
     if (!entity.id) {
       fileResults.errors.ndf.push({
@@ -609,7 +642,7 @@ const convertToNdf = async (context, parsedPath) => {
       .filter(x => x != 'id')
       .forEach(fieldName => {
         const fieldRes = getField(baseType, fieldName)
-        // console.log("field", fieldName, fieldRes);
+        // console.log('field', fieldName, fieldRes)
 
         const { field, isList, isNonNull, isObject, namedType } = fieldRes
 
@@ -653,10 +686,8 @@ const convertToNdf = async (context, parsedPath) => {
       })
 
     // Generate output for this entity
-    if (!isNullOrEmpty(nodeValues)) {
-      // add the set of leaf field values
-      nodes.push({ _typeName: typeName, id, ...nodeValues })
-    }
+    // ... add the set of leaf field values
+    nodes.push({ _typeName: typeName, id, ...nodeValues })
 
     if (!isNullOrEmpty(listValues)) {
       // add the set of list field values (i.e., lists)
@@ -800,7 +831,7 @@ const uploadViaMutation = async (context, parsedPath) => {
       })
       return
     }
-    // console.log("mutation", mutation);
+    // console.log('mutation', mutation)
 
     const incErrors = () => {
       if (!fileResults.errors.uploading[filePath]) {
@@ -834,10 +865,11 @@ const uploadViaMutation = async (context, parsedPath) => {
           )
         } else {
           const total = Object.keys(result).length
-          context.spinner.fail(
-            chalk.red(`${nulls.length} out of ${total} mutations failed`)
+          context.spinner.succeed(
+            chalk.green(
+              `${nulls.length} out of ${total} mutations changed nothing`
+            )
           )
-          incErrors()
         }
       }
     } catch (error) {

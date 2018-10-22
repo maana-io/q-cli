@@ -10,30 +10,60 @@ import request from 'request'
 import tmp from 'tmp'
 import rimraf from 'rimraf'
 
+const REPO_ROOT = 'https://github.com/maana-io/Q-templates/tree/master'
+
 // Project boilerplates
 export const defaultBoilerplates = [
   {
-    name: 'js-service-bot',
-    description: 'A modern JavaScript-based Knowledge Microservice/Bot',
-    repo: 'https://github.com/maana-io/js-service-bot/tree/master/advanced'
+    name: 'node-ts-basic-service-bot',
+    description: 'A Node-based Knowledge Microservice/Bot (TypeScript)',
+    repo: `${REPO_ROOT}/basic-ts`
   },
   {
-    name: 'ts-service-bot',
-    description: 'A TypeScript-based Knowledge Microservice/Bot',
-    repo:
-      'https://github.com/graphql-boilerplates/typescript-graphql-server/tree/master/advanced'
+    name: 'node-js-basic-service-bot',
+    description: 'A Node-based Knowledge Microservice/Bot (JavaScript)',
+    repo: `${REPO_ROOT}/node/basic`
+  },
+  {
+    name: 'node-js-advanced-service-bot',
+    description:
+      'A Node-based 3-tier (model+logic+ui) Microservice/Bot (Prisma/JavaScript/React)',
+    repo: `${REPO_ROOT}/node/advanced`
+  },
+  {
+    name: 'python-service-bot',
+    description: 'A Python-based Knowledge Microservice/Bot (Simple)',
+    repo: `${REPO_ROOT}/python/basic`
+  },
+  {
+    name: 'python-graphene-service-bot',
+    description: 'A Python-based Knowledge Microservice/Bot (Graphene)',
+    repo: `${REPO_ROOT}/python/graphene`
+  },
+  {
+    name: 'scala-service-bot',
+    description: 'A Scala-based Knowledge Microservice/Bot',
+    repo: `${REPO_ROOT}/scala`
+  },
+  {
+    name: 'go-service-bot',
+    description: 'A Go Knowledge Microservice/Bot',
+    repo: `${REPO_ROOT}/go`
   },
   {
     name: 'react-app',
     description: 'React-based Knowledge Application',
-    repo:
-      'https://github.com/graphql-boilerplates/react-fullstack-graphql/tree/master/advanced'
+    repo: `${REPO_ROOT}/node/react`
   },
   {
     name: 'vue-app',
     description: 'Vue-based Knowledge Application',
-    repo:
-      'https://github.com/graphql-boilerplates/vue-fullstack-graphql/tree/master/advanced'
+    repo: `${REPO_ROOT}/node/vue`
+  },
+  {
+    name: 'django-app',
+    description: 'Django-based Knowledge Application',
+    repo: `${REPO_ROOT}/python/django`
   }
 ]
 
@@ -236,10 +266,14 @@ export const handler = async (context, argv) => {
       console.log(
         `[mcreate] Installing node dependencies for ${packageJsonPath}...`
       )
-      if (commandExists.sync('yarn')) {
+      if (commandExists.sync('npm')) {
+        await shell('npm install')
+      } else if (commandExists.sync('yarn')) {
         await shell('yarn install')
       } else {
-        await shell('npm install')
+        console.log(
+          `Skipping install (no ${chalk.cyan('NPM')} or ${chalk.cyan('yarn')})`
+        )
       }
     }
   }
