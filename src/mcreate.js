@@ -10,7 +10,7 @@ import request from 'request'
 import tmp from 'tmp'
 import rimraf from 'rimraf'
 
-const REPO_ROOT = 'https://github.com/maana-io/Q-templates/tree/master'
+const REPO_ROOT = 'https://github.com/maana-io/q-templates/tree/master'
 
 // Project boilerplates
 export const defaultBoilerplates = [
