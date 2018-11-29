@@ -581,20 +581,26 @@ const convertToNdf = async (context, parsedPath) => {
     fileResults.ndfGenCnt++
     const outName = `${fileResults.ndfGenCnt}`.padStart(5, '0')
 
+    // NOTE: the file paths must exist, even if they are empty
+    //       or "prisma --import" will throw an exception
+
+    const nodePath = ensureDir(ndfPath, 'nodes')
     if (!isNullOrEmpty(nodes)) {
-      writeNdfFile(ndfPath, 'nodes', outName, nodes)
+      writeNdfFile(nodePath, 'nodes', outName, nodes)
       nodes = []
       fileResults.ndfFileCnt++
     }
 
+    const listPath = ensureDir(ndfPath, 'lists')
     if (!isNullOrEmpty(lists)) {
-      writeNdfFile(ndfPath, 'lists', outName, lists)
+      writeNdfFile(listPath, 'lists', outName, lists)
       lists = []
       fileResults.ndfFileCnt++
     }
 
+    const relPath = ensureDir(ndfPath, 'relations')
     if (!isNullOrEmpty(relations)) {
-      writeNdfFile(ndfPath, 'relations', outName, relations)
+      writeNdfFile(relPath, 'relations', outName, relations)
       relations = []
       fileResults.ndfFileCnt++
     }
@@ -728,6 +734,22 @@ const convertToNdf = async (context, parsedPath) => {
 }
 
 /**
+ * Given a root and directory, combine them and ensure the full path exists
+ *
+ * @param {*} root
+ * @param {*} dir
+ */
+const ensureDir = (root, dir) => {
+  const outDir = path.resolve(root, dir)
+  // console.log("outdir", outDir);
+
+  // Ensure the output path exists
+  mkdirp.sync(outDir)
+
+  return outDir
+}
+
+/**
  * Write data to one of the NDF file types
  *
  * @param {*} ndfPath
@@ -735,17 +757,11 @@ const convertToNdf = async (context, parsedPath) => {
  * @param {*} typeName
  * @param {*} values
  */
-const writeNdfFile = (ndfPath, valueType, typeName, values) => {
+const writeNdfFile = (basePath, valueType, typeName, values) => {
   const outName = `${typeName}.json`
   // console.log("outName", outName);
 
-  const outDir = path.resolve(ndfPath, valueType)
-  // console.log("outdir", outDir);
-
-  // Ensure the output path exists
-  mkdirp.sync(outDir)
-
-  const outPath = path.resolve(outDir, outName)
+  const outPath = path.resolve(basePath, outName)
   // console.log("outpath", outPath);
 
   const data = JSON.stringify(
