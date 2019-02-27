@@ -25,6 +25,18 @@ export const defaultBoilerplates = [
     repo: `${REPO_ROOT}/node/basic`
   },
   {
+    name: 'node-js-basic-service-bot-with-model',
+    description:
+      'A Node-based Knowledge Microservice/Bot (JavaScript) With a Prisma Model Service',
+    repo: `${REPO_ROOT}/node/basic-with-model`
+  },
+  {
+    name: 'node-js-basic-service-bot-with-logic',
+    description:
+      'A Node-based Knowledge Microservice/Bot (JavaScript) With only a barebones logic service ',
+    repo: `${REPO_ROOT}/node/basic-with-logic`
+  },
+  {
     name: 'node-js-advanced-service-bot',
     description:
       'A Node-based 3-tier (model+logic+ui) Microservice/Bot (Prisma/JavaScript/React)',
