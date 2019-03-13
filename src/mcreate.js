@@ -10,14 +10,19 @@ import request from 'request'
 import tmp from 'tmp'
 import rimraf from 'rimraf'
 
-const REPO_ROOT = 'https://github.com/maana-io/Q-templates/tree/master'
+const REPO_ROOT = 'https://github.com/maana-io/q-templates/tree/master'
 
 // Project boilerplates
 export const defaultBoilerplates = [
   {
+    name: 'dotnet-cs-basic-service-bot',
+    description: 'A C#-based Knowledge Microservice/Bot',
+    repo: `${REPO_ROOT}/dotnet_core/cs/basic`
+  },
+  {
     name: 'node-ts-basic-service-bot',
     description: 'A Node-based Knowledge Microservice/Bot (TypeScript)',
-    repo: `${REPO_ROOT}/basic-ts`
+    repo: `${REPO_ROOT}/node/basic-ts`
   },
   {
     name: 'node-js-basic-service-bot',
