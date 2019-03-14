@@ -15,14 +15,31 @@ const REPO_ROOT = 'https://github.com/maana-io/q-templates/tree/master'
 // Project boilerplates
 export const defaultBoilerplates = [
   {
+    name: 'dotnet-cs-basic-service-bot',
+    description: 'A C#-based Knowledge Microservice/Bot',
+    repo: `${REPO_ROOT}/dotnet_core/cs/basic`
+  },
+  {
     name: 'node-ts-basic-service-bot',
     description: 'A Node-based Knowledge Microservice/Bot (TypeScript)',
-    repo: `${REPO_ROOT}/basic-ts`
+    repo: `${REPO_ROOT}/node/basic-ts`
   },
   {
     name: 'node-js-basic-service-bot',
     description: 'A Node-based Knowledge Microservice/Bot (JavaScript)',
     repo: `${REPO_ROOT}/node/basic`
+  },
+  {
+    name: 'node-js-basic-service-bot-with-model',
+    description:
+      'A Node-based Knowledge Microservice/Bot (JavaScript) With a Prisma Model Service',
+    repo: `${REPO_ROOT}/node/basic-with-model`
+  },
+  {
+    name: 'node-js-basic-service-bot-with-logic',
+    description:
+      'A Node-based Knowledge Microservice/Bot (JavaScript) With only a barebones logic service ',
+    repo: `${REPO_ROOT}/node/basic-with-logic`
   },
   {
     name: 'node-js-advanced-service-bot',
