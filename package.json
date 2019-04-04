@@ -1,6 +1,6 @@
 {
   "name": "graphql-cli-maana",
-  "version": "3.1.5-beta",
+  "version": "3.1.6-beta",
   "description": "Maana plugin for graphql-cli",
   "repository": {
     "type": "git",
