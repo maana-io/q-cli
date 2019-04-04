@@ -58,7 +58,8 @@ const fileResults = {
   ndfFileCnt: 0, // how many NDF files were written
   succeed: 0,
   total: 0,
-  errors: { mutation: [], dataRead: [], uploading: {}, ndf: [] }
+  errors: { mutation: [], dataRead: [], uploading: {}, ndf: [] },
+  warnings: { typeCoercion: [] }
 }
 
 /**
@@ -309,21 +310,21 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
       if (val && val.trim()) {
         rval = Number(val)
         if (isNaN(rval)) {
-          console.log(
-            chalk.yellow(
-              `✘ Was not able to coerce Float from String--"${chalk.red(
-                val
-              )}": Not a number (NaN).`
-            )
+          const message = chalk.yellow(
+            `☛ WARNING: Was not able to coerce Float from String--"${chalk.red(
+              val
+            )}": Not a number (NaN). Instead used default value: ${def}`
           )
+          console.log(message)
+          fileResults.warnings.typeCoercion.push(message)
           rval = def
         }
       } else {
-        console.log(
-          chalk.yellow(
-            `✘ Was not able to coerce Float from null or empty string input`
-          )
+        const message = chalk.yellow(
+          `☛ WARNING: Was not able to coerce Float from null or empty string input. Instead used default value: ${def}`
         )
+        console.log(message)
+        fileResults.warnings.typeCoercion.push(message)
       }
     } else if (typeof val == 'number') {
       rval = val
@@ -333,21 +334,21 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
       if (val && val.trim()) {
         rval = parseInt(Number(val))
         if (isNaN(rval)) {
-          console.log(
-            chalk.yellow(
-              `✘ Was not able to coerce Int from String--"${chalk.red(
-                val
-              )}": Not a number (NaN).`
-            )
+          const message = chalk.yellow(
+            `☛ WARNING: Was not able to coerce Int from String--"${chalk.red(
+              val
+            )}": Not a number (NaN). Instead used default value: ${def}`
           )
+          console.log(message)
+          fileResults.warnings.typeCoercion.push(message)
           rval = def
         }
       } else {
-        console.log(
-          chalk.yellow(
-            `✘ Was not able to coerce Int from null or empty string input`
-          )
+        const message = chalk.yellow(
+          `☛ WARNING: Was not able to coerce Int from null or empty string input. Instead used default value: ${def}`
         )
+        console.log(message)
+        fileResults.warnings.typeCoercion.push(message)
       }
     } else if (typeof val == 'number') {
       rval = val
@@ -580,20 +581,26 @@ const convertToNdf = async (context, parsedPath) => {
     fileResults.ndfGenCnt++
     const outName = `${fileResults.ndfGenCnt}`.padStart(5, '0')
 
+    // NOTE: the file paths must exist, even if they are empty
+    //       or "prisma --import" will throw an exception
+
+    const nodePath = ensureDir(ndfPath, 'nodes')
     if (!isNullOrEmpty(nodes)) {
-      writeNdfFile(ndfPath, 'nodes', outName, nodes)
+      writeNdfFile(nodePath, 'nodes', outName, nodes)
       nodes = []
       fileResults.ndfFileCnt++
     }
 
+    const listPath = ensureDir(ndfPath, 'lists')
     if (!isNullOrEmpty(lists)) {
-      writeNdfFile(ndfPath, 'lists', outName, lists)
+      writeNdfFile(listPath, 'lists', outName, lists)
       lists = []
       fileResults.ndfFileCnt++
     }
 
+    const relPath = ensureDir(ndfPath, 'relations')
     if (!isNullOrEmpty(relations)) {
-      writeNdfFile(ndfPath, 'relations', outName, relations)
+      writeNdfFile(relPath, 'relations', outName, relations)
       relations = []
       fileResults.ndfFileCnt++
     }
@@ -727,6 +734,22 @@ const convertToNdf = async (context, parsedPath) => {
 }
 
 /**
+ * Given a root and directory, combine them and ensure the full path exists
+ *
+ * @param {*} root
+ * @param {*} dir
+ */
+const ensureDir = (root, dir) => {
+  const outDir = path.resolve(root, dir)
+  // console.log("outdir", outDir);
+
+  // Ensure the output path exists
+  mkdirp.sync(outDir)
+
+  return outDir
+}
+
+/**
  * Write data to one of the NDF file types
  *
  * @param {*} ndfPath
@@ -734,17 +757,11 @@ const convertToNdf = async (context, parsedPath) => {
  * @param {*} typeName
  * @param {*} values
  */
-const writeNdfFile = (ndfPath, valueType, typeName, values) => {
+const writeNdfFile = (basePath, valueType, typeName, values) => {
   const outName = `${typeName}.json`
   // console.log("outName", outName);
 
-  const outDir = path.resolve(ndfPath, valueType)
-  // console.log("outdir", outDir);
-
-  // Ensure the output path exists
-  mkdirp.sync(outDir)
-
-  const outPath = path.resolve(outDir, outName)
+  const outPath = path.resolve(basePath, outName)
   // console.log("outpath", outPath);
 
   const data = JSON.stringify(
@@ -1094,5 +1111,32 @@ const buildReport = () => {
     // let the user know that no issues happened during the command
     console.log(chalk.green(DIVIDER))
     console.log(chalk.green('✔ No errors'))
+  }
+
+  //-----------------------------WARNINGS---------------------------------
+
+  //Let user know about warnings during file upload process
+
+  const warnNum = fileResults.warnings.typeCoercion.length
+
+  if (warnNum) {
+    console.log(chalk.yellowBright(DIVIDER))
+    console.log(
+      chalk.yellowBright(`☛ Warning summary: ${warnNum} warning(s) total`)
+    )
+
+    if (fileResults.warnings.typeCoercion.length > 0) {
+      console.log(
+        chalk.yellow(
+          `☛ Type coercion warnings: ${
+            fileResults.warnings.typeCoercion.length
+          }`
+        )
+      )
+
+      fileResults.warnings.typeCoercion.forEach(warn => {
+        console.log(warn)
+      })
+    }
   }
 }
