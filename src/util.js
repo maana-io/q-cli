@@ -1,4 +1,5 @@
 import fs from 'fs-extra'
+import mkdirp from 'mkdirp'
 import path from 'path'
 import chalk from 'chalk'
 import { buildASTSchema, parse } from 'graphql'
@@ -123,6 +124,22 @@ export const parseJson = str => {
   } catch (e) {
     throw new Error(`Error parsing ${ellipse(str)} as JSON: ${e}`)
   }
+}
+
+/**
+ * Given a root and directory, combine them and ensure the full path exists
+ *
+ * @param {*} root
+ * @param {*} dir
+ */
+export const ensureDir = (root, dir) => {
+  const outDir = path.resolve(root, dir)
+  // console.log("outdir", outDir);
+
+  // Ensure the output path exists
+  mkdirp.sync(outDir)
+
+  return outDir
 }
 
 //

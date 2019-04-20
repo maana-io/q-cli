@@ -3,13 +3,13 @@ import papa from 'papaparse'
 import fs from 'fs-extra'
 import path from 'path'
 import chalk from 'chalk'
-import mkdirp from 'mkdirp'
 import md5Base64 from 'md5-base64'
 import moment from 'moment'
 
 import {
   capitalize,
   ellipse,
+  ensureDir,
   getAllFiles,
   getEndpoint,
   getSchema,
@@ -731,22 +731,6 @@ const convertToNdf = async (context, parsedPath) => {
       chalk.red(`✘ Converted ${chalk.yellow(filePath)} with ${errorCnt} errors`)
     )
   }
-}
-
-/**
- * Given a root and directory, combine them and ensure the full path exists
- *
- * @param {*} root
- * @param {*} dir
- */
-const ensureDir = (root, dir) => {
-  const outDir = path.resolve(root, dir)
-  // console.log("outdir", outDir);
-
-  // Ensure the output path exists
-  mkdirp.sync(outDir)
-
-  return outDir
 }
 
 /**
