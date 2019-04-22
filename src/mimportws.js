@@ -68,24 +68,33 @@ export const handler = async (context, argv) => {
   const data = readJson(argv.file)
 
   try {
+    // User
     let userId = argv.userId || undefined
     if (!userId) {
       const existingUsers = await getExistingUsers(context)
       userId = await ensureUser(existingUsers, data.owner)
     }
 
+    // Services
     const existingServices = await getExistingServices(context)
     const indexedServices = indexServices(existingServices)
+    context['serviceDetails'] = await ensureServices(
+      context,
+      indexedServices,
+      data.services
+    )
 
-    await ensureServices(context, indexedServices, data.services)
-
-    const wsId = await addWorkspace(context, userId, data)
-
-    await addWorkspaceKinds(context, data.inventory.workspaceKinds)
-
-    await addFunctions(context, data.inventory.functions)
-
-    await addPortalGraphs(context, wsId, data.portalGraphs)
+    // Workspace
+    context['workspaceId'] = await addWorkspace(context, userId, data)
+    context['kindMap'] = await addWorkspaceKinds(
+      context,
+      data.inventory.workspaceKinds
+    )
+    context['functionMap'] = await addFunctions(
+      context,
+      data.inventory.functions
+    )
+    await addPortalGraphs(context, data.portalGraphs)
   } catch (errors) {
     context.spinner.fail(chalk.red(`Call failed! ${JSON.stringify(errors)}`))
     return
@@ -158,26 +167,31 @@ const indexServices = services => {
 
 const ensureServices = async (context, indexedServices, services) => {
   context.spinner.start(chalk.yellow(`Ensuring services`))
+  const serviceDetails = {}
   for (let i = 0; i < services.length; i++) {
     const svc = services[i]
     let targetSvcId
     const existingSvc = indexedServices[svc.endpointUrl]
     if (!existingSvc) {
-      context.spinner.start(chalk.yellow(`Adding service: `, svc.name))
+      context.spinner.start(chalk.yellow(`Adding service:`, svc.name))
       targetSvcId = await addService(context, svc)
     } else {
       targetSvcId = existingSvc.id
     }
-    context.spinner.start(chalk.yellow(`Getting service details: `, svc.name))
-    // console.log('Need to fetch service details: ', targetSvcId)
+    context.spinner.start(chalk.yellow(`Getting service details:`, svc.name))
+    serviceDetails[svc.id] = await getServiceDetails(context, targetSvcId)
   }
+  return serviceDetails
 }
 
 const addService = async (context, service) => {
   const query = `
     mutation addService($input: AddServiceInput!) {
       addService(input: $input)
-    }`
+    }
+  `
+
+  // Only write what schema requires
   const input = {
     id: service.id,
     name: service.name,
@@ -193,40 +207,103 @@ const addService = async (context, service) => {
   return result.addService
 }
 
+const getServiceDetails = async (context, id) => {
+  const query = `
+    query service($id: ID!) {
+      service(id: $id) {
+        id
+        name
+        kinds {
+          id
+          name
+        }
+        functions {
+          id
+          name
+        }
+      }
+    }
+  `
+  const result = await request(context, query, { id })
+  return result.service
+}
+
 const addWorkspaceKinds = async (context, workspaceKinds) => {
   context.spinner.start(chalk.yellow(`Adding workspace kinds`))
-  const results = workspaceKinds.map(async x => addKind(context, x))
-  return Promise.all(results)
+
+  const kindMap = {}
+  for (let i = 0; i < workspaceKinds.length; i++) {
+    const wsKind = workspaceKinds[i]
+    const newId = await addKind(context, wsKind)
+    kindMap[wsKind.id] = newId
+  }
+  return kindMap
 }
 
 const addKind = async (context, kind) => {
+  // Check for existing and remap
+  const svcDetails = context.serviceDetails[kind.serviceId]
+  if (svcDetails) {
+    for (let i = 0; i < svcDetails.kinds.length; i++) {
+      const svcKind = svcDetails.kinds[i]
+      if (svcKind.name === kind.name) return svcKind.id
+    }
+    throw `Service Kind not found in target definition: ${svcDetails.name}:${
+      kind.name
+    }`
+  }
+
   const query = `
     mutation addKind($input: AddKindInput!) {
       addKind(tenantId: 0, input: $input)
     }`
-  // console.log('\naddKind: ', kind)
   const result = await request(context, query, { input: kind })
   return result.addKind
 }
 
 const addFunctions = async (context, functions) => {
   context.spinner.start(chalk.yellow(`Adding functions`))
-  const results = functions.map(async x => addFunction(context, x))
-  return Promise.all(results)
+  const functionMap = {}
+  for (let i = 0; i < functions.length; i++) {
+    const fn = functions[i]
+    const newId = await addFunction(context, fn)
+    functionMap[fn.id] = newId
+  }
+  console.log('fn map', functionMap)
+  return functionMap
 }
 
 const addFunction = async (context, fn) => {
+  // Check for existing and remap
+  const svcDetails = context.serviceDetails[fn.service.id]
+  if (svcDetails) {
+    for (let i = 0; i < svcDetails.functions.length; i++) {
+      const svcFn = svcDetails.functions[i]
+      if (svcFn.name === fn.name) return svcFn.id
+    }
+    throw `Service Function not found in target definition: ${
+      svcDetails.name
+    }:${fn.name}`
+  }
+
   const query = `
     mutation addFunction($input: FunctionInput!) {
       addFunction(input: $input)
     }`
-  const input = {}
-  console.log('\naddFunction: ', fn)
+  const kindMap = context.kindMap
+  console.log('\n\n\nkind map\n\n', kindMap)
+  const input = Object.assign({}, fn, {
+    arguments: fn.arguments.map(x =>
+      Object.assign({}, x, { typeKindId: kindMap[x.typeKindId] })
+    ),
+    outputKindId: kindMap[fn.outputKindId]
+  })
+  console.log('\naddFunction: ', input)
   // const result = await request(context, query, { input })
   // return result.addFunction
 }
 
-const addPortalGraphs = async (context, wsId, pgs) => {
+const addPortalGraphs = async (context, pgs) => {
   context.spinner.start(chalk.yellow(`Adding portal graphs`))
   const query = `
     mutation addPortalGraph($input: AddPortalGraphInput!) {
@@ -256,12 +333,12 @@ const addPortalGraphs = async (context, wsId, pgs) => {
     })
     const input = {
       id: pg.id,
-      workspaceId: wsId,
+      workspaceId: context.workspaceId,
       type: pg.type,
       name: pg.name,
       nodes
     }
-    console.log('\naddPortalGraph: ', input)
+    // console.log('\naddPortalGraph: ', input)
   })
   // const result = await request(context, query, { input })
   // return result.addPortalGraph
