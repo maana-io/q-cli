@@ -64,6 +64,13 @@ export const handler = async (context, argv) => {
   if (!endpoint) return
   context['client'] = endpoint.getClient()
 
+  if (!argv.file) {
+    console.log(
+      chalk.red(`✘ Must specify a file to import (from previous export)`)
+    )
+    return
+  }
+
   context.spinner.start(chalk.yellow(`Loading workspace data`))
   const data = readJson(argv.file)
 
@@ -257,8 +264,14 @@ const addKind = async (context, kind) => {
     mutation addKind($input: AddKindInput!) {
       addKind(tenantId: 0, input: $input)
     }`
-  const result = await request(context, query, { input: kind })
-  return result.addKind
+
+  try {
+    const result = await request(context, query, { input: kind })
+    return result.addKind
+  } catch (error) {
+    console.log('error', error)
+    return kind.id
+  }
 }
 
 const addFunctions = async (context, functions) => {
@@ -307,9 +320,12 @@ const addPortalGraphs = async (context, pgs) => {
   context.spinner.start(chalk.yellow(`Adding portal graphs`))
   const query = `
     mutation addPortalGraph($input: AddPortalGraphInput!) {
-      addPortalGraph(input: $input)
+      addPortalGraph(input: $input) { id }
     }`
-  pgs.forEach(pg => {
+
+  const pgIds = []
+  for (let i = 0; i < pgs.length; i++) {
+    const pg = pgs[i]
     const nodes = pg.nodes.map(x => {
       const node = {
         id: x.id,
@@ -326,7 +342,8 @@ const addPortalGraphs = async (context, pgs) => {
           kindName: x.knowledgeGraphNode.kind.name
         }
       } else if (x.functionGraphNode) {
-        node['functionGraphNode'] = x.functionGraphNode
+        // node['functionGraphNode'] = x.functionGraphNode
+        // NOTE: adding these explicitly is not supported by the platform
       } else {
       }
       return node
@@ -339,9 +356,9 @@ const addPortalGraphs = async (context, pgs) => {
       nodes
     }
     // console.log('\naddPortalGraph: ', input)
-  })
-  // const result = await request(context, query, { input })
-  // return result.addPortalGraph
+    const result = await request(context, query, { input })
+    pgIds.push(result.addPortalGraph.id)
+  }
 }
 
 const request = async (context, query, variables) => {
