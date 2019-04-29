@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import request from 'request-promise-native'
 import { getGraphQLConfig } from 'graphql-config'
+var querystring = require('querystring');
 
 // Plugin boilerplate
 export const command = 'mrefreshauth [--project]'
@@ -55,15 +56,47 @@ export const handler = async (context, argv) => {
   )
 
   // request the access token
-  var requestConfig = {
-    method: 'POST',
-    url: authConfig.url || 'https://maana.auth0.com/oauth/token',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
+  let requestConfig
+  
+  // Auth0 request
+  if(!authConfig.IDP || authConfig.IDP === 'auth0')
+  {
+    requestConfig = {
+      method: 'POST',
+      url: authConfig.url || 'https://maana.auth0.com/oauth/token',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        grant_type: 'refresh_token',
+        client_id: authConfig.id || 'CAivZr2hUDeHpRQZFhMSZLJdjORd7gjk',
+        refresh_token: authConfig.refresh_token
+      })
+    }
+  }
+  // Keycloak request
+  else if(authConfig.IDP === 'keycloak'){
+    var form = {
       grant_type: 'refresh_token',
-      client_id: authConfig.id || 'CAivZr2hUDeHpRQZFhMSZLJdjORd7gjk',
-      refresh_token: authConfig.refresh_token
-    })
+      client_id: authConfig.clientId,
+      refresh_token: authConfig.refreshToken
+    };
+    
+    var formData = querystring.stringify(form);
+    var contentLength = formData.length;
+    requestConfig = {
+      headers: {
+        'Content-Length': contentLength,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      uri: authConfig.tokenUrl,
+      body: formData,
+      method: 'POST'
+    }
+  }else{
+    console.log(
+      chalk.red(
+        `✘ Cannot refresh token from unsupported IDP: ${authConfig.IDP}`
+      )
+    )
   }
 
   try {
