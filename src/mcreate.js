@@ -20,32 +20,9 @@ export const defaultBoilerplates = [
     repo: `${REPO_ROOT}/dotnet_core/cs/basic`
   },
   {
-    name: 'node-ts-basic-service-bot',
-    description: 'A Node-based Knowledge Microservice/Bot (TypeScript)',
-    repo: `${REPO_ROOT}/node/basic-ts`
-  },
-  {
     name: 'node-js-basic-service-bot',
     description: 'A Node-based Knowledge Microservice/Bot (JavaScript)',
     repo: `${REPO_ROOT}/node/basic`
-  },
-  {
-    name: 'node-js-basic-service-bot-with-model',
-    description:
-      'A Node-based Knowledge Microservice/Bot (JavaScript) With a Prisma Model Service',
-    repo: `${REPO_ROOT}/node/basic-with-model`
-  },
-  {
-    name: 'node-js-basic-service-bot-with-logic',
-    description:
-      'A Node-based Knowledge Microservice/Bot (JavaScript) With only a barebones logic service ',
-    repo: `${REPO_ROOT}/node/basic-with-logic`
-  },
-  {
-    name: 'node-js-advanced-service-bot',
-    description:
-      'A Node-based 3-tier (model+logic+ui) Microservice/Bot (Prisma/JavaScript/React)',
-    repo: `${REPO_ROOT}/node/advanced`
   },
   {
     name: 'python-service-bot',
@@ -56,31 +33,6 @@ export const defaultBoilerplates = [
     name: 'python-graphene-service-bot',
     description: 'A Python-based Knowledge Microservice/Bot (Graphene)',
     repo: `${REPO_ROOT}/python/graphene`
-  },
-  {
-    name: 'scala-service-bot',
-    description: 'A Scala-based Knowledge Microservice/Bot',
-    repo: `${REPO_ROOT}/scala`
-  },
-  {
-    name: 'go-service-bot',
-    description: 'A Go Knowledge Microservice/Bot',
-    repo: `${REPO_ROOT}/go`
-  },
-  {
-    name: 'react-app',
-    description: 'React-based Knowledge Application',
-    repo: `${REPO_ROOT}/node/react`
-  },
-  {
-    name: 'vue-app',
-    description: 'Vue-based Knowledge Application',
-    repo: `${REPO_ROOT}/node/vue`
-  },
-  {
-    name: 'django-app',
-    description: 'Django-based Knowledge Application',
-    repo: `${REPO_ROOT}/python/django`
   }
 ]
 
