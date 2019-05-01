@@ -83,13 +83,13 @@ export const handler = async (context, argv) => {
       })
     }
     console.log(chalk.green('✔ Configuration set for IDP: auth0'))
-  } else if(authConfig.IDP === 'keycloak'){
+  } else if (authConfig.IDP === 'keycloak'){
     // With keycloak, we do the token exchange externally, and validate the token here. 
     // Send a request to the userinfo endpoint on keycloak.
-    // This ensures the token received is valid -- not necessarily ours, i.e., this could be spoofed (as could Auth0). 
-    // Regardless, this is acceptable (for either IDP flow) since all requests authenticate through API.
+    // This ensures the token received is valid -- not necessarily of our origin, i.e., this could be spoofed (as could Auth0). 
+    // Regardless, this is acceptable (for either IDP flow) since all requests must authenticate through API against auth provider.
     let token = (!authConfig.token.startsWith('Bearer ')) 
-      ?'Bearer '+authConfig.token
+      ?'Bearer ' + authConfig.token
       : token
 
     let userInfoUrl = authConfig.userInfoUrl
@@ -118,17 +118,19 @@ export const handler = async (context, argv) => {
     // Set auth info to Auth0 repsonse, containing token.
     if( !authConfig.IDP || authConfig.IDP === 'auth0'){
       authInfo = JSON.parse(response)
+      authInfo.expires_at = Date.now() + authInfo.expires_in * 1000
+      authInfo.url = authConfig.url
+      authInfo.id = authConfig.id
     }
     // For keycloak, use what's in the authconfig that we validated.
     else if(authConfig.IDP === 'keycloak'){
       authInfo = authConfig
-      // Give alias for token to match Auth0.
+      // Give alias for token to match Auth0 for prosperity.
       authConfig.access_token = authConfig.token
+      authInfo.expires_at = Date.now() + authInfo.tokenParsed.exp * 1000
+      authInfo.url = authConfig.tokenUrl
+      authInfo.id = authConfig.clientId
     }
-
-    authInfo.expires_at = Date.now() + authInfo.expires_in * 1000
-    authInfo.url = authConfig.url
-    authInfo.id = authConfig.id
     
     // add auth information to the cofig and save it
     maanaOptions.auth = Buffer.from(JSON.stringify(authInfo)).toString('base64')

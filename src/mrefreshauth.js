@@ -73,7 +73,7 @@ export const handler = async (context, argv) => {
     }
   }
   // Keycloak request
-  else if(authConfig.IDP === 'keycloak'){
+  else if (authConfig.IDP === 'keycloak'){
     var form = {
       grant_type: 'refresh_token',
       client_id: authConfig.clientId,
@@ -91,7 +91,7 @@ export const handler = async (context, argv) => {
       body: formData,
       method: 'POST'
     }
-  }else{
+  } else{
     console.log(
       chalk.red(
         `✘ Cannot refresh token from unsupported IDP: ${authConfig.IDP}`
@@ -103,8 +103,14 @@ export const handler = async (context, argv) => {
     let response = await request(requestConfig)
     // build the auth information
     let authInfo = JSON.parse(response)
-    authConfig.expires_at = Date.now() + authInfo.expires_in * 1000
-    authConfig.access_token = authInfo.access_token
+
+    if (!authInfo.IDP || authInfo.IDP === 'auth0'){
+      authConfig.expires_at = Date.now() + authInfo.expires_in * 1000
+      authConfig.access_token = authInfo.access_token
+    } else if(authInfo.IDP === 'keycloak') {
+      authConfig.expires_at = Date.now() + authInfo.tokenParsed.exp * 1000
+      authConfig.access_token = authInfo.token
+    }
 
     // add auth information to the cofig and save it
     maanaOptions.auth = Buffer.from(JSON.stringify(authConfig)).toString(
