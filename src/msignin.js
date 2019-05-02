@@ -88,15 +88,13 @@ export const handler = async (context, argv) => {
     // Send a request to the userinfo endpoint on keycloak.
     // This ensures the token received is valid -- not necessarily of our origin, i.e., this could be spoofed (as could Auth0). 
     // Regardless, this is acceptable (for either IDP flow) since all requests must authenticate through API against auth provider.
-    let token = (!authConfig.token.startsWith('Bearer ')) 
-      ?'Bearer ' + authConfig.token
+    let token = (!authConfig.access_token.startsWith('Bearer ')) 
+      ?'Bearer ' + authConfig.access_token
       : token
-
-    let userInfoUrl = authConfig.userInfoUrl
 
     requestConfig = {
         method: 'GET',
-        url: userInfoUrl, 
+        url: `${authConfig.url}/auth/realms/${authConfig.realm}/protocol/openid-connect/userinfo`, 
         headers: {
             Authorization: token
         },
@@ -125,11 +123,7 @@ export const handler = async (context, argv) => {
     // For keycloak, use what's in the authconfig that we validated.
     else if(authConfig.IDP === 'keycloak'){
       authInfo = authConfig
-      // Give alias for token to match Auth0 for prosperity.
-      authConfig.access_token = authConfig.token
-      authInfo.expires_at = Date.now() + authInfo.tokenParsed.exp * 1000
-      authInfo.url = authConfig.tokenUrl
-      authInfo.id = authConfig.clientId
+      // Expiry, url, and id are expected in incoming base64 package. 
     }
     
     // add auth information to the cofig and save it
