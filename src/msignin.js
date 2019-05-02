@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import request from 'request-promise-native'
 import { getGraphQLConfig } from 'graphql-config'
-import { addHeadersToConfig } from './util'
+import { addHeadersToConfig, IdentityProvider } from './util'
 
 // Plugin boilerplate
 export const command = 'msignin [Authentication Token] [--project]'
@@ -62,12 +62,6 @@ export const handler = async (context, argv) => {
     }
     authConfig = JSON.parse(Buffer.from(authToken, 'base64').toString())
   }
-
-  // Define enum for supported IDPs.
-  const IdentityProvider = Object.freeze({
-    Auth0: 'auth0',
-    KeyCloak: 'keycloak'
-  })
 
   let requestConfig
 

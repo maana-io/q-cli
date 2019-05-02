@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import request from 'request-promise-native'
 import { getGraphQLConfig } from 'graphql-config'
+import { IdentityProvider } from './util'
 var querystring = require('querystring');
 
 // Plugin boilerplate
@@ -54,12 +55,6 @@ export const handler = async (context, argv) => {
   let authConfig = JSON.parse(
     Buffer.from(maanaOptions.auth, 'base64').toString()
   )
-
-  // Define enum for supported IDPs.
-  const IdentityProvider = Object.freeze({
-    Auth0: 'auth0',
-    KeyCloak: 'keycloak'
-  })
 
   let requestConfig
   
