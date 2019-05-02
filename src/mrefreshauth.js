@@ -55,11 +55,16 @@ export const handler = async (context, argv) => {
     Buffer.from(maanaOptions.auth, 'base64').toString()
   )
 
-  // request the access token
+  // Define enum for supported IDPs.
+  const IdentityProvider = Object.freeze({
+    Auth0: 'auth0',
+    KeyCloak: 'keycloak'
+  })
+
   let requestConfig
   
   // Auth0 request
-  if(!authConfig.IDP || authConfig.IDP === 'auth0')
+  if(!authConfig.IDP || authConfig.IDP === IdentityProvider.Auth0)
   {
     requestConfig = {
       method: 'POST',
@@ -73,7 +78,7 @@ export const handler = async (context, argv) => {
     }
   }
   // Keycloak request
-  else if (authConfig.IDP === 'keycloak'){
+  else if (authConfig.IDP === IdentityProvider.KeyCloak){
     var form = {
       grant_type: 'refresh_token',
       client_id: authConfig.id,
@@ -104,10 +109,10 @@ export const handler = async (context, argv) => {
     // build the auth information
     let authInfo = JSON.parse(response)
 
-    if (!authInfo.IDP || authInfo.IDP === 'auth0'){
+    if (!authInfo.IDP || authInfo.IDP === IdentityProvider.Auth0){
       authConfig.expires_at = Date.now() + authInfo.expires_in * 1000
       authConfig.access_token = authInfo.access_token
-    } else if(authInfo.IDP === 'keycloak') {
+    } else if(authInfo.IDP === IdentityProvider.KeyCloak) {
       // Account for different token format from keycloak.
       authConfig.expires_at = authInfo.tokenParsed.exp * 1000
       authConfig.access_token = authInfo.token

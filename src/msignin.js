@@ -63,11 +63,17 @@ export const handler = async (context, argv) => {
     authConfig = JSON.parse(Buffer.from(authToken, 'base64').toString())
   }
 
+  // Define enum for supported IDPs.
+  const IdentityProvider = Object.freeze({
+    Auth0: 'auth0',
+    KeyCloak: 'keycloak'
+  })
+
   let requestConfig
 
   // With different auth providers, we now expect--not require--the IDP (Auth0, or keycloak) serialized in the initial base64 packet.
   // Default to auth0. 
-  if( !authConfig.IDP || authConfig.IDP === 'auth0'){
+  if( !authConfig.IDP || authConfig.IDP === IdentityProvider.Auth0){
     // Auth0 uses Authentication Code Flow and PKCE, exchanging code for full auth token.
     requestConfig = {
       method: 'POST',
@@ -83,7 +89,7 @@ export const handler = async (context, argv) => {
       })
     }
     console.log(chalk.green('✔ Configuration set for IDP: auth0'))
-  } else if (authConfig.IDP === 'keycloak'){
+  } else if (authConfig.IDP === IdentityProvider.KeyCloak){
     // With keycloak, we do the token exchange externally, and validate the token here. 
     // Send a request to the userinfo endpoint on keycloak.
     // This ensures the token received is valid -- not necessarily of our origin, i.e., this could be spoofed (as could Auth0). 
@@ -114,14 +120,14 @@ export const handler = async (context, argv) => {
     let authInfo
 
     // Set auth info to Auth0 repsonse, containing token.
-    if( !authConfig.IDP || authConfig.IDP === 'auth0'){
+    if( !authConfig.IDP || authConfig.IDP === IdentityProvider.Auth0){
       authInfo = JSON.parse(response)
       authInfo.expires_at = Date.now() + authInfo.expires_in * 1000
       authInfo.url = authConfig.url
       authInfo.id = authConfig.id
     }
     // For keycloak, use what's in the authconfig that we validated.
-    else if(authConfig.IDP === 'keycloak'){
+    else if(authConfig.IDP === IdentityProvider.KeyCloak){
       authInfo = authConfig
       // Expiry, url, and id are expected in incoming base64 package. 
     }
