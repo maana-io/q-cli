@@ -78,7 +78,7 @@ export const handler = async (context, argv) => {
       grant_type: 'refresh_token',
       client_id: authConfig.id,
       refresh_token: authConfig.refresh_token
-    };
+    }
     
     var formData = querystring.stringify(form);
     var contentLength = formData.length;
@@ -87,7 +87,7 @@ export const handler = async (context, argv) => {
         'Content-Length': contentLength,
         'Content-Type': 'application/x-www-form-urlencoded'
       },
-      uri: `${authConfig.url}/auth/realms/${authConfig.realm}/protocol/openid-connect/userinfo`,
+      uri: authConfig.url,
       body: formData,
       method: 'POST'
     }
@@ -101,17 +101,11 @@ export const handler = async (context, argv) => {
 
   try {
     let response = await request(requestConfig)
+
     // build the auth information
     let authInfo = JSON.parse(response)
-
-    if (!authInfo.IDP || authInfo.IDP === IdentityProvider.Auth0){
-      authConfig.expires_at = Date.now() + authInfo.expires_in * 1000
-      authConfig.access_token = authInfo.access_token
-    } else if(authInfo.IDP === IdentityProvider.KeyCloak) {
-      // Account for different token format from keycloak.
-      authConfig.expires_at = authInfo.tokenParsed.exp * 1000
-      authConfig.access_token = authInfo.token
-    }
+    authConfig.expires_at = Date.now() + authInfo.expires_in * 1000
+    authConfig.access_token = authInfo.access_token
 
     // add auth information to the cofig and save it
     maanaOptions.auth = Buffer.from(JSON.stringify(authConfig)).toString(
