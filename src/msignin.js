@@ -71,7 +71,7 @@ export const handler = async (context, argv) => {
   try {
     // Set auth info to Auth0 repsonse, containing token.
     if(!authConfig.IDP || authConfig.IDP === IdentityProvider.Auth0){
-      // Auth0 uses Authentication Code Flow and PKCE, exchanging code for full auth token.
+      // Auth0 uses Authentication Code Flow and PKCE.
       requestConfig = {
         method: 'POST',
         url: authConfig.url,
@@ -86,7 +86,7 @@ export const handler = async (context, argv) => {
       }
       console.log(chalk.green('✔ Auth provider configured as Auth0')) 
     }
-    // For keycloak, use what's in the authconfig that we validated.
+    // Keycloak uses Authentication Code Flow and PKCE.
     else if(authConfig.IDP === IdentityProvider.KeyCloak){
       var form = {
         grant_type: 'authorization_code',
@@ -117,8 +117,9 @@ export const handler = async (context, argv) => {
     authInfo.id = authConfig.id
 
     // If we have IDP persist this for refresh.
-    if (authConfig.IDP)
+    if (authConfig.IDP){
       authInfo.IDP = authConfig.IDP
+    }
 
     // add auth information to the cofig and save it
     maanaOptions.auth = Buffer.from(JSON.stringify(authInfo)).toString('base64')
