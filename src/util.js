@@ -188,14 +188,3 @@ export const getSchema = config => {
   const schemaContents = fs.readFileSync(schemaPath).toString()
   return buildASTSchema(parse(schemaContents))
 }
-
-
-//
-// Auth utilities
-//
-
-// Enum for supported IDPs.
-export const IdentityProvider = Object.freeze({
-  Auth0: 'auth0',
-  KeyCloak: 'keycloak'
-})

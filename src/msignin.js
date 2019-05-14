@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import request from 'request-promise-native'
 import { getGraphQLConfig } from 'graphql-config'
-import { addHeadersToConfig, IdentityProvider } from './util'
+import { addHeadersToConfig } from './util'
 const querystring = require('querystring');
 
 // Plugin boilerplate
