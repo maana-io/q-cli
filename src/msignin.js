@@ -1,8 +1,8 @@
 import chalk from 'chalk'
 import request from 'request-promise-native'
 import { getGraphQLConfig } from 'graphql-config'
-
 import { addHeadersToConfig } from './util'
+const querystring = require('querystring');
 
 // Plugin boilerplate
 export const command = 'msignin [Authentication Token] [--project]'
@@ -45,15 +45,14 @@ export const handler = async (context, argv) => {
   // make sure we have the authentication token
   let authConfig = null
   if (argv.AuthenticationToken) {
-    authConfig = JSON.parse(
-      Buffer.from(argv.AuthenticationToken, 'base64').toString()
-    )
+    authConfig = JSON.parse(Buffer.from(argv.AuthenticationToken, 'base64').toString())
   } else {
     const { authToken } = await context.prompt({
       type: 'password',
       name: 'authToken',
       message: 'Enter authentication token:'
     })
+
     if (!authToken) {
       console.log(
         chalk.red(
@@ -65,23 +64,31 @@ export const handler = async (context, argv) => {
     authConfig = JSON.parse(Buffer.from(authToken, 'base64').toString())
   }
 
-  // request the access token
-  var requestConfig = {
-    method: 'POST',
-    url: authConfig.url,
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
+  try {
+    // Authorization code flow with PKCE
+    // This is a generic OAuth request and will
+    // work for Auth0 or Keycloak.
+    var requestConfig = {
       grant_type: 'authorization_code',
       client_id: authConfig.id,
       code_verifier: Buffer.from(authConfig.state, 'base64').toString(),
       code: authConfig.code,
       redirect_uri: authConfig.ruri
-    })
-  }
+    }
 
-  try {
+    var formData = querystring.stringify(form);
+    var contentLength = formData.length;
+    requestConfig = {
+      headers: {
+        'Content-Length': contentLength,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      uri: authConfig.url,
+      body: formData,
+      method: 'POST'
+    }
+
     let response = await request(requestConfig)
-    // build the auth information
     let authInfo = JSON.parse(response)
     authInfo.expires_at = Date.now() + authInfo.expires_in * 1000
     authInfo.url = authConfig.url
@@ -93,11 +100,10 @@ export const handler = async (context, argv) => {
     fullConfig.saveConfig(fullConfig.config)
 
     console.log(chalk.green('✔ Successfully signed into Maana CLI'))
-
     // TODO:  Add a command that can be used to export the env variable
   } catch (e) {
     if (e.response && e.response.statusCode) {
-      console.log(
+        console.log(
         chalk.red(`✘ Failed to sign in with status ${e.response.statusCode}`)
       )
       if (e.response.body) {

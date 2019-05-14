@@ -1,6 +1,7 @@
 import chalk from 'chalk'
 import request from 'request-promise-native'
 import { getGraphQLConfig } from 'graphql-config'
+var querystring = require('querystring');
 
 // Plugin boilerplate
 export const command = 'mrefreshauth [--project]'
@@ -54,20 +55,29 @@ export const handler = async (context, argv) => {
     Buffer.from(maanaOptions.auth, 'base64').toString()
   )
 
-  // request the access token
-  var requestConfig = {
-    method: 'POST',
-    url: authConfig.url || 'https://maana.auth0.com/oauth/token',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({
-      grant_type: 'refresh_token',
-      client_id: authConfig.id || 'CAivZr2hUDeHpRQZFhMSZLJdjORd7gjk',
-      refresh_token: authConfig.refresh_token
-    })
+  // This is a generic OAuth request and will
+  // work for Auth0 or Keycloak.
+  let requestConfig = {
+    grant_type: 'refresh_token',
+    client_id: authConfig.id,
+    refresh_token: authConfig.refresh_token
+  }
+
+  var formData = querystring.stringify(form);
+  var contentLength = formData.length;
+  requestConfig = {
+    headers: {
+      'Content-Length': contentLength,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    uri: authConfig.url,
+    body: formData,
+    method: 'POST'
   }
 
   try {
     let response = await request(requestConfig)
+
     // build the auth information
     let authInfo = JSON.parse(response)
     authConfig.expires_at = Date.now() + authInfo.expires_in * 1000
