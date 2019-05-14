@@ -68,7 +68,7 @@ export const handler = async (context, argv) => {
     // Authorization code flow with PKCE
     // This is a generic OAuth request and will
     // work for Auth0 or Keycloak.
-    var requestConfig = {
+    var form = {
       grant_type: 'authorization_code',
       client_id: authConfig.id,
       code_verifier: Buffer.from(authConfig.state, 'base64').toString(),
@@ -78,7 +78,7 @@ export const handler = async (context, argv) => {
 
     var formData = querystring.stringify(form);
     var contentLength = formData.length;
-    requestConfig = {
+    var requestConfig = {
       headers: {
         'Content-Length': contentLength,
         'Content-Type': 'application/x-www-form-urlencoded'

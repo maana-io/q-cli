@@ -57,7 +57,7 @@ export const handler = async (context, argv) => {
 
   // This is a generic OAuth request and will
   // work for Auth0 or Keycloak.
-  let requestConfig = {
+  let form = {
     grant_type: 'refresh_token',
     client_id: authConfig.id,
     refresh_token: authConfig.refresh_token
@@ -65,7 +65,7 @@ export const handler = async (context, argv) => {
 
   var formData = querystring.stringify(form);
   var contentLength = formData.length;
-  requestConfig = {
+  var requestConfig = {
     headers: {
       'Content-Length': contentLength,
       'Content-Type': 'application/x-www-form-urlencoded'
