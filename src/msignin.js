@@ -64,62 +64,35 @@ export const handler = async (context, argv) => {
     authConfig = JSON.parse(Buffer.from(authToken, 'base64').toString())
   }
 
-  let requestConfig
-  let authInfo
-
-  // Fetch anything else and persist to config.
   try {
-    // Set auth info to Auth0 repsonse, containing token.
-    if(!authConfig.IDP || authConfig.IDP === IdentityProvider.Auth0){
-      // Auth0 uses Authentication Code Flow and PKCE.
-      requestConfig = {
-        method: 'POST',
-        url: authConfig.url,
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          grant_type: 'authorization_code',
-          client_id: authConfig.id,
-          code_verifier: Buffer.from(authConfig.state, 'base64').toString(),
-          code: authConfig.code,
-          redirect_uri: authConfig.ruri
-        })
-      }
-      console.log(chalk.green('✔ Auth provider configured as Auth0')) 
+    // Authorization code flow with PKCE
+    // This is a generic OAuth request and will
+    // work for Auth0 or Keycloak.
+    var requestConfig = {
+      grant_type: 'authorization_code',
+      client_id: authConfig.id,
+      code_verifier: Buffer.from(authConfig.state, 'base64').toString(),
+      code: authConfig.code,
+      redirect_uri: authConfig.ruri
     }
-    // Keycloak uses Authentication Code Flow and PKCE.
-    else if(authConfig.IDP === IdentityProvider.KeyCloak){
-      var form = {
-        grant_type: 'authorization_code',
-        client_id: authConfig.id,
-        code_verifier: Buffer.from(authConfig.state, 'base64').toString(),
-        code: authConfig.code,
-        redirect_uri: authConfig.ruri
-      }
-      
-      var formData = querystring.stringify(form);
-      var contentLength = formData.length;
-      requestConfig = {
-        headers: {
-          'Content-Length': contentLength,
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        uri: authConfig.url,
-        body: formData,
-        method: 'POST'
-      }
-      console.log(chalk.green('✔ Auth provider configured as keycloak'))   
+
+    var formData = querystring.stringify(form);
+    var contentLength = formData.length;
+    requestConfig = {
+      headers: {
+        'Content-Length': contentLength,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      uri: authConfig.url,
+      body: formData,
+      method: 'POST'
     }
 
     let response = await request(requestConfig)
-    authInfo = JSON.parse(response)
+    let authInfo = JSON.parse(response)
     authInfo.expires_at = Date.now() + authInfo.expires_in * 1000
     authInfo.url = authConfig.url
     authInfo.id = authConfig.id
-
-    // If we have IDP persist this for refresh.
-    if (authConfig.IDP){
-      authInfo.IDP = authConfig.IDP
-    }
 
     // add auth information to the cofig and save it
     maanaOptions.auth = Buffer.from(JSON.stringify(authInfo)).toString('base64')

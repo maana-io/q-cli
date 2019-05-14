@@ -56,47 +56,24 @@ export const handler = async (context, argv) => {
     Buffer.from(maanaOptions.auth, 'base64').toString()
   )
 
-  let requestConfig
-  
-  // Auth0 request
-  if(!authConfig.IDP || authConfig.IDP === IdentityProvider.Auth0)
-  {
-    requestConfig = {
-      method: 'POST',
-      url: authConfig.url,
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        grant_type: 'refresh_token',
-        client_id: authConfig.id,
-        refresh_token: authConfig.refresh_token
-      })
-    }
+  // This is a generic OAuth request and will
+  // work for Auth0 or Keycloak.
+  let requestConfig = {
+    grant_type: 'refresh_token',
+    client_id: authConfig.id,
+    refresh_token: authConfig.refresh_token
   }
-  // Keycloak request
-  else if (authConfig.IDP === IdentityProvider.KeyCloak){
-    var form = {
-      grant_type: 'refresh_token',
-      client_id: authConfig.id,
-      refresh_token: authConfig.refresh_token
-    }
-    
-    var formData = querystring.stringify(form);
-    var contentLength = formData.length;
-    requestConfig = {
-      headers: {
-        'Content-Length': contentLength,
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      uri: authConfig.url,
-      body: formData,
-      method: 'POST'
-    }
-  } else{
-    console.log(
-      chalk.red(
-        `✘ Cannot refresh token from unsupported IDP: ${authConfig.IDP}`
-      )
-    )
+
+  var formData = querystring.stringify(form);
+  var contentLength = formData.length;
+  requestConfig = {
+    headers: {
+      'Content-Length': contentLength,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    uri: authConfig.url,
+    body: formData,
+    method: 'POST'
   }
 
   try {
