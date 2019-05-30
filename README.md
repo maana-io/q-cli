@@ -75,7 +75,7 @@ gql maddsvc MyService -s model.gql -i io.acme.myservice
 
 Sign into the Maana CLI so you can authenticate against the Maana API.
 
-Authenticated CLI sessions (access token lifespans) do not automatically refresh--they must be refreshed manually with 'mrefreshauth'.
+Authenticated CLI sessions (access token lifespans) do not automatically refresh--they must be refreshed manually with 'mrefreshauth' and exported again with 'menv'.
 
 Note: Auth provider must be configured to issue CLI access tokens with a sufficiently long lifespan to perform long running tasks. Default recommendation is 10 hours.
 
