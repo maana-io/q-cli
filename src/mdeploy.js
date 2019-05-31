@@ -4,24 +4,18 @@ import inquirer from 'inquirer'
 import shell from 'shelljs'
 import fs from 'fs'
 import stripBom from 'strip-bom'
+var path = require('path')
 
 const prompt = inquirer.createPromptModule()
 
-export const command = 'mdeploy [--switch]'
-export const desc = 'Deploy your service to Kubernetes'
+const scripts = {
+  publish: __dirname + `/scripts/publish.sh`,
+  deploy: __dirname + `/scripts/deploy.sh`,
+  update: __dirname + `/scripts/update.sh`
+}
 
-const questions = [
-  {
-    name: 'targetPlatform',
-    message: 'What is target platform you are deplying to',
-    type: 'list',
-    choices: [
-      { name: 'Azure AKS (Must have Azure CLI installed)', value: 'aks' },
-      { name: 'Standalone Kuberenetes Cluster', value: 'standalone' },
-      { name: 'OpenShift', value: 'openshift' }
-    ]
-  }
-]
+export const command = 'mdeploy [--switch]'
+export const describe = 'Deploy your service to Kubernetes'
 
 const azureLogin = async () => {
   console.log(chalk.blueBright('Please log in to your Azure account:'))
@@ -114,8 +108,84 @@ const azureDeploy = async () => {
   console.log(chalk.bgGreen(`Deployment complete`))
 }
 
-const standaloneDeploy = async () => {
-  console.log(chalk.red('Standalone is not yet supported'))
+const isServiceAvailable = serviceName => {
+  try {
+    let describe = JSON.parse(
+      shell.exec(`kubectl get deployment ${serviceName} -o json`, {
+        silent: true
+      })
+    )
+
+    return describe && describe.status && describe.status.conditions
+      ? describe.status.conditions[0].type === 'Available'
+      : false
+  } catch (e) {
+    return false
+  }
+}
+
+const registryDeploy = async (
+  serviceName,
+  servicePath,
+  registryPath,
+  versionTag,
+  numReplicas,
+  port
+) => {
+  //If service exist
+  if (isServiceAvailable(serviceName)) {
+    console.log(
+      chalk.blueBright(`Found an existing service called ${serviceName}.`)
+    )
+
+    const deleteAndDeployOrUpdateQuestions = [
+      {
+        name: 'deleteAndDeployOrUpdate',
+        message:
+          'Would you like to delete the existing service and redeploy? Or would you rather just update?',
+        type: 'list',
+        choices: [
+          { name: 'Delete and redeploy', value: 'delete' },
+          { name: 'Update', value: 'update' }
+        ]
+      }
+    ]
+
+    const answers = await prompt(deleteAndDeployOrUpdateQuestions)
+
+    switch (answers.deleteAndDeployOrUpdate) {
+      case 'delete':
+        shell.exec(
+          `${
+            scripts.deploy
+          } ${serviceName} ${servicePath} ${registryPath} ${versionTag} ${numReplicas} ${port}`
+        )
+        break
+      case 'update':
+        shell.exec(
+          `${
+            scripts.publish
+          } ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
+        )
+        shell.exec(
+          `${
+            scripts.update
+          } ${serviceName} ${servicePath} ${registryPath} ${versionTag} ${numReplicas} ${port}`
+        )
+        break
+    }
+  } else {
+    shell.exec(
+      `${
+        scripts.publish
+      } ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
+    )
+    shell.exec(
+      `${
+        scripts.deploy
+      } ${serviceName} ${servicePath} ${registryPath} ${versionTag} ${numReplicas} ${port}`
+    )
+  }
 }
 
 const openshiftDeploy = async () => {
@@ -123,6 +193,17 @@ const openshiftDeploy = async () => {
 }
 
 export const handler = async (context, argv) => {
+  const questions = [
+    {
+      name: 'targetPlatform',
+      message: 'What is target platform you are deplying to',
+      type: 'list',
+      choices: [
+        { name: 'Private Docker Registry', value: 'registry' },
+        { name: 'Azure AKS (Must have Azure CLI installed)', value: 'aks' }
+      ]
+    }
+  ]
   const answers = await prompt(questions)
 
   switch (answers.targetPlatform) {
@@ -141,11 +222,86 @@ export const handler = async (context, argv) => {
       await azureDeploy()
       console.log(chalk.green('Deployment on Azure AKS is Complete'))
       break
-    case 'standalone':
-      await standaloneDeploy()
-      break
-    case 'openshift':
-      await openshiftDeploy()
+    case 'registry':
+      const serviceNameShell = path.basename(process.cwd())
+
+      const registryQuestions = [
+        {
+          name: 'serviceName',
+          message: 'What is the service name?',
+          default: serviceNameShell,
+          type: 'string'
+        },
+        {
+          name: 'servicePath',
+          message: 'What is the path to the folder containing your Dockerfile?',
+          default: process.cwd() + '/service',
+          type: 'string'
+        },
+        {
+          name: 'registryPath',
+          message: 'What is hostname for your container registry?',
+          default: 'services.azurecr.io',
+          type: 'string'
+        },
+        {
+          name: 'versionTag',
+          message: 'What version tag you would like to use?',
+          default: 'v1',
+          type: 'string'
+        },
+        {
+          name: 'numReplicas',
+          message: 'How many pods would you like to spin up?',
+          default: 1,
+          type: 'input'
+        },
+        {
+          name: 'port',
+          message: 'What is the port your application is running on?',
+          default: 8050,
+          type: 'input'
+        }
+      ]
+
+      const registryOptions = await prompt(registryQuestions)
+
+      const {
+        serviceName,
+        servicePath,
+        registryPath,
+        versionTag,
+        numReplicas,
+        port
+      } = registryOptions
+
+      const finalConfirmation = await prompt({
+        message: `Please confirm the following deployment plan:
+
+Deploying the service ${chalk.green(serviceName + ':' + versionTag)}
+Located in ${chalk.green(servicePath)}
+Publishing to ${chalk.green(registryPath)}
+Number Of Pods: ${chalk.green(numReplicas)}
+Exposing port ${chalk.green(port)}
+
+Cofirm?`,
+        name: 'confirm',
+        type: 'confirm'
+      })
+
+      if (finalConfirmation.confirm) {
+        await registryDeploy(
+          serviceName,
+          servicePath,
+          registryPath,
+          versionTag,
+          numReplicas,
+          port
+        )
+      } else {
+        console.log('Exiting...')
+      }
+
       break
   }
 }
