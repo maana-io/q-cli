@@ -14,8 +14,49 @@ const scripts = {
   update: __dirname + `/scripts/update.sh`
 }
 
-export const command = 'mdeploy [--switch]'
+export const command = 'mdeploy'
+// [serviceName] [servicePath] [registryPath] [versionTag] [numReplicas]
 export const describe = 'Deploy your service to Kubernetes'
+export const builder = {
+  programatic: {
+    alias: 'pr',
+    describe:
+      'Disable the interactive mode of the CLI to use it programatically',
+    type: 'boolean',
+    default: false
+  },
+  serviceName: {
+    alias: 'name',
+    describe: 'The name for the service',
+    type: 'string',
+    default: ''
+  },
+  servicePath: {
+    alias: 'path',
+    describe:
+      'The path to the folder containing the Dockerfile for the service',
+    type: 'string',
+    default: ''
+  },
+  registryPath: {
+    alias: 'registry',
+    describe: 'The hostname to a container registry',
+    type: 'string',
+    default: ''
+  },
+  versionTag: {
+    alias: 'tag',
+    describe: 'The version tag for the service',
+    type: 'string',
+    default: ''
+  },
+  numReplicas: {
+    alias: 'replicas',
+    describe: 'The number of pods for the service',
+    type: 'number',
+    default: 0
+  }
+}
 
 const azureLogin = async () => {
   console.log(chalk.blueBright('Please log in to your Azure account:'))
@@ -202,103 +243,126 @@ export const handler = async (context, argv) => {
   ]
   const answers = await prompt(questions)
 
-  switch (answers.targetPlatform) {
-    case 'aks':
-      const homedir = require('os').homedir()
-      const credentials = await fs.readFileSync(
-        homedir + '/.azure/azureProfile.json',
-        'utf8'
-      )
-      const { subscriptions } = JSON.parse(stripBom(credentials))
+  console.log(argv)
 
-      if (subscriptions.length === 0) {
-        await azureLogin()
-      }
+  if (argv.programatic) {
+    const {
+      serviceName,
+      servicePath,
+      registryPath,
+      versionTag,
+      numReplicas,
+      port
+    } = argv
 
-      await azureDeploy()
-      console.log(chalk.green('Deployment on Azure AKS is Complete'))
-      break
-    case 'registry':
-      const serviceNameShell = path.basename(process.cwd())
+    await registryDeploy(
+      serviceName,
+      servicePath,
+      registryPath,
+      versionTag,
+      numReplicas,
+      port
+    )
+  } else {
+    switch (answers.targetPlatform) {
+      case 'aks':
+        const homedir = require('os').homedir()
+        const credentials = await fs.readFileSync(
+          homedir + '/.azure/azureProfile.json',
+          'utf8'
+        )
+        const { subscriptions } = JSON.parse(stripBom(credentials))
 
-      const registryQuestions = [
-        {
-          name: 'serviceName',
-          message: 'What is the service name?',
-          default: serviceNameShell,
-          type: 'string'
-        },
-        {
-          name: 'servicePath',
-          message: 'What is the path to the folder containing your Dockerfile?',
-          default: process.cwd() + '/service',
-          type: 'string'
-        },
-        {
-          name: 'registryPath',
-          message: 'What is hostname for your container registry?',
-          default: 'services.azurecr.io',
-          type: 'string'
-        },
-        {
-          name: 'versionTag',
-          message: 'What version tag you would like to use?',
-          default: 'v1',
-          type: 'string'
-        },
-        {
-          name: 'numReplicas',
-          message: 'How many pods would you like to spin up?',
-          default: 1,
-          type: 'input'
-        },
-        {
-          name: 'port',
-          message: 'What is the port your application is running on?',
-          default: 8050,
-          type: 'input'
+        if (subscriptions.length === 0) {
+          await azureLogin()
         }
-      ]
 
-      const registryOptions = await prompt(registryQuestions)
+        await azureDeploy()
+        console.log(chalk.green('Deployment on Azure AKS is Complete'))
+        break
+      case 'registry':
+        const serviceNameShell = path.basename(process.cwd())
 
-      const {
-        serviceName,
-        servicePath,
-        registryPath,
-        versionTag,
-        numReplicas,
-        port
-      } = registryOptions
+        const registryQuestions = [
+          {
+            name: 'serviceName',
+            message: 'What is the service name?',
+            default: serviceNameShell,
+            type: 'string'
+          },
+          {
+            name: 'servicePath',
+            message:
+              'What is the path to the folder containing your Dockerfile?',
+            default: process.cwd() + '/service',
+            type: 'string'
+          },
+          {
+            name: 'registryPath',
+            message: 'What is hostname for your container registry?',
+            default: 'services.azurecr.io',
+            type: 'string'
+          },
+          {
+            name: 'versionTag',
+            message: 'What version tag you would like to use?',
+            default: 'v1',
+            type: 'string'
+          },
+          {
+            name: 'numReplicas',
+            message: 'How many pods would you like to spin up?',
+            default: 1,
+            type: 'input'
+          },
+          {
+            name: 'port',
+            message: 'What is the port your application is running on?',
+            default: 8050,
+            type: 'input'
+          }
+        ]
 
-      const finalConfirmation = await prompt({
-        message:
-          `Please confirm the following deployment plan:` +
-          `Deploying the service ${chalk.green(
-            serviceName + ':' + versionTag
-          )}\n` +
-          `Located in ${chalk.green(servicePath)}\n` +
-          `Publishing to ${chalk.green(registryPath)}\n` +
-          `Number Of Pods: ${chalk.green(numReplicas)}\n` +
-          `Exposing port ${chalk.green(port)}\n` +
-          `Confirm?`,
-        name: 'confirm',
-        type: 'confirm'
-      })
+        const registryOptions = await prompt(registryQuestions)
 
-      if (finalConfirmation.confirm) {
-        await registryDeploy(
+        const {
           serviceName,
           servicePath,
           registryPath,
           versionTag,
           numReplicas,
           port
-        )
-      } else {
-        console.log('Exiting...')
-      }
+        } = registryOptions
 
-      break
+        const finalConfirmation = await prompt({
+          message:
+            `Please confirm the following deployment plan:\n` +
+            `Deploying the service ${chalk.green(
+              serviceName + ':' + versionTag
+            )}\n` +
+            `Located in ${chalk.green(servicePath)}\n` +
+            `Publishing to ${chalk.green(registryPath)}\n` +
+            `Number Of Pods: ${chalk.green(numReplicas)}\n` +
+            `Exposing port ${chalk.green(port)}\n` +
+            `Confirm?`,
+          name: 'confirm',
+          type: 'confirm'
+        })
+
+        if (finalConfirmation.confirm) {
+          await registryDeploy(
+            serviceName,
+            servicePath,
+            registryPath,
+            versionTag,
+            numReplicas,
+            port
+          )
+        } else {
+          console.log('Exiting...')
+        }
+
+        break
+    }
   }
 }
