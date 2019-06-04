@@ -188,10 +188,6 @@ const registryDeploy = async (
   }
 }
 
-const openshiftDeploy = async () => {
-  console.log(chalk.red('Deployment on Openshift is not yet supported'))
-}
-
 export const handler = async (context, argv) => {
   const questions = [
     {
@@ -276,15 +272,16 @@ export const handler = async (context, argv) => {
       } = registryOptions
 
       const finalConfirmation = await prompt({
-        message: `Please confirm the following deployment plan:
-
-Deploying the service ${chalk.green(serviceName + ':' + versionTag)}
-Located in ${chalk.green(servicePath)}
-Publishing to ${chalk.green(registryPath)}
-Number Of Pods: ${chalk.green(numReplicas)}
-Exposing port ${chalk.green(port)}
-
-Cofirm?`,
+        message:
+          `Please confirm the following deployment plan:` +
+          `Deploying the service ${chalk.green(
+            serviceName + ':' + versionTag
+          )}\n` +
+          `Located in ${chalk.green(servicePath)}\n` +
+          `Publishing to ${chalk.green(registryPath)}\n` +
+          `Number Of Pods: ${chalk.green(numReplicas)}\n` +
+          `Exposing port ${chalk.green(port)}\n` +
+          `Confirm?`,
         name: 'confirm',
         type: 'confirm'
       })
