@@ -230,21 +230,6 @@ const registryDeploy = async (
 }
 
 export const handler = async (context, argv) => {
-  const questions = [
-    {
-      name: 'targetPlatform',
-      message: 'What is target platform you are deplying to',
-      type: 'list',
-      choices: [
-        { name: 'Private Docker Registry', value: 'registry' },
-        { name: 'Azure AKS (Must have Azure CLI installed)', value: 'aks' }
-      ]
-    }
-  ]
-  const answers = await prompt(questions)
-
-  console.log(argv)
-
   if (argv.programatic) {
     const {
       serviceName,
@@ -264,6 +249,18 @@ export const handler = async (context, argv) => {
       port
     )
   } else {
+    const questions = [
+      {
+        name: 'targetPlatform',
+        message: 'What is target platform you are deplying to',
+        type: 'list',
+        choices: [
+          { name: 'Private Docker Registry', value: 'registry' },
+          { name: 'Azure AKS (Must have Azure CLI installed)', value: 'aks' }
+        ]
+      }
+    ]
+    const answers = await prompt(questions)
     switch (answers.targetPlatform) {
       case 'aks':
         const homedir = require('os').homedir()
