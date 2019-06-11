@@ -3,7 +3,7 @@ import chalk from 'chalk'
 import { ellipse, getEndpoint, readFile, readJson } from './util'
 
 // Plugin boilerplate
-export const command = 'mimportws [file] [--userId] [--project] [--endpoint]'
+export const command = 'mimportws file'
 export const desc = 'Import a workspace'
 export const builder = {
   file: {
@@ -255,9 +255,7 @@ const addKind = async (context, kind) => {
       const svcKind = svcDetails.kinds[i]
       if (svcKind.name === kind.name) return svcKind.id
     }
-    throw `Service Kind not found in target definition: ${svcDetails.name}:${
-      kind.name
-    }`
+    throw `Service Kind not found in target definition: ${svcDetails.name}:${kind.name}`
   }
 
   const query = `
@@ -294,9 +292,7 @@ const addFunction = async (context, fn) => {
       const svcFn = svcDetails.functions[i]
       if (svcFn.name === fn.name) return svcFn.id
     }
-    throw `Service Function not found in target definition: ${
-      svcDetails.name
-    }:${fn.name}`
+    throw `Service Function not found in target definition: ${svcDetails.name}:${fn.name}`
   }
 
   const query = `

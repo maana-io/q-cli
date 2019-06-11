@@ -14,7 +14,7 @@ export const builder = {
   },
   output: {
     alias: 'o',
-    description: 'Optional dir'
+    description: 'Optional file (JSON)'
   },
   endpoint: {
     alias: 'e',

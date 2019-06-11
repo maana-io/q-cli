@@ -1,0 +1,2213 @@
+# source: https://stable.knowledge.maana.io:8443/graphql
+# timestamp: Tue Jun 11 2019 06:16:57 GMT-0700 (Pacific Daylight Time)
+
+input AddBotActionInput {
+  name: String
+
+  """
+  One of the following must be set - serviceId, serviceName, botId. If
+  serviceName is provided it must be resolving into valid service
+  """
+  serviceId: ID
+  serviceName: String
+  botId: ID
+
+  """Optional kind id"""
+  kindId: ID
+  eventName: String
+  mutationName: String
+  queryName: String
+  inputInstanceRef: InstanceRefInput
+  outputInstanceRef: InstanceRefInput
+}
+
+"""Create a Document instance"""
+input AddDocumentInput {
+  id: ID
+
+  """
+  these are all optional, but the resolver(s) must produce a 'name' value, since it is required
+  """
+  name: String
+  text: String
+  xhtml: String
+  pages: [ID]
+  sections: [ID]
+  content: [ID]
+}
+
+input AddEntitiesInput {
+  docId: ID!
+  entities: [EntityInput!]!
+}
+
+input AddFieldsInput {
+  kindId: ID!
+  fields: [FieldInput!]!
+}
+
+"""Create a File instance"""
+input AddFileFromUrlInput {
+  id: ID
+
+  """
+  these are all optional, but the resolver(s) must produce a 'name' value, since it is required
+  """
+  name: String
+  url: String!
+  thumbnailUrl: String
+  mimeType: String
+  serviceId: ID
+}
+
+"""Create a File instance"""
+input AddFileInput {
+  id: ID
+
+  """resolver(s) must produce a 'name' value, since it is required"""
+  name: String
+  url: String
+  thumbnailUrl: String
+  mimeType: String
+  size: String!
+  progress: String
+  status: Int!
+  serviceId: ID
+}
+
+"""Create a Image instance"""
+input AddImageInput {
+  id: ID
+
+  """
+  these are all optional, but the resolver(s) must produce a 'name' value, since it is required
+  """
+  name: String
+  url: String
+}
+
+input AddInstanceInput {
+  kindId: ID!
+  id: ID
+  fieldIds: [ID]!
+  fieldValues: [FieldValueInput]!
+}
+
+input AddInstanceSetInput {
+  kindId: ID!
+  ids: [ID]
+  fieldIds: [ID]!
+  records: [[FieldValueInput]]!
+}
+
+input AddKindInput {
+  id: ID
+  name: String!
+  description: String
+  serviceId: ID!
+  thumbnailUrl: String
+  isPublic: Boolean
+  nameField: ID
+  isManaged: Boolean
+  isSystem: Boolean
+  schema: [FieldInput!]
+}
+
+input AddLinkInput {
+  """one of the following is required"""
+  fromKindId: ID
+  fromKindName: String
+
+  """one of the following is required"""
+  toKindId: ID
+  toKindName: String
+
+  """one of the following is required"""
+  relationId: ID
+  relationName: String
+
+  """optional"""
+  id: ID
+  name: String
+  weight: Float
+  fromFieldId: ID
+  fromFieldName: String
+  fromInstanceId: ID
+  fromOffset: String
+  fromSpan: String
+  toFieldId: ID
+  toFieldName: String
+  toInstanceId: ID
+  toOffset: String
+  toSpan: String
+}
+
+input AddPortalGraphInput {
+  workspaceId: ID!
+  type: PortalGraphType
+  name: String!
+  id: ID
+  index: Int
+  nodes: [PortalGraphNodeInput!]
+}
+
+input AddQueryGraphNodeInput {
+  id: ID
+
+  """projected kind"""
+  kindId: ID!
+
+  """filters (where)"""
+  fieldFilters: [QueryGraphFieldFilterInput!]
+
+  """child kind queries"""
+  children: [QueryGraphNodeConnectionInput!]
+}
+
+input AddRelationInput {
+  """required"""
+  name: String!
+
+  """optional"""
+  id: ID
+  inverseName: String!
+  description: String
+  undirected: Boolean
+  weight: Float
+}
+
+input AddServiceInput {
+  id: ID
+  name: String!
+  isSystem: Boolean!
+  isReadOnly: Boolean
+  thumbnailUrl: String!
+  endpointUrl: String!
+  subscriptionEndpointUrl: String
+  tags: [String]
+  schema: String
+}
+
+input AddServiceSourceInput {
+  """
+  If id is not provided, it will be generated automatically. Must be unique if provided.
+  """
+  id: ID
+  name: String
+  description: String
+
+  """GraphQL Schema"""
+  schema: String!
+}
+
+input AddUserInput {
+  id: ID
+  name: String!
+  givenName: String
+  familyName: String
+  email: String
+  picture: String
+  theme: Theme!
+  createdOn: DateTime
+}
+
+input AddWorkspaceInput {
+  userId: ID!
+  name: String!
+  thumbnailUrl: String!
+}
+
+enum AggregateOp {
+  MIN
+  MAX
+  SUM
+  COUNT
+}
+
+type Application {
+  id: ID!
+  name: String!
+  thumbnailUrl: String
+}
+
+type Argument {
+  """required"""
+  id: ID!
+  name: String!
+  type: FieldType!
+
+  """optional"""
+  typeKindId: ID
+
+  """Inferred"""
+  kind: Kind
+  modifiers: [FieldModifiers]
+  description: String
+
+  """No hanging arguments"""
+  function: Function!
+
+  """Tombstoning for delete"""
+  isDeleted: Boolean!
+}
+
+input ArgumentInput {
+  id: ID
+  name: String!
+  type: FieldType!
+  typeKindId: ID
+  modifiers: [FieldModifiers]
+  description: String
+}
+
+type ArgumentValue {
+  id: ID!
+
+  """
+  So that name, output type etc are obtained from actual argument rather than its value
+  """
+  argument: Argument
+
+  """
+  Where to get the value from - if not set, then 'argumentRef' must be set
+  """
+  operation: Operation
+
+  """ID of function argument to take value from"""
+  argumentRef: ID
+}
+
+input ArgumentValueInput {
+  id: ID
+  argument: ID!
+  operation: ID
+  argumentRef: ID
+}
+
+type Bot {
+  id: ID!
+  name: String!
+
+  """Making service optional for now"""
+  service: Service
+}
+
+type BotAction {
+  """io.maana.kind"""
+  id: ID!
+  name: String!
+
+  """bookkeeping"""
+  created: DateTime!
+  lastUpdated: DateTime!
+  status: BotActionStatus!
+  progress: Float
+  errors: [JSON!]
+
+  """operation"""
+  bot: Bot
+  kind: Kind
+  service: Service!
+  eventName: String
+  function: Function
+  input: InstanceRef
+  output: InstanceRef
+}
+
+type BotActionAddedEvent {
+  id: ID!
+  name: String!
+  serviceName: String!
+  serviceId: ID
+  bot: Bot
+  kind: Kind
+  eventName: String
+  mutationName: String
+  queryName: String
+  inputInstanceRef: InstanceRef
+  outputInstanceRef: InstanceRef
+}
+
+enum BotActionStatus {
+  PENDING
+  IN_PROGRESS
+  STOPPING
+  STOPPED
+  ERROR
+  COMPLETE
+}
+
+type BotActionUpdatedEvent {
+  id: ID!
+  bot: Bot
+  service: Service
+  kind: Kind
+  oldStatus: BotActionStatus!
+  newStatus: BotActionStatus!
+  progress: Float
+  errors: [JSON!]
+}
+
+type ClassifierGroup {
+  id: ID!
+  similarclassifiers: [ClassifierSummary]
+}
+
+type ClassifierSummary {
+  id: ID!
+  classifiername: MachineLearningAlgorithm
+  score: [Float]
+}
+
+input ClassifyInstanceInput {
+  trainedModelId: ID!
+  data: [JSON]!
+}
+
+input ClassifyKindInput {
+  modelName: ID!
+  kindId: ID!
+  predictionFieldName: String!
+}
+
+type Comment {
+  id: ID!
+  name: String!
+  detail: String
+  author: User!
+  timestamp: DateTime!
+}
+
+type Content {
+  id: ID!
+  table: Table
+  unorderedList: UnorderedList
+  orderedList: OrderedList
+  text: String
+  image: Image
+}
+
+type DataSet {
+  id: ID!
+  name: String
+  policies: [MetaPolicy]
+  finalModel: MachineLearningModel
+  failedModels: [MachineLearningModel]
+  targetAccuracy: Float
+  timeToLearn: Float
+  summary: DecisionSummary
+}
+
+"""Date in RFC 3339 compatible format: YYYY-MM-DD"""
+scalar Date
+
+"""DateTime in RFC 3339 compatible format: YYYY-MM-DD'T'HH:mm:ss[.SSS]Z"""
+scalar DateTime
+
+type DecisionSummary {
+  id: ID!
+  classifierstats: [ClassifierGroup]
+  preprocessorstats: [PreprocessorGroup]
+}
+
+input DeleteInstanceInput {
+  kindId: ID!
+  id: ID!
+}
+
+input DeleteInstanceSetInput {
+  kindId: ID!
+  ids: [ID!]!
+}
+
+type DetectedFace {
+  """Required Kind"""
+  id: ID!
+  name: String
+
+  """Source image"""
+  image: Image!
+
+  """Image region with face"""
+  area: Int!
+  bottom: Int!
+  top: Int!
+  right: Int!
+  left: Int!
+
+  """Normalized confidence score"""
+  detectionConfidence: Float!
+}
+
+input DetectedFaceInput {
+  id: ID
+  name: String
+  imageId: ID!
+  area: Int!
+  bottom: Int!
+  top: Int!
+  right: Int!
+  left: Int!
+  detectionConfidence: Float!
+}
+
+"""Documents"""
+type Document {
+  """Kind fields"""
+  id: ID!
+  name: String!
+
+  """Domain-specific fields"""
+  text: String
+  xhtml: String
+  pages: [Page]
+  sections: [Section]
+  content: [Content]
+}
+
+"""Entities"""
+type Entity {
+  id: ID!
+  name: String!
+  class: String!
+  count: Int
+  percent: Float
+}
+
+input EntityInput {
+  id: ID
+  name: String
+  class: String
+  count: Int
+  percent: Float
+}
+
+type EntityOccurrences {
+  """The entity (i.e., a Kind instance)"""
+  kindId: ID!
+  instanceId: ID!
+
+  """Offsets where one of its surface forms was found"""
+  locations: [Int!]!
+}
+
+type EntitySearchActionResult {
+  results: [EntitySearchResult!]
+  token: String
+}
+
+input EntitySearchInput {
+  """what to search for"""
+  entitySurfaceForms: [EntitySurfaceFormsInput!]!
+
+  """where to search (all optional)"""
+  scopeKindId: ID!
+  scopeFieldId: ID!
+
+  """optionally a specific instances"""
+  scopeInstanceId: [ID!]
+}
+
+type EntitySearchResult {
+  """Context (i.e., where found)"""
+  scopeKindId: ID!
+  scopeFieldId: ID!
+  scopeInstanceId: ID!
+
+  """Cooccurring instances and their locations (i.e., what found)"""
+  cooccurrences: [EntityOccurrences!]!
+}
+
+input EntitySurfaceFormsInput {
+  """The entity (i.e., a Kind instance)"""
+  kindId: ID!
+  instanceId: [ID!]
+
+  """Various textual representations"""
+  surfaceForms: [String!]
+}
+
+enum FeaturizerAlgorithm {
+  one_hot
+  abs_scaler
+  label_encoder
+  log_transformer
+  robust_scaler
+  min_max_scaler
+  std_scaler
+  bag_of_words
+  tfidf
+}
+
+input FeaturizerOverrideInput {
+  fieldName: String!
+  featurizer: FeaturizerAlgorithm!
+}
+
+input FeaturizerSettingInput {
+  fieldName: String!
+  featurizer: String!
+}
+
+"""extend io.maana.kinddb's Field type"""
+type Field {
+  """required"""
+  id: ID!
+  name: String!
+  type: FieldType!
+
+  """optional"""
+  description: String
+  modifiers: [FieldModifiers]
+  typeKindId: ID
+
+  """UI hints"""
+  displayAs: [String]
+  hide: Boolean
+  autoFocus: Boolean
+  readonly: Boolean
+
+  """inferred"""
+  kind: Kind
+
+  """Tombstoning for delete"""
+  isDeleted: Boolean!
+}
+
+type FieldClassification {
+  id: ID!
+  fieldId: ID!
+  name: String!
+  score: Float!
+}
+
+input FieldClassificationInput {
+  id: ID
+  fieldId: ID!
+  name: String!
+  score: Float!
+}
+
+input FieldFilterInput {
+  """one of the following is required"""
+  fieldId: ID
+  fieldName: String
+  op: String!
+  value: FieldValueInput!
+}
+
+input FieldInput {
+  id: ID
+  name: String!
+  description: String
+  type: FieldType!
+  typeKindId: ID
+  modifiers: [FieldModifiers!]
+  displayAs: [String!]
+  hide: Boolean
+  autoFocus: Boolean
+  readonly: Boolean
+}
+
+enum FieldModifiers {
+  NONULL
+  LIST
+  NOIDX
+  EPHEMERAL
+}
+
+input FieldProjectionInput {
+  """one of the following is required - except in the case of count queries"""
+  fieldId: ID
+  fieldName: String
+
+  """optional if omitted outer query is used"""
+  alias: String
+  op: AggregateOp
+}
+
+enum FieldType {
+  ID
+  STRING
+  INT
+  FLOAT
+  BOOLEAN
+  DATE
+  TIME
+  DATETIME
+  JSON
+  KIND
+}
+
+type FieldValue {
+  """Types"""
+  ID: ID
+  STRING: String
+  INT: Int
+  FLOAT: Float
+  BOOLEAN: Boolean
+  DATE: Date
+  TIME: Time
+  DATETIME: DateTime
+  JSON: JSON
+  KIND: ID
+
+  """List forms"""
+  l_ID: [ID]
+  l_STRING: [String]
+  l_INT: [Int]
+  l_FLOAT: [Float]
+  l_BOOLEAN: [Boolean]
+  l_DATE: [Date]
+  l_TIME: [Time]
+  l_DATETIME: [DateTime]
+  l_JSON: [JSON]
+  l_KIND: [ID]
+}
+
+input FieldValueInput {
+  """Types"""
+  ID: ID
+  STRING: String
+  INT: Int
+  FLOAT: Float
+  BOOLEAN: Boolean
+  DATE: Date
+  TIME: Time
+  DATETIME: DateTime
+  JSON: JSON
+  KIND: ID
+
+  """List forms"""
+  l_ID: [ID]
+  l_STRING: [String]
+  l_INT: [Int]
+  l_FLOAT: [Float]
+  l_BOOLEAN: [Boolean]
+  l_DATE: [Date]
+  l_TIME: [Time]
+  l_DATETIME: [DateTime]
+  l_JSON: [JSON]
+  l_KIND: [ID]
+}
+
+type File {
+  """Kind fields"""
+  id: ID!
+  name: String!
+
+  """Domain-specific fields"""
+  url: String
+  thumbnailUrl: String
+  mimeType: String
+  size: String!
+  progress: String
+  status: Int!
+}
+
+"""Instead of ServiceQuery"""
+type Function {
+  id: ID!
+  name: String!
+  description: String
+
+  """Instead of fields: [QueryField!]"""
+  arguments: [Argument!]!
+
+  """
+  It would be nice if 'Maana Type system' treated scalars as 'Kinds' with specific properties
+  """
+  outputType: FieldType!
+  outputKindId: ID
+  outputModifiers: [FieldModifiers]
+
+  """inferred"""
+  isGenerated: Boolean!
+
+  """inferred, optional"""
+  kind: Kind
+
+  """If function's implementation"""
+  graphqlOperationType: GraphqlOperationType
+
+  """
+  Type of the function - if it is imported from the service, vacuous one like projection,
+  or actually implemented
+  """
+  functionType: FunctionType!
+
+  """Optional implementation, to be provided by CKG type services"""
+  implementation: Implementation
+  service: Service!
+
+  """Tombstoning for delete"""
+  isDeleted: Boolean!
+}
+
+type FunctionGraphNode {
+  id: ID!
+  operationId: ID!
+}
+
+input FunctionGraphNodeInput {
+  id: ID
+  operation: OperationInput!
+}
+
+input FunctionInput {
+  id: ID
+  name: String!
+  description: String
+  arguments: [ArgumentInput!]!
+  outputType: FieldType!
+  outputKindId: ID
+  outputModifiers: [FieldModifiers]
+  graphqlOperationType: GraphqlOperationType!
+  functionType: FunctionType!
+  implementation: ImplementationInput
+  service: ID!
+}
+
+enum FunctionType {
+  """Function imported from service"""
+  SERVICE
+
+  """
+  Projection rather than actual function, e.g. 'getFleetVessels(fleet: Fleet): [Vessel]
+  is a projection of Fleet.vessels and doesn't require separate call
+  """
+  PROJECTION
+
+  """
+  CKG-generated function - i.e. that implementation is provided in runtime by CKG.
+  """
+  CKG
+}
+
+type GaussianNBClassifier {
+  id: ID!
+  features: [MachineLearningFeaturizer]
+  preprocessor: Preprocessor
+  saved: Boolean
+  accuracy: Float
+  labels: [Label]
+  stage: MetaStage
+  pipelineNumber: Int
+}
+
+type GradientBoostingClassifier {
+  id: ID!
+  features: [MachineLearningFeaturizer]
+  preprocessor: Preprocessor
+  saved: Boolean
+  accuracy: Float
+  labels: [Label]
+  stage: MetaStage
+  pipelineNumber: Int
+  trees: Int
+  loss: String
+  maxDepth: Int
+  maxFeatures: String
+  minSamplesSplit: Float
+  minSamplesLeaf: Float
+  minImpurityDecrease: Float
+}
+
+input GraphLayoutInput {
+  id: ID!
+  zoom: Float
+  offsetX: Float
+  offsetY: Float
+}
+
+input GraphLayoutNewNodeInput {
+  x: Float!
+  y: Float!
+  width: Float!
+  height: Float!
+  collapsed: Boolean!
+}
+
+input GraphLayoutUpdateInput {
+  graphLayouts: [GraphLayoutInput!]
+  nodeLayouts: [NodeLayoutInput!]
+}
+
+enum GraphqlOperationType {
+  QUERY
+  MUTATION
+}
+
+type Image {
+  detectedFaces: [DetectedFace]
+  recognizedFaces: [RecognizedFace]
+  people: [Person]
+
+  """Kind fields"""
+  id: ID!
+  name: String!
+
+  """Domain-specific fields"""
+  url: String
+}
+
+"""
+Making it type instead of interface for now.
+In the future it will support more than one implementation, e.g. JavaScript or Python.
+"""
+type Implementation {
+  id: ID!
+
+  """
+  Root of AST - i.e. operation that will produce function's output, if not defined then the implementation is invalid
+  """
+  entrypoint: Operation
+
+  """
+  List of operations - i.e. contents of query graph.
+  Some of the operations may be incomplete
+  """
+  operations: [Operation!]!
+}
+
+input ImplementationInput {
+  id: ID
+  entrypoint: ID
+  operations: [OperationInput!]!
+}
+
+type Info {
+  id: ID!
+  name: String!
+  description: String
+}
+
+type Instance {
+  """required"""
+  id: ID!
+
+  """optional"""
+  name: String
+  kindId: ID!
+  kind: Kind
+  fieldIds: [ID]
+
+  """rowKey: Int"""
+  fieldValues: [FieldValue]
+
+  """inferred"""
+  linksFrom: [Link]
+  linksTo: [Link]
+  linkedKindsTo(relationId: ID): [LinkedKind!]!
+  linkedKindsFrom(relationId: ID): [LinkedKind!]!
+  linkedInstancesTo(relationId: ID): [LinkedInstance!]!
+  linkedInstancesFrom(relationId: ID): [LinkedInstance!]!
+}
+
+type InstanceRef {
+  """required"""
+  id: ID!
+
+  """- one of:"""
+  kindId: ID
+  kindName: String
+
+  """optional"""
+  name: String
+  url: String
+
+  """inferred"""
+  kind: Kind
+  instance: Instance
+  innerKind: Kind
+  innerFunction: Function
+}
+
+input InstanceRefInput {
+  id: ID
+  name: String
+  kindId: ID
+  kindName: String
+  url: String
+  instance: ID
+}
+
+type InstanceSet {
+  kindId: ID!
+  kind: Kind!
+
+  """Continuation token"""
+  token: String
+  fieldIds: [ID]
+
+  """rowKeys: [Int]"""
+  records: [[FieldValue]]
+}
+
+type Inventory {
+  serviceKinds: [Kind!]!
+  workspaceKinds: [Kind!]!
+  functions: [Function!]!
+}
+
+scalar JSON
+
+type Kind {
+  """required"""
+  id: ID!
+  name: String!
+
+  """optional"""
+  serviceId: ID
+  description: String
+  thumbnailUrl: String
+  isPublic: Boolean
+  isManaged: Boolean
+  isSystem: Boolean
+  schema(includeDeleted: Boolean = false, fieldIds: [ID!], fieldNames: [String!], fieldKinds: [ID!]): [Field]
+  nameField: ID
+
+  """inferred"""
+  isGenerated: Boolean!
+  relationsFrom: [Relation]
+  relationsTo: [Relation]
+  linksFrom: [Link]
+  linksTo: [Link]
+  service: Service
+  linkedKindsTo(relationId: ID): [LinkedKind!]!
+  linkedKindsFrom(relationId: ID): [LinkedKind!]!
+  linkedInstancesTo(relationId: ID): [LinkedInstance!]!
+  linkedInstancesFrom(relationId: ID): [LinkedInstance!]!
+
+  """Tombstoning for delete"""
+  isDeleted: Boolean!
+}
+
+type KindBoilerplate {
+  kinds: [Kind!]!
+  functions: [Function!]!
+  instances: [Instance!]!
+}
+
+input KindInput {
+  id: ID!
+  name: String
+  description: String
+  thumbnailUrl: String
+  isPublic: Boolean
+  isManaged: Boolean
+  isSystem: Boolean
+  schema: [FieldInput!]
+}
+
+input KindQueryInput {
+  """projected kind (one of the following is required)"""
+  kindId: ID
+  kindName: String
+
+  """optional alias for projection binding"""
+  alias: String
+
+  """projected fields"""
+  projection: [FieldProjectionInput]
+
+  """distinct Projected result"""
+  distinct: Boolean
+
+  """filters (where)"""
+  fieldFilters: [FieldFilterInput]
+
+  """conjunction (where)"""
+  and: [KindQueryInput]
+
+  """disjunction (where)"""
+  or: [KindQueryInput]
+
+  """join (if conjunction or disjunction)"""
+  fromFieldId: ID
+  fromFieldName: String
+  toFieldId: ID
+  toFieldName: String
+  take: Int
+  drop: Int
+  token: String
+}
+
+type KnowledgeGraphNode {
+  id: ID!
+  kind: Kind
+  instance: Instance
+
+  """Inferred"""
+  innerKind: Kind
+  innerFunction: Function
+}
+
+input KnowledgeGraphNodeInput {
+  id: ID
+  instanceId: ID!
+
+  """kindId or kindName needs to be supplied"""
+  kindId: ID
+  kindName: String
+}
+
+type Label {
+  id: ID!
+  name: String
+  precision: Float
+  recall: Float
+  fBetaScore: Float
+  support: Int
+}
+
+type Link {
+  """required"""
+  id: ID!
+  relation: Relation!
+
+  """Optional to work around the case when either kind is deleted"""
+  fromKind: Kind
+  toKind: Kind
+
+  """optional"""
+  name: String
+  weight: Float
+  fromField: Field
+  fromInstance: Instance
+  fromOffset: String
+  fromSpan: String
+  toField: Field
+  toInstance: Instance
+  toOffset: String
+  toSpan: String
+}
+
+type LinkedInstance {
+  relation: Relation!
+  kind: Kind
+  instance: Instance
+}
+
+type LinkedKind {
+  relation: Relation!
+  kind: Kind
+  field: Field
+}
+
+type LogisticClassifier {
+  id: ID!
+  features: [MachineLearningFeaturizer]
+  preprocessor: Preprocessor
+  saved: Boolean
+  accuracy: Float
+  labels: [Label]
+  stage: MetaStage
+  pipelineNumber: Int
+  norm: String
+  tolerance: Float
+  C: Float
+  balance: Boolean
+  solver: String
+  maxIterations: Int
+}
+
+type LSVClassifier {
+  id: ID!
+  features: [MachineLearningFeaturizer]
+  preprocessor: Preprocessor
+  saved: Boolean
+  accuracy: Float
+  labels: [Label]
+  stage: MetaStage
+  pipelineNumber: Int
+  loss: String
+  norm: String
+  dual: Boolean
+  tolerance: Float
+  C: Float
+  multiClass: String
+  fitIntercept: Boolean
+  interceptScaling: Float
+  balance: Boolean
+  maxIterations: Float
+}
+
+enum MachineLearningAlgorithm {
+  random_forest_classifier
+  linear_scv_classifier
+  gaussian_nb_classifier
+  multinomial_nb_classifier
+  logistic_classifier
+  sgd_classifier
+  gradient_boosting_classifier
+}
+
+type MachineLearningFeaturizer {
+  id: ID!
+  name: String
+  algorithm: FeaturizerAlgorithm
+}
+
+type MachineLearningModel {
+  id: ID!
+  modelName: ID
+  algorithm: MachineLearningAlgorithm
+  kindName: String
+  kindId: ID
+  features: [MachineLearningFeaturizer]
+  preprocessor: Preprocessor
+  saved: Boolean
+  timeToLearn: Float
+  accuracy: Float
+  labels: [Label]
+  stage: MetaStage
+  pipelineNumber: Int
+  timestamp: String
+}
+
+type MetaPolicy {
+  id: ID!
+  actions: [MetaPolicyAction]
+  failed: Boolean
+  quality: Int
+  rho: [RhoTable]
+  accuracy: Float
+}
+
+type MetaPolicyAction {
+  id: ID!
+  name: String
+  timestamp: Int
+}
+
+enum MetaStage {
+  Stage_One
+  Model_Profiling
+  Model_Search
+}
+
+type MultiNBClassifier {
+  id: ID!
+  features: [MachineLearningFeaturizer]
+  preprocessor: Preprocessor
+  saved: Boolean
+  accuracy: Float
+  labels: [Label]
+  stage: MetaStage
+  pipelineNumber: Int
+  alpha: Float
+  fitPrior: Boolean
+  classPrior: Boolean
+}
+
+type Mutation {
+  """Services"""
+  addService(input: AddServiceInput!): ID!
+  refreshServiceSchema(id: ID!): Service!
+  updateService(input: UpdateServiceInput!): Service!
+  removeServices(workspaceId: ID!, serviceIds: [ID!]!): Boolean
+  testServiceConnection(input: TestServiceConnectionInput!): Service!
+
+  """Applications"""
+  addDetectedFaces(input: [DetectedFaceInput!]!): Boolean!
+  addRecognizedFaces(input: [RecognizedFaceInput!]!): Boolean!
+
+  """Users"""
+  addUser(input: AddUserInput!): ID
+
+  """Kinds and Fields"""
+  addKind(tenantId: ID!, input: AddKindInput!): ID
+  updateKind(tenantId: ID!, input: UpdateKindInput!): Kind
+  removeKinds(kindIds: [ID!]!, workspaceId: ID!): Boolean!
+  deleteKind(kindId: ID!, workspaceId: ID): Boolean!
+
+  """Instances"""
+  addInstance(tenantId: ID!, input: AddInstanceInput!): ID
+  addInstanceSet(tenantId: ID!, input: AddInstanceSetInput!): [ID]
+  updateInstance(tenantId: ID!, input: UpdateInstanceInput!): ID
+  removeInstances(workspaceId: ID!, instanceIds: [ID!]!): Boolean
+  deleteInstance(tenantId: ID!, input: DeleteInstanceInput!): ID
+  deleteInstanceSet(tenantId: ID!, input: DeleteInstanceSetInput!): [ID]
+
+  """Relations"""
+  addRelation(input: AddRelationInput!): ID
+
+  """Links"""
+  addLink(input: AddLinkInput!): ID
+  addLinks(input: [AddLinkInput]!): [ID]
+  deleteLinks(ids: [ID!]!): [Link]
+
+  """Users"""
+  setTheme(userId: ID!, theme: Theme!): Boolean!
+
+  """Duplicate things"""
+  duplicateKind(id: ID!, newName: String!, targetServiceId: ID!): ID!
+  duplicateFunction(id: ID!, newName: String!, targetServiceId: ID!): ID!
+  duplicateInstance(instanceId: ID!, kindId: ID, kindName: String): ID!
+
+  """Workspaces"""
+  addWorkspace(input: AddWorkspaceInput!): ID
+  openWorkspace(userId: ID!, workspaceId: ID!): ID
+  closeWorkspace(userId: ID!, workspaceId: ID!): ID
+  activeGraphPath(workspaceId: ID!, graphPath: [ID!]!): Boolean!
+  updateWorkspaceLayout(input: UpdateWorkspaceLayoutInput!): Boolean!
+  resetWorkspaceLayout(id: ID!): Boolean!
+  addInstanceRefToWorkspace(wsId: ID!, instanceRef: InstanceRefInput!): InstanceRef!
+  addInstanceRefsToWorkspace(wsId: ID!, instanceRefs: [InstanceRefInput!]!): [InstanceRef!]!
+  removeInstanceRefsFromWorkspace(wsId: ID!, instanceRefIds: [ID!]!): Boolean!
+  addServiceToWorkspace(workspaceId: ID!, serviceId: ID!): Service
+
+  """Graph Layout"""
+  updateGraphLayout(input: GraphLayoutUpdateInput!): Boolean!
+
+  """Portal Graphs"""
+  addPortalGraph(input: AddPortalGraphInput!): PortalGraph
+  addPortalGraphs(workspaceId: ID!, graphIds: [ID!]!): [PortalGraph!]
+  removePortalGraphs(workspaceId: ID!, graphIds: [ID!]!): Boolean!
+  deletePortalGraph(graphId: ID!): Boolean!
+  reorderPortalGraphs(input: ReorderPortalGraphsInput!): ID
+  addNodeToPortalGraph(graphId: ID!, node: PortalGraphNodeInput!): PortalGraphNode!
+  addNodesToPortalGraph(graphId: ID!, nodes: [PortalGraphNodeInput!]!): [PortalGraphNode!]!
+  removeNodeFromPortalGraph(graphId: ID!, nodeId: ID!): [PortalGraphNode!]!
+  removeNodesFromPortalGraph(graphId: ID!, nodeIds: [ID!]!): [PortalGraphNode!]!
+  expand(graphId: ID!, expanded: Boolean!): Boolean!
+
+  """Query Graphs"""
+  addQueryGraphNodeConnection(nodeId: ID!, connection: QueryGraphNodeConnectionInput!): QueryGraphNode!
+  removeQueryGraphNodeConnection(input: RemoveQueryGraphNodeConnectionInput!): QueryGraphNode!
+  removeQueryGraphNodeConnections(input: [RemoveQueryGraphNodeConnectionInput!]!): [QueryGraphNode!]!
+  addFieldFilterToQueryGraphNode(nodeId: ID!, fieldFilter: QueryGraphFieldFilterInput!): QueryGraphNode!
+  addFieldFiltersToQueryGraphNode(nodeId: ID!, fieldFilters: [QueryGraphFieldFilterInput!]!): QueryGraphNode!
+  removeFieldFilterFromQueryGraphNode(nodeId: ID!, fieldFilterId: ID!): QueryGraphNode!
+  removeFieldFiltersFromQueryGraphNode(nodeId: ID!, fieldFilterIds: [ID!]!): QueryGraphNode!
+  addServiceSource(input: AddServiceSourceInput!): ID!
+  addDocument(input: AddDocumentInput): ID
+  addDocuments(input: [AddDocumentInput!]!): [ID]
+  updateDocument(input: UpdateDocumentInput): ID
+  updateDocuments(input: [UpdateDocumentInput!]!): [ID]
+  deleteDocument(id: ID!): Document
+  deleteDocuments(ids: [ID!]!): [Document]
+  addFile(input: AddFileInput!): ID!
+  addFiles(input: [AddFileInput!]!): Boolean!
+  addFileFromUrl(input: AddFileFromUrlInput!): ID!
+  updateFile(input: UpdateFileInput): ID
+  deleteFile(id: ID!): File
+  deleteFiles(ids: [ID!]!): [File]
+  addImage(input: AddImageInput!): ID
+  addImages(input: [AddImageInput!]!): [ID]
+  updateImage(input: UpdateImageInput): ID
+  updateImages(input: [UpdateImageInput!]!): [ID]
+  deleteImage(id: ID!): Image
+  deleteImages(ids: [ID!]!): [Image]
+
+  """Entities"""
+  addEntities(input: AddEntitiesInput!): Boolean
+
+  """meta"""
+  trainClassifierCsv(input: TrainCSVInput!): DataSet
+  trainClassifierKind(input: TrainingKindInput!): Boolean
+  classifyInstance(input: ClassifyInstanceInput!): [String]
+  classifyKind(input: ClassifyKindInput!): Boolean
+  stopMetalearningAndSaveBest: String
+  stopCurrentPhase: String
+  addPreprocessor(input: String!): Boolean
+  removePreprocessor(input: String!): Boolean
+  changeFeaturizerSetting(input: FeaturizerSettingInput!): Boolean
+  restoreFeaturizerSetting: String
+  stopCurrentTasks: Boolean
+
+  """
+  ############
+   FUNCTIONS #
+  ############
+  """
+  addFunction(input: FunctionInput): ID
+  updateFunction(input: UpdateFunctionInput!): Function!
+  updateFunctionImplementation(functionId: ID!, implementation: UpdateImplementationInput!): Function!
+  removeFunctions(functionIds: [ID!]!, workspaceId: ID!): Boolean!
+  deleteFunction(id: ID!, workspaceId: ID): Boolean!
+
+  """Entity search"""
+  entitySearchAction(input: EntitySearchInput!, resultKey: String): BotAction!
+  entitySearchPurgeTemporaries(resultKey: String): Boolean!
+
+  """
+  ##############
+   BOT ACTIONS #
+  ##############
+  """
+  addBotAction(input: AddBotActionInput): ID!
+  updateBotAction(input: UpdateBotActionInput): ID!
+}
+
+input NodeLayoutInput {
+  id: ID!
+  x: Float
+  y: Float
+  width: Float
+  height: Float
+  collapsed: Boolean
+}
+
+type Operation {
+  id: ID!
+  type: OperationType!
+
+  """
+  - Apply, Map, Fold - function that needs to be called
+  - Flatten?
+  - Let?
+  """
+  function: Function
+
+  """
+  Arguments to be applied to a function
+  Let (or assign) must have a single ArgumentValue
+  """
+  argumentValues: [ArgumentValue!]!
+}
+
+input OperationInput {
+  id: ID
+  type: OperationType!
+  function: ID
+  argumentValues: [ArgumentValueInput!]!
+}
+
+enum OperationType {
+  LET
+  APPLY
+  MAP
+  FOLD
+}
+
+type OrderedList {
+  id: ID!
+  type: String
+  items: [OrderedListItem]
+}
+
+type OrderedListItem {
+  id: ID!
+  index: Int
+  contents: [Content]
+}
+
+type Page {
+  id: ID!
+  contents: [Content]
+  number: Int
+  header: [Content]
+  footer: [Content]
+}
+
+type Person {
+  images: [Image]
+
+  """Kind fields"""
+  id: ID!
+  name: String!
+
+  """Domain-specific fields"""
+  givenName: String
+  familyName: String
+  dateOfBirth: Date
+}
+
+type PortalGraph {
+  """required"""
+  id: ID!
+  name: String!
+  type: PortalGraphType!
+  expanded: Boolean!
+  zoom: Float!
+  offsetX: Float!
+  offsetY: Float!
+  workspace: Workspace!
+
+  """The Function this graph represents if this is a Function Graph"""
+  function: Function
+
+  """optional"""
+  nodes: [PortalGraphNode!]
+}
+
+type PortalGraphNode {
+  id: ID!
+  x: Float!
+  y: Float!
+  width: Float!
+  height: Float!
+  collapsed: Boolean!
+  knowledgeGraphNode: KnowledgeGraphNode
+  queryGraphNode: QueryGraphNode
+  functionGraphNode: FunctionGraphNode
+}
+
+input PortalGraphNodeInput {
+  id: ID
+  x: Float!
+  y: Float!
+  width: Float!
+  height: Float!
+  collapsed: Boolean!
+  queryGraphNode: QueryGraphNodeInput
+  functionGraphNode: FunctionGraphNodeInput
+  knowledgeGraphNode: KnowledgeGraphNodeInput
+}
+
+enum PortalGraphType {
+  KNOWLEDGE
+  QUERY
+  FUNCTION
+}
+
+type Preprocessor {
+  id: ID!
+  algorithm: PreprocessorAlgorithm
+}
+
+enum PreprocessorAlgorithm {
+  noop
+  random_trees_embedding
+  nystroem
+  rbf_sampler
+  variance_threshold
+  truncated_svd
+  pca
+  kernel_pca
+  sparse_pca
+  fast_ica
+}
+
+type PreprocessorGroup {
+  id: ID!
+  similarpreprocessors: [PreprocessorSummary]
+}
+
+type PreprocessorSummary {
+  id: ID!
+  preprocessorname: PreprocessorAlgorithm
+  score: [Float]
+}
+
+type Query {
+  """Services"""
+  service(id: ID!): Service
+  services(ids: [ID!]!): [Service!]!
+  allServices(take: Int, token: String): [Service]
+  allSystemServices(take: Int, token: String): [Service]
+  allNonSystemServices(take: Int, token: String): [Service]
+
+  """Users"""
+  user(id: ID!): User
+  users(ids: [ID!]!): [User]
+  allUsers: [User]
+
+  """Kinds"""
+  kind(tenantId: ID!, id: ID, name: String): Kind
+  kinds(tenantId: ID!, ids: [ID!]!): [Kind]
+  allKinds(tenantId: ID!, serviceId: String, take: Int): [Kind]
+  allReferencedKinds(tenantId: ID!, ids: [ID!]!, maxDepth: Int, idsToSkip: [ID!]): [Kind!]!
+  boilerplateForKinds(kindIds: [ID!]!): KindBoilerplate!
+
+  """
+  Query KindDB for Kinds using a Kind Query. Only Kinds are returned. Instances are not supported.
+  """
+  kindDBKindQuery(
+    """The Kind Query to execute."""
+    kindQuery: KindQueryInput!
+  ): [Kind]
+
+  """Instances"""
+  instance(tenantId: ID!, instanceRef: InstanceRefInput!): Instance
+  allReferencedInstances(tenantId: ID!, ids: [ID!]!, kindIds: [ID!]!, maxDepth: Int, idsToSkip: [ID!]): [Instance!]!
+
+  """Fill in missing pieces of an instance ref"""
+  instanceRef(tenantId: ID!, id: ID!): InstanceRef
+  populateInstanceRef(tenantId: ID!, instanceRef: InstanceRefInput!): InstanceRef
+  instances(tenantId: ID!, kindId: ID, kindName: String, ids: [ID!]!): InstanceSet
+  instancesByRef(tenantId: ID!, instanceRefs: [InstanceRefInput!]!): [Instance]
+  allInstances(tenantId: ID!, kindId: ID, kindName: String, fieldIds: [ID!], take: Int, drop: Int, token: String): InstanceSet
+
+  """Relations"""
+  relation(tenantId: ID!, id: ID!): Relation
+  relations(tenantId: ID!, ids: [ID]!): [Relation]
+  allRelations(tenantId: ID!): [Relation]
+  classification(id: ID!): [Link!]!
+
+  """Links"""
+  link(tenantId: ID!, id: ID!): Link
+  links(tenantId: ID!, ids: [ID]!): [Link]
+
+  """
+  If relationId is provided, list all links, otherwise list only links of specific relation
+  """
+  allLinks(tenantId: ID!, relationId: ID): [Link]
+  info: Info!
+
+  """Workspaces"""
+  workspace(id: ID!): Workspace
+  allSharedWorkspaces(userId: ID!): [Workspace!]
+  allTemplateWorkspaces(userId: ID!): [Workspace!]
+
+  """List all kinds by a service"""
+  allKindsOfService(tenantId: ID!, serviceId: ID!): [Kind]
+
+  """Portal Graphs"""
+  portalGraph(id: ID!): PortalGraph
+
+  """Query for the instances of a kind"""
+  kindDBQuery(kindQuery: KindQueryInput!): InstanceSet
+  comment(id: ID!): Comment
+
+  """Search!"""
+  search(text: String!): [SearchResult]
+  entitySearch(input: EntitySearchInput!): [EntitySearchResult!]
+  entitySearchResult(resultKey: String!, token: String, take: Int): EntitySearchActionResult!
+
+  """unique people"""
+  document(id: ID!): Document
+  documents(ids: [ID!]!): [Document]
+
+  """unique people"""
+  file(id: ID!): File
+  files(ids: [ID!]!): [File]
+
+  """unique people"""
+  image(id: ID!): Image
+  images(ids: [ID!]!): [Image]
+  AllLogisticClassifiers: [LogisticClassifier]
+  LogisticClassifier(id: ID): LogisticClassifier
+  AllRandomForestClassifiers: [RandomForestClassifier]
+  RandomForestClassifier(id: ID): RandomForestClassifier
+  AllGradientBoostingClassifiers: [GradientBoostingClassifier]
+  GradientBoostingClassifier(id: ID): GradientBoostingClassifier
+  AllSGDClassifiers: [SGDClassifier]
+  SGDClassifier(id: ID): SGDClassifier
+  AllLSVClassifiers: [LSVClassifier]
+  LSVClassifier(id: ID): LSVClassifier
+  AllMultiNBClassifiers: [MultiNBClassifier]
+  MultiNBClassifier(id: ID): MultiNBClassifier
+  AllDataSets: [DataSet]
+  DataSet(id: ID): DataSet
+
+  """
+  ############
+   FUNCTIONS #
+  ############
+  """
+  function(id: ID!): Function
+  functions(ids: [ID!]!): [Function!]!
+
+  """
+  ##############
+   BOT ACTIONS #
+  ##############
+  """
+  botAction(id: ID!): BotAction
+  botActions(ids: [ID!]!): [BotAction!]!
+  botActionsForServicesOnKind(serviceIds: [ID!]!, kindId: ID!, take: Int, token: String): [BotAction!]!
+}
+
+"""FieldFilter type"""
+type QueryGraphFieldFilter {
+  id: ID!
+  fieldId: ID!
+  op: String!
+  value: String
+}
+
+"""QueryGraphFieldFilterInput type"""
+input QueryGraphFieldFilterInput {
+  id: ID
+  fieldId: ID!
+  op: String!
+  value: String
+}
+
+type QueryGraphNode {
+  id: ID!
+
+  """projected kind"""
+  kindId: ID!
+
+  """filters (where)"""
+  fieldFilters: [QueryGraphFieldFilter!]
+  children: [QueryGraphNodeConnection!]
+
+  """Inferred"""
+  kind: Kind
+}
+
+"""
+QueryGraphNodeConnection type used to define the connectin between two nodes
+"""
+type QueryGraphNodeConnection {
+  """ID used to identify the connection"""
+  id: ID!
+
+  """Information on the child's side of the connection"""
+  childId: ID!
+  childFieldId: ID!
+
+  """Information on the parent's side of the connection"""
+  parentId: ID!
+  parentFieldId: ID!
+  type: QueryGraphNodeJoinType!
+}
+
+"""
+Specifies a connection between QueryGraphNode when adding a QueryGraphNode
+"""
+input QueryGraphNodeConnectionInput {
+  """The ID of the child QueryGraphNode"""
+  childId: ID!
+
+  """
+  The ID of the field in the child QueryGraphNode to join to the parent kind query
+  """
+  childFieldId: ID!
+
+  """The ID of the field in the parent QueryGraphNode"""
+  parentFieldId: ID!
+
+  """The type of connection this is (defaults to AND)"""
+  type: QueryGraphNodeJoinType
+}
+
+input QueryGraphNodeInput {
+  id: ID
+  kindId: ID!
+  fieldFilters: [QueryGraphFieldFilterInput!]
+  children: [QueryGraphNodeConnectionInput!]
+}
+
+enum QueryGraphNodeJoinType {
+  AND
+  OR
+}
+
+type RandomForestClassifier {
+  id: ID!
+  features: [MachineLearningFeaturizer]
+  preprocessor: Preprocessor
+  saved: Boolean
+  accuracy: Float
+  labels: [Label]
+  stage: MetaStage
+  pipelineNumber: Int
+  trees: Int
+  criterion: String
+  maxDepth: Int
+  maxFeatures: String
+  minSamplesSplit: Float
+  minSamplesLeaf: Float
+  minImpurityDecrease: Float
+  bootstrap: Boolean
+}
+
+"""Person recognized by face in an image"""
+type RecognizedFace {
+  """Required Kind"""
+  id: ID!
+  name: String!
+
+  """Recognized person"""
+  personId: ID!
+  person: Person!
+
+  """Based on detected face"""
+  detectedFaceId: ID!
+  detectedFace: DetectedFace
+
+  """Normalized confidence score"""
+  recognitionConfidence: Float!
+}
+
+"""Person recognized by face in an image"""
+input RecognizedFaceInput {
+  id: ID
+  name: String!
+  personId: ID!
+  detectedFaceId: ID!
+  recognitionConfidence: Float!
+}
+
+type Relation {
+  """required"""
+  id: ID!
+  name: String!
+
+  """optional"""
+  inverseName: String!
+  description: String
+  undirected: Boolean
+  weight: Float
+
+  """inferred"""
+  links: [Link]
+}
+
+input RemoveQueryGraphNodeConnectionInput {
+  nodeId: ID!
+  connectionId: ID!
+}
+
+input ReorderPortalGraphsInput {
+  workspaceId: ID!
+  oldIndex: Int!
+  newIndex: Int!
+}
+
+type RhoTable {
+  id: ID!
+  score: Float
+  model: MachineLearningModel
+  features: [MachineLearningFeaturizer]
+  preprocessor: Preprocessor
+}
+
+type Role {
+  id: ID!
+  name: String!
+}
+
+type SearchResult {
+  kindId: ID
+  kind: Kind
+  innerKind: Kind
+  innerFunction: Function
+  innerPortalGraph: PortalGraph
+  instanceId: ID
+  instance: Instance
+  fieldId: ID
+  field: Field
+  offset: String
+  span: String
+  contents: String
+}
+
+type Section {
+  id: ID!
+  name: String
+  contents: [Content]
+  subSections: [Section]
+}
+
+type Service {
+  id: ID!
+  name: String!
+  description: String
+  isManaged: Boolean!
+  isSystem: Boolean!
+  isReadOnly: Boolean!
+  endpointUrl: String!
+  subscriptionEndpointUrl: String
+  assistantUrl: String
+  thumbnailUrl: String
+  tags: [String!]!
+  created: DateTime!
+  modified: DateTime
+  schema: String!
+  serviceType: ServiceCategory!
+  provider: ServiceDataProvider
+  logicType: ServiceLogicProvider
+  logicTemplate: JSON
+  aggregatedServices: [Service]
+  refreshPeriod: Int
+  lastChecked: DateTime
+
+  """
+  HTTP status codes will be used unless there is an error in the fetch operation itself,
+  represented as 601 Failed Status,  602 Failed Introspection.
+  """
+  lastConnectionResult: Int
+  imports: [ServiceImport]
+  exports: [ServiceExport]
+
+  """
+  These have resolvers and are queried from sources such as KindDB,
+  not stored as a part of Service kind.
+  """
+  externalServiceInstances: [ServiceInstance]
+  kinds: [Kind]
+  functions: [Function]
+
+  """inferred"""
+  workspace: Workspace
+
+  """Tombstoning"""
+  isDeleted: Boolean!
+}
+
+enum ServiceCategory {
+  EXTERNAL
+  LOGIC
+  MODEL
+  WORKSPACE
+}
+
+enum ServiceDataProvider {
+  MAANA_KINDDB
+  PRISMA
+}
+
+type ServiceExport {
+  id: ID!
+  function: Function
+  kind: Kind
+  as: String
+}
+
+type ServiceImport {
+  id: ID!
+  service: ID!
+  function: Function
+  kind: Kind
+  as: String
+}
+
+type ServiceInstance {
+  id: ID!
+  dockerServiceName: String!
+  hostName: String!
+  desiredState: String!
+  currentState: String!
+}
+
+enum ServiceLogicProvider {
+  MAANA_CKG
+  DOCKER
+}
+
+type SGDClassifier {
+  id: ID!
+  features: [MachineLearningFeaturizer]
+  preprocessor: Preprocessor
+  saved: Boolean
+  accuracy: Float
+  labels: [Label]
+  stage: MetaStage
+  pipelineNumber: Int
+  loss: String
+  norm: String
+  alpha: Float
+  L1Ratio: Float
+  fitIntercept: Boolean
+  maxIterations: Float
+  tolerance: Float
+  epsilon: Float
+  learningRate: String
+  etaZero: Float
+  balance: Boolean
+}
+
+type Subscription {
+  botActionAdded(serviceId: ID, kindId: ID, botId: ID): BotActionAddedEvent!
+  botActionUpdated(serviceIds: [ID!], kindIds: [ID!], botIds: [ID!], botActionIds: [ID!]): BotActionUpdatedEvent!
+  linkAdded(kindIds: [ID!], relationIds: [ID!], instanceIds: [ID!], fieldIds: [ID!]): Link!
+}
+
+type Table {
+  id: ID!
+  headers: [Content]
+  rows: [Content]
+}
+
+type Tenant {
+  id: ID!
+  name: String!
+  users: [User]
+  services: [Service]
+  applications: [Application]
+}
+
+type TenantUserRole {
+  userId: ID!
+  user: User
+  tenantId: ID!
+  tenant: Tenant
+  roles: [Role]
+}
+
+input TestServiceConnectionInput {
+  id: ID
+  serviceType: ServiceCategory!
+  isSystem: Boolean
+  isManaged: Boolean
+  endpointUrl: String
+}
+
+enum Theme {
+  DARK
+  LIGHT
+}
+
+"""Time in RFC 3339 compatible format: HH:mm:ss[.SSS]Z"""
+scalar Time
+
+input TrainCSVInput {
+  modelName: ID
+  accuracy: Float
+  dataFolder: String!
+  labelField: String!
+  featureFields: [String]!
+  featureTypes: [String]!
+  folds: Int
+  candidateModels: [String]
+  featurizerOverride: [FeaturizerOverrideInput]
+  candidatePreprocessors: [String]
+  modelProfilingEpisodes: Int
+  modelSearchEpisodes: Int
+}
+
+input TrainingKindInput {
+  modelName: ID
+  accuracy: Float
+  kindId: ID!
+  labelField: String!
+  featureFields: [String]
+  excludeFields: [String]
+  folds: Int
+  candidateModels: [String]
+  featurizerOverride: [FeaturizerOverrideInput]
+  candidatePreprocessors: [String]
+  modelProfilingEpisodes: Int
+  modelSearchEpisodes: Int
+}
+
+type UnorderedList {
+  id: ID!
+  type: String
+  items: [UnorderedListItem]
+}
+
+type UnorderedListItem {
+  id: ID!
+  contents: [Content]
+}
+
+input UpdateArgumentInput {
+  id: ID!
+  name: String
+  type: FieldType
+  typeKindId: ID
+  modifiers: [FieldModifiers]
+  description: String
+}
+
+input UpdateBotActionInput {
+  id: ID!
+  status: BotActionStatus!
+  progress: Float
+  error: JSON
+}
+
+"""Create a Document instance"""
+input UpdateDocumentInput {
+  id: ID!
+
+  """only what is changing"""
+  name: String
+  text: String
+  xhtml: String
+  pages: [ID]
+  sections: [ID]
+  content: [ID]
+}
+
+"""Create a File instance"""
+input UpdateFileInput {
+  id: ID!
+
+  """only what is changing"""
+  name: String
+  url: String
+  thumbnailUrl: String
+  progress: String
+  status: Int
+  mimeType: String
+  serviceId: ID
+}
+
+input UpdateFunctionInput {
+  id: ID!
+  name: String
+  description: String
+  arguments: [UpdateArgumentInput!]
+  outputType: FieldType
+  outputKindId: ID
+  outputModifiers: [FieldModifiers]
+  graphqlOperationType: GraphqlOperationType
+  functionType: FunctionType
+  implementation: ImplementationInput
+  service: ID
+}
+
+"""Create a Image instance"""
+input UpdateImageInput {
+  id: ID!
+
+  """only what is changing"""
+  name: String
+  url: String
+}
+
+input UpdateImplementationInput {
+  id: ID
+  entrypoint: ID
+  operations: [OperationInput!]
+}
+
+input UpdateInstanceInput {
+  id: ID!
+  kindId: ID!
+  fieldIds: [ID]!
+  fieldValues: [FieldValueInput]!
+}
+
+input UpdateInstanceSetInput {
+  ids: [ID]
+  kindId: ID!
+  fieldIds: [ID]!
+  records: [[FieldValueInput]]!
+}
+
+input UpdateKindInput {
+  id: ID!
+  name: String
+  description: String
+  serviceId: ID
+  thumbnailUrl: String
+  isPublic: Boolean
+  nameField: ID
+  isManaged: Boolean
+  isSystem: Boolean
+  schema: [FieldInput!]
+}
+
+input UpdateLinkInput {
+  id: ID!
+
+  """optional"""
+  name: String
+  relationId: ID
+  relationName: String
+  weight: Float
+  fromKindId: ID
+  fromKindName: String
+  fromFieldId: ID
+  fromFieldName: String
+  fromInstanceId: ID
+  fromOffset: String
+  fromSpan: String
+  toKindId: ID
+  toKindName: String
+  toFieldId: ID
+  toFieldName: String
+  toInstanceId: ID
+  toOffset: String
+  toSpan: String
+}
+
+input UpdateRelationInput {
+  id: ID!
+  name: String
+  inverseName: String!
+  description: String
+  undirected: Boolean
+  weight: Float
+}
+
+input UpdateServiceInput {
+  id: ID!
+  name: String!
+  endpointUrl: String!
+  subscriptionEndpointUrl: String
+  thumbnailUrl: String
+  tags: [String]
+}
+
+input UpdateUserInput {
+  id: ID!
+
+  """optional"""
+  name: String
+  givenName: String
+  familyName: String
+  email: String
+  picture: String
+  theme: Theme
+}
+
+input UpdateWorkspaceLayoutInput {
+  id: ID!
+  explorerOpen: Boolean
+  explorerSize: Float
+  inventoryOpen: Boolean
+  inventorySize: Float
+  contextOpen: Boolean
+  contextMode: String
+  contextSize: Float
+  dataVizOpen: Boolean
+  dataVizSize: Float
+}
+
+"""merged with io.maana.idam"""
+type User {
+  id: ID!
+  name: String!
+  givenName: String
+  familyName: String
+  email: String
+  picture: String
+  tenants: [Tenant]
+  tenantUserRoles: [TenantUserRole]
+  createdOn: DateTime
+  activities: [InstanceRef!]
+  recentItems: [InstanceRef!]
+  favoriteItems: [InstanceRef!]
+  workspaces: [Workspace!]
+  applications: [Application!]
+  theme: String
+  openWorkspaces: [Workspace!]
+  activeWorkspace: Workspace
+}
+
+type Workspace {
+  """required"""
+  id: ID!
+  name: String!
+  thumbnailUrl: String!
+  owner: User!
+  isPublic: Boolean
+  isTemplate: Boolean
+  createdOn: DateTime!
+  lastOpenedOn: DateTime!
+  layout: WorkspaceLayout!
+  modelServiceId: ID!
+  logicServiceId: ID!
+  workspaceServiceId: ID!
+
+  """optional"""
+  services: [Service!]
+  portalGraphs: [PortalGraph!]
+  activeGraphPath: [ID!]!
+  instanceRefs: [InstanceRef!]
+  inventory: Inventory
+}
+
+type WorkspaceLayout {
+  id: ID!
+  explorerOpen: Boolean!
+  explorerSize: Float!
+  inventoryOpen: Boolean!
+  inventorySize: Float!
+  contextOpen: Boolean!
+  contextMode: String!
+  contextSize: Float!
+  dataVizOpen: Boolean!
+  dataVizSize: Float!
+}

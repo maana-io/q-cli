@@ -1,0 +1,53 @@
+projects:
+  latest:
+    schemaPath: latest.ckg.graphql
+    extensions:
+      endpoints:
+        default:
+          url: 'https://latest.knowledge.maana.io:8443/graphql'
+          headers:
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
+  stable:
+    schemaPath: stable.ckg.graphql
+    extensions:
+      endpoints:
+        default:
+          url: 'https://stable.knowledge.maana.io:8443/graphql'
+          headers:
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
+  cstraining01:
+    schemaPath: cstraining01.ckg.graphql
+    extensions:
+      endpoints:
+        default:
+          url: 'https://cstraining01.knowledge.maana.io:8443/graphql'
+          headers:
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
+  cstraining02:
+    schemaPath: cstraining02.ckg.graphql
+    extensions:
+      endpoints:
+        default:
+          url: 'https://cstraining02.knowledge.maana.io:8443/graphql'
+          headers:
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
+  demo01:
+    schemaPath: demo01.ckg.graphql
+    extensions:
+      endpoints:
+        default:
+          url: 'https://demo01.knowledge.maana.io:8443/graphql'
+          headers:
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
+  demo02:
+    schemaPath: demo01.ckg.graphql
+    extensions:
+      endpoints:
+        default:
+          url: 'https://demo01.knowledge.maana.io:8443/graphql'
+          headers:
+            Authorization: 'Bearer ${env:MAANA_AUTH_TOKEN}'
+extensions:
+  maana:
+    auth: >-
+      eyJhY2Nlc3NfdG9rZW4iOiJleUowZVhBaU9pSktWMVFpTENKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklsSkVVa1JSYW1NMFVXcEZOVTE2U1hwTmEwNUdUWHBOTlUxcVdrUk9SRlV6VVd0Tk5GSkVhRVZPZWxrelVXcFJNMDlVUWtaT2R5SjkuZXlKcGMzTWlPaUpvZEhSd2N6b3ZMMjFoWVc1aExtRjFkR2d3TG1OdmJTOGlMQ0p6ZFdJaU9pSjNZV0ZrZkdvNVlWSlFUVmhZUTJkVE9VeEtZWGxPVlhOclVuaDFabmh5WVhKa1kybHpiblJtYjB4amVYVnphRkVpTENKaGRXUWlPaUpvZEhSd2N6b3ZMMmcwTG0xaFlXNWhMbWx2THlJc0ltbGhkQ0k2TVRVMk1ESTFOVFEwT0N3aVpYaHdJam94TlRZeU9EUTNORFE0TENKaGVuQWlPaUkwYjNoVFZESTVTMUF4WkVneE16QlBSa0ozTVdVMFRWQkVPRFp2V1dWclZpSXNJbk5qYjNCbElqb2liMlptYkdsdVpWOWhZMk5sYzNNaWZRLk44NHYxTTJDcE1jSURRcXZHMWpsU1N3OEkxTlc1bWcySVVjb0FwTGtJajBlMDB0Mk1yZHJpM2ZqbkRzNEFmVnM4NUZMZVFSUk4xNTM4ZHJZSldBTlpCU2MwT0pQRkZEMUhKSEU5b3E0OHNwT1VmUnFUODRzVmVxTmo0enExRlNLMlY1bkhVQ1dlTWh5ZzVKLXFXTXg1NUlKZXVZRlZrdHktZG5UaWhLWXd4WjlpamVVS0JHaDMtVzl2M0hkWjVUYVFKZTQ1NDBWUC1WMHFOV0o0NWhqMTdkblR5LXZpSTNCM0NOSGt2MjJHV2daWXhLMTJHMjJXckkzazNHOUQxV1R3VTViUGFud2V0Z0J6MkQxdlEtd28zWll1NTdLVzM4TE5nQnhyREswMDNIRmRyVGM4dlBUU0Z2Sjk4SFNReUtuNXpORWlSYWVXX3FXYlRDT2kyVnljdyIsInJlZnJlc2hfdG9rZW4iOiI2c2M0MmxmbWpuYlhJbmh4T3I3Q2xJdzVMQ1YwbXRTMklIei0zT0ZqYk5tMTEiLCJleHBpcmVzX2luIjoyNTkyMDAwLCJ0b2tlbl90eXBlIjoiQmVhcmVyIiwiZXhwaXJlc19hdCI6MTU2Mjg0NzQ0NDk3NywidXJsIjoiaHR0cHM6Ly9tYWFuYS5hdXRoMC5jb20vb2F1dGgvdG9rZW4iLCJpZCI6IjRveFNUMjlLUDFkSDEzME9GQncxZTRNUEQ4Nm9ZZWtWIn0=

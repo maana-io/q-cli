@@ -1,0 +1,3435 @@
+{
+  "id": "45d8fd1f-42c1-4cb3-877e-1c8bbb0e0cb7",
+  "name": "donald-demo-translation",
+  "thumbnailUrl": "/thumbs/workspace.jpg",
+  "owner": {
+    "id": "waad|j9aRPMXXCgS9LJayNUskRxufxrardcisntfoLcyushQ",
+    "name": "Donald Thompson",
+    "email": "donald@maana.io",
+    "picture": "https://s.gravatar.com/avatar/d6524ef807e6ece7baf22abb6b999bb0?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fdt.png"
+  },
+  "isPublic": false,
+  "isTemplate": false,
+  "createdOn": "2019-05-20T14:17:14.210Z",
+  "lastOpenedOn": "2019-05-20T14:17:14.210Z",
+  "layout": {
+    "id": "bb0dd35d-1b66-4d91-83a6-471f0c27a51e",
+    "explorerOpen": true,
+    "explorerSize": 380,
+    "inventoryOpen": true,
+    "inventorySize": 400,
+    "contextOpen": true,
+    "contextMode": "info",
+    "contextSize": 375,
+    "dataVizOpen": true,
+    "dataVizSize": 514.1111450195312
+  },
+  "services": [
+    {
+      "id": "05830e8d-a9af-42f3-a922-c76305c67e90",
+      "name": "maana-language",
+      "description": null,
+      "isManaged": true,
+      "isSystem": false,
+      "isReadOnly": false,
+      "endpointUrl": "https://stable.knowledge.maana.io:8443/service/05830e8d-a9af-42f3-a922-c76305c67e90/graphql",
+      "subscriptionEndpointUrl": null,
+      "assistantUrl": null,
+      "thumbnailUrl": "https://gitbooktrainingmaterials.blob.core.windows.net/q-svc-data/maana-linguistics-thumbnail.png",
+      "tags": [],
+      "created": "2019-04-28T10:41:58.971Z",
+      "modified": "2019-05-11T12:27:12.353Z",
+      "schema": "",
+      "serviceType": "WORKSPACE",
+      "provider": null,
+      "logicType": null,
+      "logicTemplate": null,
+      "refreshPeriod": null,
+      "lastChecked": "2019-05-11T12:27:12.353Z"
+    }
+  ],
+  "portalGraphs": [
+    {
+      "id": "93f90aee-1c30-404d-a877-9daa0827c259",
+      "name": "Translate Greeting",
+      "type": "KNOWLEDGE",
+      "expanded": false,
+      "zoom": 100,
+      "offsetX": 0,
+      "offsetY": 0,
+      "nodes": [
+        {
+          "id": "d317ad41-3fc9-46a3-bfa1-a339c9716857",
+          "x": 158,
+          "y": 62,
+          "width": 226,
+          "height": 171,
+          "collapsed": false,
+          "knowledgeGraphNode": {
+            "id": "54dee665-d576-44ff-8492-0f6417e43fb0",
+            "kind": {
+              "id": "834100d2-892a-4e33-a2e4-331417b9eb11",
+              "name": "Function",
+              "serviceId": "",
+              "description": "",
+              "thumbnailUrl": "",
+              "isPublic": false,
+              "isManaged": false,
+              "isSystem": null,
+              "schema": [
+                {
+                  "id": "8810df28-d3b6-4617-a7a2-87f233adebd5",
+                  "name": "id",
+                  "type": "ID",
+                  "description": "",
+                  "modifiers": [
+                    "NONULL"
+                  ],
+                  "typeKindId": "",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "d2e03cce-7016-4ed2-9938-20f80b4fdd50",
+                  "name": "name",
+                  "type": "STRING",
+                  "description": "",
+                  "modifiers": [
+                    "NONULL"
+                  ],
+                  "typeKindId": "",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "84a9495d-b146-4269-a4ae-276181e366d5",
+                  "name": "description",
+                  "type": "STRING",
+                  "description": "",
+                  "modifiers": [],
+                  "typeKindId": "",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "0cba303e-709d-4340-9fbf-b441faafb7e1",
+                  "name": "arguments",
+                  "type": "KIND",
+                  "description": "",
+                  "modifiers": [
+                    "NONULL",
+                    "LIST"
+                  ],
+                  "typeKindId": "dc7a278a-cb1c-4771-872f-49da2314b100",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "dfaf5626-28bf-458d-a804-38bad2dc6e9c",
+                  "name": "outputType",
+                  "type": "STRING",
+                  "description": "",
+                  "modifiers": [
+                    "NONULL"
+                  ],
+                  "typeKindId": "",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "b257ad27-92a4-4d77-9403-5295e5aa5c15",
+                  "name": "outputKindId",
+                  "type": "ID",
+                  "description": "",
+                  "modifiers": [],
+                  "typeKindId": "",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "488ba7ce-b475-41b5-bf8d-7ecaf5c7e02b",
+                  "name": "outputModifiers",
+                  "type": "STRING",
+                  "description": "",
+                  "modifiers": [
+                    "LIST"
+                  ],
+                  "typeKindId": "",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "a13954b5-07c3-4883-b782-e3c36b8c0903",
+                  "name": "kind",
+                  "type": "KIND",
+                  "description": "",
+                  "modifiers": [],
+                  "typeKindId": "00000000-c001-c0de-d00d-000000000000",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "c171dd51-94a5-430a-8cd3-4db9708f53e9",
+                  "name": "graphqlOperationType",
+                  "type": "STRING",
+                  "description": "",
+                  "modifiers": [],
+                  "typeKindId": "",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "58f48fe4-0351-4346-bdc1-00d753dcc26e",
+                  "name": "functionType",
+                  "type": "STRING",
+                  "description": "",
+                  "modifiers": [
+                    "NONULL"
+                  ],
+                  "typeKindId": "",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "d525a008-ddcf-4bf5-afdd-001fc7bcda4d",
+                  "name": "implementation",
+                  "type": "KIND",
+                  "description": "",
+                  "modifiers": [],
+                  "typeKindId": "6734a45b-3250-4966-bee5-94fcd6e59209",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "066a4119-b9fb-4ad0-aafd-418903d59e64",
+                  "name": "service",
+                  "type": "ID",
+                  "description": "",
+                  "modifiers": [
+                    "NONULL"
+                  ],
+                  "typeKindId": "",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                },
+                {
+                  "id": "aca408e3-3e80-43ad-8ace-976c99e33f98",
+                  "name": "isDeleted",
+                  "type": "BOOLEAN",
+                  "description": "",
+                  "modifiers": [
+                    "NONULL"
+                  ],
+                  "typeKindId": "",
+                  "displayAs": [],
+                  "hide": false,
+                  "autoFocus": false,
+                  "readonly": false
+                }
+              ],
+              "nameField": ""
+            },
+            "instance": {
+              "id": "2bb56246-a8ca-4630-a80e-ecb999288850",
+              "name": "translateGreeting"
+            }
+          },
+          "queryGraphNode": null,
+          "functionGraphNode": null
+        }
+      ]
+    },
+    {
+      "id": "2bb56246-a8ca-4630-a80e-ecb999288850",
+      "name": "translateGreeting",
+      "type": "FUNCTION",
+      "expanded": true,
+      "zoom": 100,
+      "offsetX": 0,
+      "offsetY": 0,
+      "nodes": [
+        {
+          "id": "2bb56246-a8ca-4630-a80e-ecb999288850/INPUT",
+          "x": 57,
+          "y": 87,
+          "width": 226,
+          "height": 128,
+          "collapsed": false,
+          "knowledgeGraphNode": null,
+          "queryGraphNode": null,
+          "functionGraphNode": null
+        },
+        {
+          "id": "2bb56246-a8ca-4630-a80e-ecb999288850/OUTPUT",
+          "x": 718,
+          "y": 90,
+          "width": 182,
+          "height": 106,
+          "collapsed": false,
+          "knowledgeGraphNode": null,
+          "queryGraphNode": null,
+          "functionGraphNode": null
+        },
+        {
+          "id": "8c360706-e24b-4c5a-b2b6-56e9281059fd",
+          "x": 391.0104064941406,
+          "y": 83.35416412353516,
+          "width": 231,
+          "height": 171,
+          "collapsed": false,
+          "knowledgeGraphNode": null,
+          "queryGraphNode": null,
+          "functionGraphNode": {
+            "id": "38395d7e-377f-4e2a-a479-88d90ab67175",
+            "operationId": "0137e104-8164-4585-b213-dd60826ed79a"
+          }
+        }
+      ]
+    }
+  ],
+  "inventory": {
+    "workspaceKinds": [],
+    "functions": [
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:queryOne",
+        "name": "languageTag",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "282584b0-cb75-4d79-b8d1-f22a3159067f",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:queryMany",
+        "name": "languageTags",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "282584b0-cb75-4d79-b8d1-f22a3159067f",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:queryAll",
+        "name": "allLanguageTags",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "282584b0-cb75-4d79-b8d1-f22a3159067f",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:addOne",
+        "name": "addLanguageTag",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:addMany",
+        "name": "addLanguageTags",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:updateOne",
+        "name": "updateLanguageTag",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:updateMany",
+        "name": "updateLanguageTags",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:deleteOne",
+        "name": "deleteLanguageTag",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "282584b0-cb75-4d79-b8d1-f22a3159067f",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:deleteMany",
+        "name": "deleteLanguageTags",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:282584b0-cb75-4d79-b8d1-f22a3159067f:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "282584b0-cb75-4d79-b8d1-f22a3159067f",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:queryOne",
+        "name": "localizedText",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "159af8c7-6013-4f6f-befd-58d491f84a5c",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:queryMany",
+        "name": "localizedTexts",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "159af8c7-6013-4f6f-befd-58d491f84a5c",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:queryAll",
+        "name": "allLocalizedTexts",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "159af8c7-6013-4f6f-befd-58d491f84a5c",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:addOne",
+        "name": "addLocalizedText",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:addMany",
+        "name": "addLocalizedTexts",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:updateOne",
+        "name": "updateLocalizedText",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:updateMany",
+        "name": "updateLocalizedTexts",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:deleteOne",
+        "name": "deleteLocalizedText",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "159af8c7-6013-4f6f-befd-58d491f84a5c",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:deleteMany",
+        "name": "deleteLocalizedTexts",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:159af8c7-6013-4f6f-befd-58d491f84a5c:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "159af8c7-6013-4f6f-befd-58d491f84a5c",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:queryOne",
+        "name": "language",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "3b23e7c6-4f56-4e6d-b034-5240363b1eff",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:queryMany",
+        "name": "languages",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "3b23e7c6-4f56-4e6d-b034-5240363b1eff",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:queryAll",
+        "name": "allLanguages",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "3b23e7c6-4f56-4e6d-b034-5240363b1eff",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:addOne",
+        "name": "addLanguage",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:addMany",
+        "name": "addLanguages",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:updateOne",
+        "name": "updateLanguage",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:updateMany",
+        "name": "updateLanguages",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:deleteOne",
+        "name": "deleteLanguage",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "3b23e7c6-4f56-4e6d-b034-5240363b1eff",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:deleteMany",
+        "name": "deleteLanguages",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:3b23e7c6-4f56-4e6d-b034-5240363b1eff:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "3b23e7c6-4f56-4e6d-b034-5240363b1eff",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:queryOne",
+        "name": "sentence",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "2e48fc76-3996-42ac-bc6f-d6cb272322b7",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:queryMany",
+        "name": "sentences",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "2e48fc76-3996-42ac-bc6f-d6cb272322b7",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:queryAll",
+        "name": "allSentences",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "2e48fc76-3996-42ac-bc6f-d6cb272322b7",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:addOne",
+        "name": "addSentence",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:addMany",
+        "name": "addSentences",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:updateOne",
+        "name": "updateSentence",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:updateMany",
+        "name": "updateSentences",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:deleteOne",
+        "name": "deleteSentence",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "2e48fc76-3996-42ac-bc6f-d6cb272322b7",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:deleteMany",
+        "name": "deleteSentences",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:2e48fc76-3996-42ac-bc6f-d6cb272322b7:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "2e48fc76-3996-42ac-bc6f-d6cb272322b7",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:queryOne",
+        "name": "subject",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c705f76a-9e40-4525-912b-e7f33aecdf90",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:queryMany",
+        "name": "subjects",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c705f76a-9e40-4525-912b-e7f33aecdf90",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:queryAll",
+        "name": "allSubjects",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c705f76a-9e40-4525-912b-e7f33aecdf90",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:addOne",
+        "name": "addSubject",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:addMany",
+        "name": "addSubjects",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:updateOne",
+        "name": "updateSubject",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:updateMany",
+        "name": "updateSubjects",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:deleteOne",
+        "name": "deleteSubject",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c705f76a-9e40-4525-912b-e7f33aecdf90",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:deleteMany",
+        "name": "deleteSubjects",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c705f76a-9e40-4525-912b-e7f33aecdf90:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c705f76a-9e40-4525-912b-e7f33aecdf90",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:queryOne",
+        "name": "definition",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "90b5ae9b-b35b-4401-a56b-8e5d7a539640",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:queryMany",
+        "name": "definitions",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "90b5ae9b-b35b-4401-a56b-8e5d7a539640",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:queryAll",
+        "name": "allDefinitions",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "90b5ae9b-b35b-4401-a56b-8e5d7a539640",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:addOne",
+        "name": "addDefinition",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:addMany",
+        "name": "addDefinitions",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:updateOne",
+        "name": "updateDefinition",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:updateMany",
+        "name": "updateDefinitions",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:deleteOne",
+        "name": "deleteDefinition",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "90b5ae9b-b35b-4401-a56b-8e5d7a539640",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:deleteMany",
+        "name": "deleteDefinitions",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:90b5ae9b-b35b-4401-a56b-8e5d7a539640:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "90b5ae9b-b35b-4401-a56b-8e5d7a539640",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:queryOne",
+        "name": "word",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "87865baf-c689-4a62-a22e-1de56c2b95da",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:queryMany",
+        "name": "words",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "87865baf-c689-4a62-a22e-1de56c2b95da",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:queryAll",
+        "name": "allWords",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "87865baf-c689-4a62-a22e-1de56c2b95da",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:addOne",
+        "name": "addWord",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:addMany",
+        "name": "addWords",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:updateOne",
+        "name": "updateWord",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:updateMany",
+        "name": "updateWords",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:deleteOne",
+        "name": "deleteWord",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "87865baf-c689-4a62-a22e-1de56c2b95da",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:deleteMany",
+        "name": "deleteWords",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:87865baf-c689-4a62-a22e-1de56c2b95da:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "87865baf-c689-4a62-a22e-1de56c2b95da",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:queryOne",
+        "name": "assertion",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "d4908739-1584-4d81-bc68-e7cc854c5d38",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:queryMany",
+        "name": "assertions",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "d4908739-1584-4d81-bc68-e7cc854c5d38",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:queryAll",
+        "name": "allAssertions",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "d4908739-1584-4d81-bc68-e7cc854c5d38",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:addOne",
+        "name": "addAssertion",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:addMany",
+        "name": "addAssertions",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:updateOne",
+        "name": "updateAssertion",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:updateMany",
+        "name": "updateAssertions",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:deleteOne",
+        "name": "deleteAssertion",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "d4908739-1584-4d81-bc68-e7cc854c5d38",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:deleteMany",
+        "name": "deleteAssertions",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:d4908739-1584-4d81-bc68-e7cc854c5d38:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "d4908739-1584-4d81-bc68-e7cc854c5d38",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:queryOne",
+        "name": "object",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "faf268cb-38d9-4c01-9c14-a98b2df4c5f3",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:queryMany",
+        "name": "objects",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "faf268cb-38d9-4c01-9c14-a98b2df4c5f3",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:queryAll",
+        "name": "allObjects",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "faf268cb-38d9-4c01-9c14-a98b2df4c5f3",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:addOne",
+        "name": "addObject",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:addMany",
+        "name": "addObjects",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:updateOne",
+        "name": "updateObject",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:updateMany",
+        "name": "updateObjects",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:deleteOne",
+        "name": "deleteObject",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "faf268cb-38d9-4c01-9c14-a98b2df4c5f3",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:deleteMany",
+        "name": "deleteObjects",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:faf268cb-38d9-4c01-9c14-a98b2df4c5f3:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "faf268cb-38d9-4c01-9c14-a98b2df4c5f3",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:queryOne",
+        "name": "topicSentence",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "991e38c8-b603-4bd1-b595-89246443b13d",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:queryMany",
+        "name": "topicSentences",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "991e38c8-b603-4bd1-b595-89246443b13d",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:queryAll",
+        "name": "allTopicSentences",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "991e38c8-b603-4bd1-b595-89246443b13d",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:addOne",
+        "name": "addTopicSentence",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:addMany",
+        "name": "addTopicSentences",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:updateOne",
+        "name": "updateTopicSentence",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:updateMany",
+        "name": "updateTopicSentences",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:deleteOne",
+        "name": "deleteTopicSentence",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "991e38c8-b603-4bd1-b595-89246443b13d",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:deleteMany",
+        "name": "deleteTopicSentences",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:991e38c8-b603-4bd1-b595-89246443b13d:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "991e38c8-b603-4bd1-b595-89246443b13d",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:queryOne",
+        "name": "topic",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c909d65c-f5ec-4d6a-a1ca-8a8b035ef410",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:queryMany",
+        "name": "topics",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c909d65c-f5ec-4d6a-a1ca-8a8b035ef410",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:queryAll",
+        "name": "allTopics",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c909d65c-f5ec-4d6a-a1ca-8a8b035ef410",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:addOne",
+        "name": "addTopic",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:addMany",
+        "name": "addTopics",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:updateOne",
+        "name": "updateTopic",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:updateMany",
+        "name": "updateTopics",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:deleteOne",
+        "name": "deleteTopic",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c909d65c-f5ec-4d6a-a1ca-8a8b035ef410",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:deleteMany",
+        "name": "deleteTopics",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c909d65c-f5ec-4d6a-a1ca-8a8b035ef410:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c909d65c-f5ec-4d6a-a1ca-8a8b035ef410",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:queryOne",
+        "name": "predicate",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "0b30ddb5-b496-425f-be13-6c10e5713c83",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:queryMany",
+        "name": "predicates",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "0b30ddb5-b496-425f-be13-6c10e5713c83",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:queryAll",
+        "name": "allPredicates",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "0b30ddb5-b496-425f-be13-6c10e5713c83",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:addOne",
+        "name": "addPredicate",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:addMany",
+        "name": "addPredicates",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:updateOne",
+        "name": "updatePredicate",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:updateMany",
+        "name": "updatePredicates",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:deleteOne",
+        "name": "deletePredicate",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "0b30ddb5-b496-425f-be13-6c10e5713c83",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:deleteMany",
+        "name": "deletePredicates",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:0b30ddb5-b496-425f-be13-6c10e5713c83:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "0b30ddb5-b496-425f-be13-6c10e5713c83",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:queryOne",
+        "name": "wordCount",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "32e55d00-1a99-46fd-9bcf-8c88ae019897",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:queryMany",
+        "name": "wordCounts",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "32e55d00-1a99-46fd-9bcf-8c88ae019897",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:queryAll",
+        "name": "allWordCounts",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "32e55d00-1a99-46fd-9bcf-8c88ae019897",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:addOne",
+        "name": "addWordCount",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:addMany",
+        "name": "addWordCounts",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:updateOne",
+        "name": "updateWordCount",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:updateMany",
+        "name": "updateWordCounts",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:deleteOne",
+        "name": "deleteWordCount",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "32e55d00-1a99-46fd-9bcf-8c88ae019897",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:deleteMany",
+        "name": "deleteWordCounts",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:32e55d00-1a99-46fd-9bcf-8c88ae019897:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "32e55d00-1a99-46fd-9bcf-8c88ae019897",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:queryOne",
+        "name": "newKind",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:queryOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c9e5ad89-309e-429a-bea5-c9bc09220e8e",
+        "outputModifiers": [],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:queryMany",
+        "name": "newKinds",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:queryMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c9e5ad89-309e-429a-bea5-c9bc09220e8e",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:queryAll",
+        "name": "allNewKinds",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:queryAll:take",
+            "name": "take",
+            "type": "INT",
+            "typeKindId": null
+          },
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:queryAll:offset",
+            "name": "offset",
+            "type": "INT",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c9e5ad89-309e-429a-bea5-c9bc09220e8e",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:addOne",
+        "name": "addNewKind",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:addOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:addMany",
+        "name": "addNewKinds",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:addMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:addinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:updateOne",
+        "name": "updateNewKind",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:updateOne:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:updateMany",
+        "name": "updateNewKinds",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:updateMany:input",
+            "name": "input",
+            "type": "KIND",
+            "typeKindId": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:updateinput"
+          }
+        ],
+        "outputType": "ID",
+        "outputKindId": null,
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:deleteOne",
+        "name": "deleteNewKind",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:deleteOne:id",
+            "name": "id",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c9e5ad89-309e-429a-bea5-c9bc09220e8e",
+        "outputModifiers": [],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:deleteMany",
+        "name": "deleteNewKinds",
+        "description": null,
+        "arguments": [
+          {
+            "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd:c9e5ad89-309e-429a-bea5-c9bc09220e8e:deleteMany:ids",
+            "name": "ids",
+            "type": "ID",
+            "typeKindId": null
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "c9e5ad89-309e-429a-bea5-c9bc09220e8e",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "MUTATION",
+        "functionType": "SERVICE",
+        "implementation": null,
+        "service": {
+          "id": "1d36107d-fbbd-4230-aaeb-8adf108ea2bd"
+        }
+      },
+      {
+        "id": "495a09df-55a2-430d-95a0-f14f99736635",
+        "name": "define",
+        "description": null,
+        "arguments": [
+          {
+            "id": "62b3d644-a65d-429c-a3a5-0baa01659b51",
+            "name": "word",
+            "type": "KIND",
+            "typeKindId": "87865baf-c689-4a62-a22e-1de56c2b95da"
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "90b5ae9b-b35b-4401-a56b-8e5d7a539640",
+        "outputModifiers": [
+          "LIST"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "CKG",
+        "implementation": {
+          "id": "bfbbe66f-59d8-4375-82e0-59077c07f0ea",
+          "entrypoint": {
+            "id": "aca3fc7d-3810-4c8f-b691-9fd9d0100b39",
+            "type": "APPLY"
+          },
+          "operations": [
+            {
+              "id": "aca3fc7d-3810-4c8f-b691-9fd9d0100b39",
+              "type": "APPLY"
+            }
+          ]
+        },
+        "service": {
+          "id": "a0b55692-75a7-4b5a-bbf4-c8f43990b142"
+        }
+      },
+      {
+        "id": "0b4dbef2-1f02-40cc-bd7e-4788ea059da3",
+        "name": "translate",
+        "description": null,
+        "arguments": [
+          {
+            "id": "3e031042-7fa5-45a8-a591-f2f5826581ac",
+            "name": "source",
+            "type": "KIND",
+            "typeKindId": "159af8c7-6013-4f6f-befd-58d491f84a5c"
+          },
+          {
+            "id": "26906bd3-9ad9-4002-ad58-1972e57458f3",
+            "name": "targetLanguageTag",
+            "type": "KIND",
+            "typeKindId": "282584b0-cb75-4d79-b8d1-f22a3159067f"
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "159af8c7-6013-4f6f-befd-58d491f84a5c",
+        "outputModifiers": [
+          "NONULL"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "CKG",
+        "implementation": {
+          "id": "867d2597-6490-42f2-a615-4db59c8a32f9",
+          "entrypoint": {
+            "id": "20d53968-0335-4eb0-b058-d66aca918ed7",
+            "type": "APPLY"
+          },
+          "operations": [
+            {
+              "id": "20d53968-0335-4eb0-b058-d66aca918ed7",
+              "type": "APPLY"
+            }
+          ]
+        },
+        "service": {
+          "id": "a0b55692-75a7-4b5a-bbf4-c8f43990b142"
+        }
+      },
+      {
+        "id": "2bb56246-a8ca-4630-a80e-ecb999288850",
+        "name": "translateGreeting",
+        "description": null,
+        "arguments": [
+          {
+            "id": "d2e53a35-ff2e-4487-b44e-ffd4d4a4dbd0",
+            "name": "greeting",
+            "type": "KIND",
+            "typeKindId": "159af8c7-6013-4f6f-befd-58d491f84a5c"
+          },
+          {
+            "id": "84201f13-281d-45d4-8f31-5094711227c6",
+            "name": "targetLanguage",
+            "type": "KIND",
+            "typeKindId": "282584b0-cb75-4d79-b8d1-f22a3159067f"
+          }
+        ],
+        "outputType": "KIND",
+        "outputKindId": "159af8c7-6013-4f6f-befd-58d491f84a5c",
+        "outputModifiers": [
+          "NONULL"
+        ],
+        "graphqlOperationType": "QUERY",
+        "functionType": "CKG",
+        "implementation": {
+          "id": "cfd24cd4-2eef-4b6a-be83-f825ef226ba0",
+          "entrypoint": {
+            "id": "0137e104-8164-4585-b213-dd60826ed79a",
+            "type": "APPLY"
+          },
+          "operations": [
+            {
+              "id": "0137e104-8164-4585-b213-dd60826ed79a",
+              "type": "APPLY"
+            }
+          ]
+        },
+        "service": {
+          "id": "1f52d3b9-e3bf-42ac-b19f-f1cc9114d881"
+        }
+      }
+    ]
+  }
+}

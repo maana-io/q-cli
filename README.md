@@ -2,6 +2,10 @@
 
 Custom [graphql-cli](https://github.com/graphql-cli/graphql-cli) plugin to programmatically interact with a Maana cluster.
 
+> If you are using Node Version Manager (NVM), you may need to
+> explicitly set the NODE_PATH environment variable to point
+> to the location of the CLI plugin (e.g., on Windows, this might be `C:/Users/<you>/AppData/Roaming/nvm/v10.15.3/node_modules/`).
+
 > All examples assume you are running from a directory with a valid `.graphqlconfig` file. See below for how to add authentication.
 
 ## Commands
@@ -157,6 +161,14 @@ Compatible with Maana Q v3.1.0+.
 gql mrefreshauth
 ```
 
+### mexportws
+
+| Experimental
+
+### mimportws
+
+| Experimental
+
 ## Add authentication to requests
 
 Maana endpoints require a valid (authenticated) user in order to prevent unauthorized access.
@@ -225,13 +237,27 @@ Add the authorization header to the Maana endpoint:
      }
 ```
 
-## To build and install
+## To build
 
 ```sh
 npm i
 npm run build
-npm i -g
 ```
+
+## To install
+
+```sh
+npm i -g .
+```
+
+or
+
+```sh
+npm pack
+npm i -g graphql-cli-maana-3.2.0-beta.tgz
+```
+
+Replace the module name with the output of `npm pack`.
 
 ## To publish
 
