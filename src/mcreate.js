@@ -15,24 +15,24 @@ const REPO_ROOT = 'https://github.com/maana-io/q-templates/tree/master'
 // Project boilerplates
 export const defaultBoilerplates = [
   {
-    name: 'dotnet-cs-basic-service-bot',
-    description: 'A C#-based Knowledge Microservice/Bot',
+    name: 'dotnet-cs-basic',
+    description: 'C# microservice (basic)',
     repo: `${REPO_ROOT}/dotnet_core/cs/basic`
   },
   {
-    name: 'node-js-basic-service-bot',
-    description: 'A Node-based Knowledge Microservice/Bot (JavaScript)',
+    name: 'node-basic',
+    description: 'JavaScript microservice (basic)',
     repo: `${REPO_ROOT}/node/basic`
   },
   {
-    name: 'python-service-bot',
-    description: 'A Python-based Knowledge Microservice/Bot (Simple)',
-    repo: `${REPO_ROOT}/python/basic`
+    name: 'node-mongo',
+    description: 'JavaScript microservice with support for MongoDB',
+    repo: `https://github.com/maana-io/q-template-node-mongo/tree/master`
   },
   {
-    name: 'python-graphene-service-bot',
-    description: 'A Python-based Knowledge Microservice/Bot (Graphene)',
-    repo: `${REPO_ROOT}/python/graphene`
+    name: 'python-basic',
+    description: 'Python microservice (basic)',
+    repo: `${REPO_ROOT}/python/basic`
   }
 ]
 
@@ -204,9 +204,7 @@ export const handler = async (context, argv) => {
   const tmpFile = tmp.fileSync()
 
   console.log(
-    `[mcreate] Downloading boilerplate from ${downloadUrl} to ${
-      tmpFile.name
-    }...`
+    `[mcreate] Downloading boilerplate from ${downloadUrl} to ${tmpFile.name}...`
   )
 
   await new Promise(resolve => {

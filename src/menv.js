@@ -44,7 +44,7 @@ function produceEvalOutput(config) {
     config.suffix
   }${config.comment} Run this command to configure your shell\n${
     config.comment
-  } ${config.cmd}\n`
+  } ${config.cmd}`
 }
 
 function getShell(shell) {
