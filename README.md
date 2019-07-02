@@ -26,7 +26,7 @@ Note that IDs must be marked with `@unique` and are (currently) limited to `CHAR
 
 - `fileOrDir` (required) - specifies a supported file (.csv or .json) or a directory (recursively processed)
   - mutation names are automatically inferred from file names
-  - file names should match the (singular) entity name (e.g., person.json) => addPersons (= assumed mutation)
+  - file names should match the (singular) entity name (e.g., Person.json) => addPersons (= assumed mutation)
 - `-m | --mutation` (optional) - explicit mutation to use (for a single file only)
 - `-b | --batch` (optional) - limit on how many instances to send at time
 - `-n | --ndfout` (optional) - Normalized Document Format conversion output
@@ -41,10 +41,10 @@ Note that IDs must be marked with `@unique` and are (currently) limited to `CHAR
 gql mload -p test data/
 
 # load a specific file
-gql mload -p test data/person.json
+gql mload -p test data/Person.json
 
 # load a specific file in batches with an explicit mutation
-gql mload -p test data/person.json -m addEmployees -b 1000
+gql mload -p test data/Person.json -m addEmployees -b 1000
 
 # convert a folder of data to NDF format
 gql mload -p test data/ -n ndf/
@@ -75,6 +75,10 @@ gql maddsvc MyService -s model.gql -i io.acme.myservice
 
 Sign into the Maana CLI so you can authenticate against the Maana API.
 
+Authenticated CLI sessions (access token lifespans) do not automatically refresh--they must be refreshed manually with 'mrefreshauth' and exported again with 'menv'.
+
+Note: Auth provider must be configured to issue CLI access tokens with a sufficiently long lifespan to perform long running tasks. Default recommendation is 10 hours.
+
 Compatible with Maana Q v3.1.0+.
 
 #### Arguments and Options
@@ -89,7 +93,7 @@ Compatible with Maana Q v3.1.0+.
 gql msignin
 ```
 
-### maddheaers
+### maddheaders
 
 Adds authentication headers for authenticating against the Maana API.
 
@@ -137,6 +141,8 @@ gql menv --shell powershell
 ### mrefreshauth
 
 Used to get an new authentication token when it has expired. The Maana API must be configured to support this.
+
+Note: Auth provider must be configured for refresh token lifespan capable of refreshing access tokens after they expire; i.e. longer than the access token lifespan.
 
 Compatible with Maana Q v3.1.0+.
 

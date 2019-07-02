@@ -8,7 +8,7 @@ export const builder = {
   shell: {
     alias: 's',
     description:
-      'The name of your current shell, defaults to the SHELL environment variable'
+      'The name of your current shell.  Defaults to pulling the name out of the the SHELL environment variable when available.  Examples: bash, cmd, or powershell'
   }
 }
 
@@ -44,7 +44,7 @@ function produceEvalOutput(config) {
     config.suffix
   }${config.comment} Run this command to configure your shell\n${
     config.comment
-  } ${config.cmd}\n`
+  } ${config.cmd}`
 }
 
 function getShell(shell) {
