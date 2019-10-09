@@ -1,6 +1,12 @@
 # Command Line Interface (CLI) for Maana Q
 The Maana Q CLI is a custom [graphql-cli](https://github.com/graphql-cli/graphql-cli) plugin to programmatically interact with a Maana Q instance.  As a plug-in to the standard GraphQL CLI, the standard configuration and command syntax is followed (i.e., all examples assume you are running from a directory with a valid `.graphqlconfig` file. See below for how to add authentication).
 
+# Installation
+Assuming you already have a valid [NodeJS and npm](https://nodejs.org/en/) setup:
+```
+npm i -g graphql-cli graphql-cli-maana
+```
+
 # Authentication
 
 Maana service endpoints require a valid (authenticated) user in order to prevent unauthorized access.
