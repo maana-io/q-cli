@@ -56,12 +56,13 @@ Create a new Q-ready microservice project using boilerplates in various language
 Build and deploy a Q-ready microservice to a Docker registry and Kubernetes cluster.
 
 ### Prerequisites
-- docker
+- [docker](https://docs.docker.com/v17.09/engine/installation/)
   - username & password to the Docker registry (from Sys Admin)
-- kubectl
+- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
   - config file for the K8 cluster (from Sys Admin)
-- graphql-cli
-- graphql-cli-maana
+- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
+- [graphql-cli](https://github.com/Urigo/graphql-cli)
+- [graphql-cli-maana](https://github.com/maana-io/q-cli)
 
 ### Configure
 
