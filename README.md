@@ -84,7 +84,7 @@ Use the username and password shared from Ops.
 ```bash
 gql mdeploy
 ```
-Follow the prompts and accept defaults.
+Select the `Private Docker Registry` option and follow the prompts and accept defaults.
 
 ## mload
 
