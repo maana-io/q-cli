@@ -228,9 +228,7 @@ Add the authorization header to the Maana endpoint:
 ## To build and install
 
 ```sh
-npm i
-npm run build
-npm i -g
+./build.sh
 ```
 
 ## To publish

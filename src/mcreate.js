@@ -33,13 +33,18 @@ export const defaultBoilerplates = [
     name: 'python-basic',
     description: 'Python microservice (basic)',
     repo: `${REPO_ROOT}/python/basic`
+  },
+  {
+    name: 'assistant-react-js',
+    description: 'React (JavaScript) Assistant',
+    repo: `https://github.com/maana-io/q-template-assistant-react/tree/master`
   }
 ]
 
 // Plugin boilerplate
 export const command = 'mcreate [directory]'
 export const describe =
-  'Bootstrap a new Maana Knowledge Microservice/Bot or Knowledge Application'
+  'Bootstrap a new Maana Knowledge Microservice, Bot, Assistant, or Knowledge Application'
 
 export const builder = {
   boilerplate: {
