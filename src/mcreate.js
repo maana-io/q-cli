@@ -15,24 +15,29 @@ const REPO_ROOT = 'https://github.com/maana-io/q-templates/tree/master'
 // Project boilerplates
 export const defaultBoilerplates = [
   {
-    name: 'dotnet-cs-basic',
+    name: 'service-csharp',
     description: 'C# microservice (basic)',
     repo: `${REPO_ROOT}/dotnet_core/cs/basic`
   },
   {
-    name: 'node-basic',
+    name: 'service-node-js',
     description: 'JavaScript microservice (basic)',
     repo: `${REPO_ROOT}/node/basic`
   },
   {
-    name: 'node-mongo',
+    name: 'service-node-js-mongo',
     description: 'JavaScript microservice with support for MongoDB',
-    repo: `https://github.com/maana-io/q-template-node-mongo/tree/master`
+    repo: `https://github.com/maana-io/q-template-service-node-mongo/tree/master`
   },
   {
-    name: 'python-basic',
+    name: 'service-python',
     description: 'Python microservice (basic)',
     repo: `${REPO_ROOT}/python/basic`
+  },
+  {
+    name: 'app-react-js',
+    description: 'React (JavaScript) Knowledge Application',
+    repo: `https://github.com/maana-io/q-template-app-react/tree/master`
   },
   {
     name: 'assistant-react-js',
