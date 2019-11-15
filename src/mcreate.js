@@ -1,14 +1,14 @@
+import Path from 'path'
 import Zip from 'adm-zip'
 import chalk from 'chalk'
 import commandExists from 'command-exists'
-import gh from 'parse-github-url'
-import { spawn } from 'cross-spawn'
 import fs from 'fs'
+import gh from 'parse-github-url'
 import { padEnd } from 'lodash'
-import Path from 'path'
 import request from 'request'
-import tmp from 'tmp'
 import rimraf from 'rimraf'
+import { spawn } from 'cross-spawn'
+import tmp from 'tmp'
 
 const REPO_ROOT = 'https://github.com/maana-io/q-templates/tree/master'
 
@@ -214,7 +214,9 @@ export const handler = async (context, argv) => {
   const tmpFile = tmp.fileSync()
 
   console.log(
-    `[mcreate] Downloading boilerplate from ${downloadUrl} to ${tmpFile.name}...`
+    `[mcreate] Downloading boilerplate from ${downloadUrl} to ${
+      tmpFile.name
+    }...`
   )
 
   await new Promise(resolve => {
