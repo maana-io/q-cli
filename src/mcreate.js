@@ -40,9 +40,14 @@ export const defaultBoilerplates = [
     repo: `https://github.com/maana-io/q-template-app-react/tree/master`
   },
   {
-    name: 'assistant-react-js',
-    description: 'React (JavaScript) Assistant',
+    name: 'assistant-react-js-basic',
+    description: 'Basic React (JavaScript) Assistant',
     repo: `https://github.com/maana-io/q-template-assistant-react/tree/master`
+  },
+  {
+    name: 'assistant-react-js-advanced',
+    description: 'Advanced React (JavaScript) Assistant',
+    repo: `https://github.com/maana-io/q-template-assistant-react-advanced/tree/master`
   }
 ]
 
@@ -214,9 +219,7 @@ export const handler = async (context, argv) => {
   const tmpFile = tmp.fileSync()
 
   console.log(
-    `[mcreate] Downloading boilerplate from ${downloadUrl} to ${
-      tmpFile.name
-    }...`
+    `[mcreate] Downloading boilerplate from ${downloadUrl} to ${tmpFile.name}...`
   )
 
   await new Promise(resolve => {
