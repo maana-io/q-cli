@@ -13,6 +13,11 @@ fragment employerDetail on Employer {
   ceo {
     name
   }
+  employees {
+    id
+    name
+    dob
+  }
 }
 
 query person($id: ID!) {

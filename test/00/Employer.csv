@@ -1,2 +1,2 @@
-"id","name","forProfit","ceo"
-"E00","Lucasfilm Ltd.",true,"P01"
+"id","name","forProfit","ceo","employees"
+"E00","Lucasfilm Ltd.",true,"P01","P00,P01,P02"

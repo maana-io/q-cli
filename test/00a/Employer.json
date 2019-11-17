@@ -1,0 +1,13 @@
+[
+  {
+    "id": "E00",
+    "name": "Lucasfilm Ltd.",
+    "forProfit": true,
+    "ceo": "P01",
+    "employees": [
+      "P00",
+      "P01",
+      "P02"
+    ]
+  }
+]
