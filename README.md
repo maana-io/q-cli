@@ -1,8 +1,11 @@
 # Command Line Interface (CLI) for Maana Q
-The Maana Q CLI is a custom [graphql-cli](https://github.com/graphql-cli/graphql-cli) plugin to programmatically interact with a Maana Q instance.  As a plug-in to the standard GraphQL CLI, the standard configuration and command syntax is followed (i.e., all examples assume you are running from a directory with a valid `.graphqlconfig` file. See below for how to add authentication).
+
+The Maana Q CLI is a custom [graphql-cli](https://github.com/graphql-cli/graphql-cli) plugin to programmatically interact with a Maana Q instance. As a plug-in to the standard GraphQL CLI, the standard configuration and command syntax is followed (i.e., all examples assume you are running from a directory with a valid `.graphqlconfig` file. See below for how to add authentication).
 
 # Installation
+
 Assuming you already have a valid [NodeJS and npm](https://nodejs.org/en/) setup:
+
 ```
 npm i -g graphql-cli graphql-cli-maana
 ```
@@ -42,7 +45,8 @@ npm i -g
 
 ```sh
 npm adduser --registry https://registry.npmjs.org
-npm publish --registry https://registry.npmjs.org [--tag beta]
+npm version graphql-cli-maana@3.2.2-beta.41
+npm publish --registry https://registry.npmjs.org --tag beta
 ```
 
 # Commands
@@ -56,6 +60,7 @@ Create a new Q-ready microservice project using boilerplates in various language
 Build and deploy a Q-ready microservice to a Docker registry and Kubernetes cluster.
 
 ### Prerequisites
+
 - [docker](https://docs.docker.com/v17.09/engine/installation/)
   - username & password to the Docker registry (from Sys Admin)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
@@ -71,6 +76,7 @@ Ensure Kubernetes is configured to use the cluster information provided by Sys A
 ```bash
 export KUBECONFIG=/home/<user>/<K8 conf file>.conf
 ```
+
 Replace with correct path to your file.
 
 ### Login
@@ -78,12 +84,15 @@ Replace with correct path to your file.
 ```bash
 docker login services.azurecr.io
 ```
+
 Use the username and password shared from Ops.
 
 ### CLI mdeploy
+
 ```bash
 gql mdeploy
 ```
+
 Select the `Private Docker Registry` option and follow the prompts and accept defaults.
 
 ## mload
