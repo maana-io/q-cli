@@ -45,7 +45,7 @@ npm i -g
 
 ```sh
 npm adduser --registry https://registry.npmjs.org
-npm version graphql-cli-maana@3.2.2-beta.41
+npm version 3.2.2-beta.42
 npm publish --registry https://registry.npmjs.org --tag beta
 ```
 
