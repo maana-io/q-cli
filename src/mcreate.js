@@ -30,8 +30,13 @@ export const defaultBoilerplates = [
     repo: `https://github.com/maana-io/q-template-service-node-mongo/tree/master`
   },
   {
-    name: 'service-python',
-    description: 'Python microservice (basic)',
+    name: 'service-python-ariadne',
+    description: 'Python microservice using Ariadne',
+    repo: `https://github.com/maana-io/q-template-service-python-ariadne/tree/master`
+  },
+  {
+    name: 'service-python-graphene',
+    description: 'Python microservice using Graphene',
     repo: `${REPO_ROOT}/python/basic`
   },
   {
