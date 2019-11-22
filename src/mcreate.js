@@ -22,7 +22,7 @@ export const defaultBoilerplates = [
   {
     name: 'service-node-js',
     description: 'JavaScript microservice (basic)',
-    repo: `${REPO_ROOT}/node/basic`
+    repo: `https://github.com/maana-io/q-template-service-node-basic/tree/master`
   },
   {
     name: 'service-node-js-mongo',
