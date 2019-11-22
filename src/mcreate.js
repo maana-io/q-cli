@@ -10,14 +10,12 @@ import rimraf from 'rimraf'
 import { spawn } from 'cross-spawn'
 import tmp from 'tmp'
 
-const REPO_ROOT = 'https://github.com/maana-io/q-templates/tree/master'
-
 // Project boilerplates
 export const defaultBoilerplates = [
   {
     name: 'service-csharp',
     description: 'C# microservice (basic)',
-    repo: `${REPO_ROOT}/dotnet_core/cs/basic`
+    repo: `https://github.com/maana-io/q-template-service-csharp/tree/master`
   },
   {
     name: 'service-node-js',
@@ -35,9 +33,14 @@ export const defaultBoilerplates = [
     repo: `https://github.com/maana-io/q-template-service-python-ariadne/tree/master`
   },
   {
+    name: 'service-python-basic',
+    description: 'Python microservice using raw GraphQL',
+    repo: `https://github.com/maana-io/q-template-service-python-basic/tree/master`
+  },
+  {
     name: 'service-python-graphene',
     description: 'Python microservice using Graphene',
-    repo: `${REPO_ROOT}/python/basic`
+    repo: `https://github.com/maana-io/q-template-service-python-graphene/tree/master`
   },
   {
     name: 'app-react-js',
