@@ -1,8 +1,11 @@
 # Command Line Interface (CLI) for Maana Q
-The Maana Q CLI is a custom [graphql-cli](https://github.com/graphql-cli/graphql-cli) plugin to programmatically interact with a Maana Q instance.  As a plug-in to the standard GraphQL CLI, the standard configuration and command syntax is followed (i.e., all examples assume you are running from a directory with a valid `.graphqlconfig` file. See below for how to add authentication).
+
+The Maana Q CLI is a custom [graphql-cli](https://github.com/graphql-cli/graphql-cli) plugin to programmatically interact with a Maana Q instance. As a plug-in to the standard GraphQL CLI, the standard configuration and command syntax is followed (i.e., all examples assume you are running from a directory with a valid `.graphqlconfig` file. See below for how to add authentication).
 
 # Installation
+
 Assuming you already have a valid [NodeJS and npm](https://nodejs.org/en/) setup:
+
 ```
 npm i -g graphql-cli graphql-cli-maana
 ```
@@ -42,7 +45,8 @@ npm i -g
 
 ```sh
 npm adduser --registry https://registry.npmjs.org
-npm publish --registry https://registry.npmjs.org [--tag beta]
+npm version 3.2.2-beta.42
+npm publish --registry https://registry.npmjs.org --tag beta
 ```
 
 # Commands
@@ -78,12 +82,15 @@ Replace with correct path to your file.
 ```bash
 docker login services.azurecr.io
 ```
+
 Use the username and password shared from Ops.
 
 ### CLI mdeploy
+
 ```bash
 gql mdeploy
 ```
+
 Select the `Private Docker Registry` option and follow the prompts and accept defaults.
 
 ## mload

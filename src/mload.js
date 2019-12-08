@@ -407,15 +407,18 @@ const buildMutation = (mutationField, inputType, typeDef, data) => {
     try {
       const fields = Object.keys(row)
         .map(fieldName => {
-          const value = row[fieldName]
+          let value = row[fieldName]
 
           const { field, isList, isNonNull, namedType } = getField(
             typeDef,
             fieldName
           )
 
+          // Parse a list
           const valueType = typeof value
-          // console.log("valueType", valueType);
+          if (isList && valueType === 'string') {
+            value = value.split(',')
+          }
 
           if (Array.isArray(value)) {
             if (!isList) {
@@ -1056,9 +1059,7 @@ const buildReport = () => {
     if (fileResults.errors.mutation.length) {
       console.log(
         chalk.red(
-          `  ${
-            fileResults.errors.mutation.length
-          } file(s) had issues finding or creating the mutation`
+          `  ${fileResults.errors.mutation.length} file(s) had issues finding or creating the mutation`
         )
       )
       fileResults.errors.mutation.forEach(e =>
@@ -1074,9 +1075,7 @@ const buildReport = () => {
     if (fileResults.errors.dataRead.length) {
       console.log(
         chalk.red(
-          `  ${
-            fileResults.errors.dataRead.length
-          } file(s) had issues loading the data from disk`
+          `  ${fileResults.errors.dataRead.length} file(s) had issues loading the data from disk`
         )
       )
       fileResults.errors.dataRead.forEach(e =>
@@ -1128,9 +1127,7 @@ const buildReport = () => {
     if (fileResults.warnings.typeCoercion.length > 0) {
       console.log(
         chalk.yellow(
-          `☛ Type coercion warnings: ${
-            fileResults.warnings.typeCoercion.length
-          }`
+          `☛ Type coercion warnings: ${fileResults.warnings.typeCoercion.length}`
         )
       )
 
