@@ -10,6 +10,7 @@ servicePath="$2"
 registryPath="$3"
 version="$4"
 replicas="$5"
+port="$6"
 
 interval=5
 max_attempts=100
