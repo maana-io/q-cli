@@ -60,7 +60,6 @@ Create a new Q-ready microservice project using boilerplates in various language
 Build and deploy a Q-ready microservice to a Docker registry and Kubernetes cluster.
 
 ### Prerequisites
-
 - [docker](https://docs.docker.com/v17.09/engine/installation/)
   - username & password to the Docker registry (from Sys Admin)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
@@ -76,7 +75,6 @@ Ensure Kubernetes is configured to use the cluster information provided by Sys A
 ```bash
 export KUBECONFIG=/home/<user>/<K8 conf file>.conf
 ```
-
 Replace with correct path to your file.
 
 ### Login
