@@ -10,7 +10,7 @@ Assuming you already have a valid [NodeJS and npm](https://nodejs.org/en/) setup
 npm i -g graphql-cli@3.0.14 graphql-cli-maana
 ```
 
-\*\*graphql-cli version: Note that version 3.0.14 of graphql-cli is required. Problems around broken installs, or unidentified or missing commands may be indicative of a wrong version being used.
+**graphql-cli version:** Note that version 3 of graphql-cli is required. Problems around broken installs, or unidentified or missing commands may be indicative of a wrong version being used.
 
 # Authentication
 
