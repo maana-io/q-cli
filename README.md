@@ -7,8 +7,10 @@ The Maana Q CLI is a custom [graphql-cli](https://github.com/graphql-cli/graphql
 Assuming you already have a valid [NodeJS and npm](https://nodejs.org/en/) setup:
 
 ```
-npm i -g graphql-cli graphql-cli-maana
+npm i -g graphql-cli@3.0.14 graphql-cli-maana
 ```
+
+\*\*graphql-cli version: Note that version 3.0.14 of graphql-cli is required. Problems around broken installs, or unidentified or missing commands may be indicative of a wrong version being used.
 
 # Authentication
 
@@ -60,6 +62,7 @@ Create a new Q-ready microservice project using boilerplates in various language
 Build and deploy a Q-ready microservice to a Docker registry and Kubernetes cluster.
 
 ### Prerequisites
+
 - [docker](https://docs.docker.com/v17.09/engine/installation/)
   - username & password to the Docker registry (from Sys Admin)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
@@ -75,6 +78,7 @@ Ensure Kubernetes is configured to use the cluster information provided by Sys A
 ```bash
 export KUBECONFIG=/home/<user>/<K8 conf file>.conf
 ```
+
 Replace with correct path to your file.
 
 ### Login
