@@ -198,6 +198,11 @@ const registryDeploy = async (
       case 'delete':
         shell.exec(
           `${
+            scripts.publish
+          } ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
+        )
+        shell.exec(
+          `${
             scripts.deploy
           } ${serviceName} ${servicePath} ${registryPath} ${versionTag} ${numReplicas} ${port}`
         )

@@ -1,6 +1,6 @@
 {
   "name": "graphql-cli-maana",
-  "version": "3.2.1-beta",
+  "version": "3.2.4-beta",
   "description": "Maana plugin for graphql-cli",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
     "precommit": "lint-staged",
     "prettier": "./node_modules/.bin/prettier --write \"src/**/*.{js,jsx,json,css,gql,graphql}\"",
     "copy-scripts": "cp -r ./src/scripts dist/.",
-    "build": "rm -rf ./dist && ./node_modules/.bin/babel  ./src --experimental -d ./dist && npm run copy-scripts"
+    "build": "rm -rf ./dist && ./node_modules/.bin/babel  ./src -d ./dist && npm run copy-scripts"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css,gql,graphql}": [

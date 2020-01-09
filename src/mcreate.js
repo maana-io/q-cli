@@ -1,28 +1,26 @@
+import Path from 'path'
 import Zip from 'adm-zip'
 import chalk from 'chalk'
 import commandExists from 'command-exists'
-import gh from 'parse-github-url'
-import { spawn } from 'cross-spawn'
 import fs from 'fs'
+import gh from 'parse-github-url'
 import { padEnd } from 'lodash'
-import Path from 'path'
 import request from 'request'
-import tmp from 'tmp'
 import rimraf from 'rimraf'
-
-const REPO_ROOT = 'https://github.com/maana-io/q-templates/tree/master'
+import { spawn } from 'cross-spawn'
+import tmp from 'tmp'
 
 // Project boilerplates
 export const defaultBoilerplates = [
   {
     name: 'service-csharp',
     description: 'C# microservice (basic)',
-    repo: `${REPO_ROOT}/dotnet_core/cs/basic`
+    repo: `https://github.com/maana-io/q-template-service-csharp/tree/master`
   },
   {
     name: 'service-node-js',
     description: 'JavaScript microservice (basic)',
-    repo: `${REPO_ROOT}/node/basic`
+    repo: `https://github.com/maana-io/q-template-service-node-basic/tree/master`
   },
   {
     name: 'service-node-js-mongo',
@@ -30,9 +28,9 @@ export const defaultBoilerplates = [
     repo: `https://github.com/maana-io/q-template-service-node-mongo/tree/master`
   },
   {
-    name: 'service-python',
-    description: 'Python microservice (basic)',
-    repo: `${REPO_ROOT}/python/basic`
+    name: 'service-python-ariadne',
+    description: 'Python microservice using Ariadne',
+    repo: `https://github.com/maana-io/q-template-service-python-ariadne/tree/master`
   },
   {
     name: 'app-react-js',
@@ -40,9 +38,14 @@ export const defaultBoilerplates = [
     repo: `https://github.com/maana-io/q-template-app-react/tree/master`
   },
   {
-    name: 'assistant-react-js',
-    description: 'React (JavaScript) Assistant',
+    name: 'assistant-react-js-basic',
+    description: 'Basic React (JavaScript) Assistant',
     repo: `https://github.com/maana-io/q-template-assistant-react/tree/master`
+  },
+  {
+    name: 'assistant-react-js-advanced',
+    description: 'Advanced React (JavaScript) Assistant',
+    repo: `https://github.com/maana-io/q-template-assistant-react-advanced/tree/master`
   }
 ]
 
