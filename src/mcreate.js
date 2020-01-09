@@ -28,6 +28,11 @@ export const defaultBoilerplates = [
     repo: `https://github.com/maana-io/q-template-service-node-mongo/tree/master`
   },
   {
+    name: 'service-typescript',
+    description: 'Typescript microservice (basic)',
+    repo: `https://github.com/maana-io/q-template-service-typescript-basic/tree/master`
+  },
+  {
     name: 'service-python-ariadne',
     description: 'Python microservice using Ariadne',
     repo: `https://github.com/maana-io/q-template-service-python-ariadne/tree/master`
@@ -166,7 +171,7 @@ export const handler = async (context, argv) => {
   const projectPath = Path.resolve(directory)
 
   if (fs.existsSync(projectPath)) {
-    const allowedFiles = ['.git', '.gitignore']
+    const allowedFiles = ['.git', '.gitignore', '.devcontainer.json']
     const conflictingFiles = fs
       .readdirSync(projectPath)
       .filter(f => !allowedFiles.includes(f))
@@ -217,7 +222,9 @@ export const handler = async (context, argv) => {
   const tmpFile = tmp.fileSync()
 
   console.log(
-    `[mcreate] Downloading boilerplate from ${downloadUrl} to ${tmpFile.name}...`
+    `[mcreate] Downloading boilerplate from ${downloadUrl} to ${
+      tmpFile.name
+    }...`
   )
 
   await new Promise(resolve => {
