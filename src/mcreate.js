@@ -222,9 +222,7 @@ export const handler = async (context, argv) => {
   const tmpFile = tmp.fileSync()
 
   console.log(
-    `[mcreate] Downloading boilerplate from ${downloadUrl} to ${
-      tmpFile.name
-    }...`
+    `[mcreate] Downloading boilerplate from ${downloadUrl} to ${tmpFile.name}...`
   )
 
   await new Promise(resolve => {
