@@ -384,6 +384,23 @@ const coerce = ({ type, val, def = null, quoted = false, isoDate = false }) => {
       return dateStr
     }
     rval = !val || val == '' ? def : cvtDate()
+  } else if (type == 'JSON') {
+    try {
+      if(!val) {
+        rval = def
+      } else {
+        // Strings are read from CSV files with escaping, i.e. string
+        //   {\"id\":\"1234\"}
+        // will be stored internally as
+        //   "{\\\"id\\\":\\\"1234\\\"}"
+        // Replacing values and parsing it will produce an object
+        // Stringifying it first time will produce valid JSON
+        // And stringifying it second time will escape quotes etc
+        rval = JSON.stringify(JSON.stringify(JSON.parse(val.replace(/\\\"/g, '"'))))
+      }   
+    } catch (error) {
+      throw new Error(`Invalid JSON value is provided: ${val}. Error: ${error}`)
+    }
   } else if (!quoted && typeof val == 'string') {
     rval = val
   } else {
