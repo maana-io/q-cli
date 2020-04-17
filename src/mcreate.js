@@ -232,7 +232,18 @@ export const handler = async (context, argv) => {
   })
 
   const zip = new Zip(tmpFile.name)
-  zip.extractEntryTo(zipInfo.path, projectPath, false)
+  // Recent versions of adm-zip (without critical security vulnerability) take 'basename'
+  // (i.e. file name only) for every entry if maintainEntryPath is set to false.
+  // To work around this, after archive is extracted, move contents of extracted entry
+  // to a level above and remove it
+  zip.extractEntryTo(zipInfo.path, projectPath)
+
+  const extractedPath = Path.join(projectPath, zipInfo.path)
+  const dirents = fs.readdirSync(extractedPath, { withFileTypes: true })
+  dirents.forEach(entry => {
+    fs.renameSync(Path.join(extractedPath, entry.name), Path.join(projectPath, entry.name))
+  })
+  rimraf.sync(extractedPath)  
   tmpFile.removeCallback()
 
   // run npm/yarn install
