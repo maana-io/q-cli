@@ -1,370 +1,163 @@
-import chalk from 'chalk'
-import { getGraphQLConfig, getGraphQLProjectConfig } from 'graphql-config'
-import inquirer from 'inquirer'
-import shell from 'shelljs'
-import fs from 'fs'
-import stripBom from 'strip-bom'
-var path = require('path')
+#!/usr/bin/env node
+const path = require('path');
+const spawn = require('child-process-promise').spawn;
+const yaml = require('js-yaml');
+const fs   = require('fs');
+const inquirer = require('inquirer');
 
-const prompt = inquirer.createPromptModule()
+const Moniker = require('moniker');
+const names = Moniker.generator([Moniker.adjective, Moniker.noun]);
 
-const scripts = {
-  publish: __dirname + `/scripts/publish.sh`,
-  deploy: __dirname + `/scripts/deploy.sh`,
-  update: __dirname + `/scripts/update.sh`
+require('better-logging')(console);
+require('dotenv').config({
+  path: path.join(process.cwd(), '.env'),
+  debug: process.env.DEBUG
+})
+
+// Scripts
+const scriptsPath = __dirname + '/scripts/'
+const buildAndPush = scriptsPath + 'build-and-push.sh'
+const dockerComposeConfig = scriptsPath + 'docker-compose-config.sh'
+const komposeConvert = scriptsPath + 'kompose-convert.sh'
+const kubectlApply = scriptsPath + 'kubectl-apply.sh'
+const exposeService = scriptsPath + 'expose-service.sh'
+const version = scriptsPath + 'version.sh'
+
+const spawnWithStreamOutput = async (script, env) => {  
+  const promise = spawn(path.resolve(script), {
+    env, 
+    uid: process.uid,
+    gid: process.gid
+  })
+
+  let childProcess = promise.childProcess;
+
+
+  childProcess.stdout.on('data', function (data) {
+    const result = data.toString()
+    process.stdout.write(result);  
+    
+  });
+
+  childProcess.stdout.on('close', function () {
+    return    
+  });
+  
+  childProcess.stderr.on('data', function (data) {
+    const err = data.toString()
+    process.stdout.write(err); 
+  });
+
+  try {
+    await promise    
+    return 
+  }catch(e){
+    console.error("Error", e)
+  }
+}
+
+const ensureLoggedInToDockerRegistery = async () => {
+  try {
+    const answers = await inquirer.prompt([{
+      name: 'loggedIn',
+      message: 'In order to deploy you MUST be logged to a container registry. Continue?',
+      type: 'confirm',      
+    }]);    
+    if (answers.loggedIn) return
+    else {
+      console.error("Please login to deploy")
+      process.exit()    
+    }
+  } catch (e){ 
+    console.error("Failed ensureing login")
+    process.exit()
+  }
+}
+
+const ensureDockerCompose = () => {
+  return new Promise((resolve, reject) => {
+    const dockerComposeYamlPath = path.join(process.cwd(), 'docker-compose.yaml')
+    if (!fs.existsSync(dockerComposeYamlPath)){
+      let services = {}          
+      const { DOCKER_REGISTRY, SERVICE_ID, VERSION, PORT } = config      
+      services[SERVICE_ID] = {     
+        image: (DOCKER_REGISTRY ? `${DOCKER_REGISTRY}/` : '') + SERVICE_ID + ':' + VERSION,
+        restart: 'always',
+        ports: [`${PORT}:${PORT}`]
+      }
+
+      const dockerComposeJson = {      
+        version: '3.1',
+        services
+      }
+
+      const dockerComposeYaml = yaml.safeDump(dockerComposeJson, {
+        'styles': {
+          '!!null': 'canonical' // dump null as ~
+        },
+        'sortKeys': false
+      })
+
+      fs.writeFileSync(path.join(process.cwd(),'docker-compose.yaml'), dockerComposeYaml)
+
+      console.log("Created docker-compose file.")
+      resolve()
+    } else {
+      try {
+        const dockerComposeJson = yaml.safeLoad(fs.readFileSync(dockerComposeYamlPath));
+        const { services } = dockerComposeJson
+
+        if (Object.keys(services).filter(service => service === process.env.SERVICE_ID).length === 0){
+          console.error(`No service named ${process.env.SERVICE_ID} was found in the existing docker-compose.yaml file.`)
+          console.error(`Please ensure a service named ${process.env.SERVICE_ID} is included`)
+          reject()
+        } else {
+          resolve()
+        }
+
+      } catch (e) {
+        console.log(e);
+        reject()
+      }
+    }
+
+    resolve()
+  })
+}
+
+//Determine configuration
+const packageJson = require(path.join(process.cwd(),'package.json'))
+const config = {
+    ...process.env,
+    DOCKER_REGISTRY: process.env.DOCKER_REGISTRY || packageJson.dockerRegistry || false,
+    SERVICE_ID: process.env.SERVICE_ID || packageJson.name || false,
+    VERSION: process.env.VERSION || packageJson.version ||  'no-version',      
+    PORT: process.env.PORT || 8050
 }
 
 export const command = 'mdeploy'
-// [serviceName] [servicePath] [registryPath] [versionTag] [numReplicas]
 export const describe = 'Deploy your service to Kubernetes'
-export const builder = {
-  programatic: {
-    alias: 'pr',
-    describe:
-      'Disable the interactive mode of the CLI to use it programatically',
-    type: 'boolean',
-    default: false
-  },
-  serviceName: {
-    alias: 'name',
-    describe: 'The name for the service',
-    type: 'string',
-    default: ''
-  },
-  servicePath: {
-    alias: 'path',
-    describe:
-      'The path to the folder containing the Dockerfile for the service',
-    type: 'string',
-    default: ''
-  },
-  registryPath: {
-    alias: 'registry',
-    describe: 'The hostname to a container registry',
-    type: 'string',
-    default: ''
-  },
-  versionTag: {
-    alias: 'tag',
-    describe: 'The version tag for the service',
-    type: 'string',
-    default: ''
-  },
-  numReplicas: {
-    alias: 'replicas',
-    describe: 'The number of pods for the service',
-    type: 'number',
-    default: 0
-  }
-}
-
-const azureLogin = async () => {
-  console.log(chalk.blueBright('Please log in to your Azure account:'))
-
-  const credentials = await prompt([
-    {
-      message: 'Username:',
-      type: 'input',
-      name: 'username'
-    },
-    {
-      message: 'Password:',
-      type: 'password',
-      name: 'password'
-    }
-  ])
-
-  const { username, password } = credentials
-
-  shell.exec(`az login -u ${username} -p ${password}`)
-
-  console.log(chalk.green('Success!'))
-}
-
-const azureDeploy = async () => {
-  const resourceGroupsResponse = shell.exec('az group list -o json')
-  const resourceGroups = JSON.parse(resourceGroupsResponse.stdout)
-
-  const resourceGroupQuestion = [
-    {
-      message: 'Which resource group would you like to use?',
-      name: 'resourceGroup',
-      type: 'list',
-      choices: resourceGroups
-    }
-  ]
-
-  const resourceGroupAnswer = await prompt(resourceGroupQuestion)
-  const { resourceGroup } = resourceGroupAnswer
-
-  const aksServicesRespinse = shell.exec(
-    `az aks list --resource-group ${resourceGroup}`
-  )
-  const aksServices = JSON.parse(aksServicesRespinse.stdout)
-
-  const aksServiceQuestion = [
-    {
-      message: 'Which AKS cluster would you like to use?',
-      name: 'aksService',
-      type: 'list',
-      choices: aksServices
-    }
-  ]
-
-  const aksServiceAnswer = await prompt(aksServiceQuestion)
-  const { aksService } = aksServiceAnswer
-
-  console.log(chalk.blueBright('Getting AKS credentials'))
-  shell.exec(
-    `az aks get-credentials --resource-group ${resourceGroup} --name ${aksService} --override`
-  )
-  console.log(chalk.green('Authenticated successfully with AKS'))
-
-  const spacesResponse = shell.exec('azds space list -o json')
-  const devSpacesNames = JSON.parse(spacesResponse.stdout).map(x => x.path)
-
-  const devSpaceAnswer = await prompt([
-    {
-      message: 'Which Dev Space would you like to use?',
-      name: 'devSpace',
-      type: 'list',
-      choices: devSpacesNames
-    }
-  ])
-  const { devSpace } = devSpaceAnswer
-
-  console.log(
-    chalk.blueBright(`Selecting Dev Space `),
-    chalk.greenBright(devSpace)
-  )
-  shell.exec(`azds space select -n ${devSpace} -y`)
-  console.log(chalk.green('Dev space selected'))
-
-  console.log(chalk.blueBright(`Preparing`))
-  shell.exec('azds prep')
-
-  console.log(chalk.blueBright(`Deploying`))
-  shell.exec('azds up')
-
-  console.log(chalk.bgGreen(`Deployment complete`))
-}
-
-const isServiceAvailable = serviceName => {
-  try {
-    let describe = JSON.parse(
-      shell.exec(`kubectl get deployment ${serviceName} -o json`, {
-        silent: true
-      })
-    )
-
-    return describe && describe.status && describe.status.conditions
-      ? describe.status.conditions[0].type === 'Available'
-      : false
-  } catch (e) {
-    return false
-  }
-}
-
-const registryDeploy = async (
-  serviceName,
-  servicePath,
-  registryPath,
-  versionTag,
-  numReplicas,
-  port
-) => {
-  //If service exist
-  if (isServiceAvailable(serviceName)) {
-    console.log(
-      chalk.blueBright(`Found an existing service called ${serviceName}.`)
-    )
-
-    const deleteAndDeployOrUpdateQuestions = [
-      {
-        name: 'deleteAndDeployOrUpdate',
-        message:
-          'Would you like to delete the existing service and redeploy? Or would you rather just update?',
-        type: 'list',
-        choices: [
-          { name: 'Delete and redeploy', value: 'delete' },
-          { name: 'Update', value: 'update' }
-        ]
-      }
-    ]
-
-    const answers = await prompt(deleteAndDeployOrUpdateQuestions)
-
-    switch (answers.deleteAndDeployOrUpdate) {
-      case 'delete':
-        shell.exec(
-          `${
-            scripts.publish
-          } ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
-        )
-        shell.exec(
-          `${
-            scripts.deploy
-          } ${serviceName} ${servicePath} ${registryPath} ${versionTag} ${numReplicas} ${port}`
-        )
-        break
-      case 'update':
-        shell.exec(
-          `${
-            scripts.publish
-          } ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
-        )
-        shell.exec(
-          `${
-            scripts.update
-          } ${serviceName} ${servicePath} ${registryPath} ${versionTag} ${numReplicas} ${port}`
-        )
-        break
-    }
-  } else {
-    shell.exec(
-      `${
-        scripts.publish
-      } ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
-    )
-    shell.exec(
-      `${
-        scripts.deploy
-      } ${serviceName} ${servicePath} ${registryPath} ${versionTag} ${numReplicas} ${port}`
-    )
-  }
-}
-
 export const handler = async (context, argv) => {
-  if (argv.programatic) {
-    const {
-      serviceName,
-      servicePath,
-      registryPath,
-      versionTag,
-      numReplicas,
-      port
-    } = argv
-
-    await registryDeploy(
-      serviceName,
-      servicePath,
-      registryPath,
-      versionTag,
-      numReplicas,
-      port
-    )
-  } else {
-    const questions = [
-      {
-        name: 'targetPlatform',
-        message: 'What is target platform you are deplying to',
-        type: 'list',
-        choices: [
-          { name: 'Private Docker Registry', value: 'registry' },
-          { name: 'Azure AKS (Must have Azure CLI installed)', value: 'aks' }
-        ]
-      }
-    ]
-    const answers = await prompt(questions)
-    switch (answers.targetPlatform) {
-      case 'aks':
-        const homedir = require('os').homedir()
-        const credentials = await fs.readFileSync(
-          homedir + '/.azure/azureProfile.json',
-          'utf8'
-        )
-        const { subscriptions } = JSON.parse(stripBom(credentials))
-
-        if (subscriptions.length === 0) {
-          await azureLogin()
-        }
-
-        await azureDeploy()
-        console.log(chalk.green('Deployment on Azure AKS is Complete'))
-        break
-      case 'registry':
-        const serviceNameShell = path.basename(process.cwd())
-
-        const registryQuestions = [
-          {
-            name: 'serviceName',
-            message: 'What is the service name?',
-            default: serviceNameShell,
-            type: 'string'
-          },
-          {
-            name: 'servicePath',
-            message:
-              'What is the path to the folder containing your Dockerfile?',
-            default: process.cwd() + '/service',
-            type: 'string'
-          },
-          {
-            name: 'registryPath',
-            message: 'What is hostname for your container registry?',
-            default: 'services.azurecr.io',
-            type: 'string'
-          },
-          {
-            name: 'versionTag',
-            message: 'What version tag you would like to use?',
-            default: 'v1',
-            type: 'string'
-          },
-          {
-            name: 'numReplicas',
-            message: 'How many pods would you like to spin up?',
-            default: 1,
-            type: 'input'
-          },
-          {
-            name: 'port',
-            message: 'What is the port your application is running on?',
-            default: 8050,
-            type: 'input'
-          }
-        ]
-
-        const registryOptions = await prompt(registryQuestions)
-
-        const {
-          serviceName,
-          servicePath,
-          registryPath,
-          versionTag,
-          numReplicas,
-          port
-        } = registryOptions
-
-        const finalConfirmation = await prompt({
-          message:
-            `Please confirm the following deployment plan:\n` +
-            `Deploying the service ${chalk.green(
-              serviceName + ':' + versionTag
-            )}\n` +
-            `Located in ${chalk.green(servicePath)}\n` +
-            `Publishing to ${chalk.green(registryPath)}\n` +
-            `Number Of Pods: ${chalk.green(numReplicas)}\n` +
-            `Exposing port ${chalk.green(port)}\n` +
-            `Confirm?`,
-          name: 'confirm',
-          type: 'confirm'
-        })
-
-        if (finalConfirmation.confirm) {
-          await registryDeploy(
-            serviceName,
-            servicePath,
-            registryPath,
-            versionTag,
-            numReplicas,
-            port
-          )
-        } else {
-          console.log('Exiting...')
-        }
-
-        break
-    }
+  if (!config.SERVICE_ID){
+    console.log("SERVICE_ID must be defined. Exiting...")
+    process.exit(9)
   }
+
+  if (!config.PORT){
+    console.log("PORT must be defined. Exiting...")
+    process.exit(9)
+  }
+
+  await ensureLoggedInToDockerRegistery();
+  await ensureDockerCompose();
+  [      
+    buildAndPush,
+    dockerComposeConfig,
+    komposeConvert,
+    kubectlApply,
+    exposeService
+  ].reduce( async (previousPromise, script) => {
+    await previousPromise;
+    return spawnWithStreamOutput(script, config);
+  }, Promise.resolve());   
 }
