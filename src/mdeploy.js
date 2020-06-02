@@ -5,9 +5,6 @@ const yaml = require('js-yaml');
 const fs   = require('fs');
 const inquirer = require('inquirer');
 
-const Moniker = require('moniker');
-const names = Moniker.generator([Moniker.adjective, Moniker.noun]);
-
 require('better-logging')(console);
 require('dotenv').config({
   path: path.join(process.cwd(), '.env'),
@@ -114,14 +111,11 @@ const ensureDockerCompose = () => {
         } else {
           resolve()
         }
-
       } catch (e) {
         console.log(e);
         reject()
       }
     }
-
-    resolve()
   })
 }
 

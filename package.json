@@ -45,7 +45,6 @@
     "merge-graphql-schemas": "^1.5.7",
     "mkdirp": "^0.5.1",
     "moment": "^2.22.2",
-    "moniker": "^0.1.2",
     "n3": "^1.0.0-beta.2",
     "os": "^0.1.1",
     "papaparse": "^4.6.0",
