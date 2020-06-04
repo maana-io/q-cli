@@ -188,6 +188,29 @@ const printServiceAddresses = async (
   }
 }
 
+const buildAndPublishImage = async (
+  serviceName,
+  servicePath,
+  registryPath,
+  versionTag
+) => {
+  const tag = `${registryPath}/${serviceName}:${versionTag}`
+
+  console.log(chalk.green(`Building ${serviceName}`))
+  let result = shell.exec(`docker build ${servicePath} -t ${tag}`)
+  if(result.code != 0) {
+    console.log(`${chalk.red('Something went wrong, aborting')}`)
+    process.exit(-1);
+  }
+  console.log(chalk.green(`Docker image build, publishing`))
+
+  result = shell.exec(`docker push ${tag}`)
+  if(result.code != 0) {
+    console.log(`${chalk.red('Something went wrong, aborting')}`)
+    process.exit(-1);
+  }
+}
+
 const registryDeploy = async (
   serviceName,
   servicePath,
@@ -213,16 +236,14 @@ const registryDeploy = async (
   console.log('This file can be used to reproduce deployment on other K8s clusters by running:')
   console.log(chalk.green(`\n\tkubectl apply -f ${manifestPath}\n`));
 
-  let result = shell.exec(
-    `${scripts.publish} ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
+  await buildAndPublishImage(
+    serviceName,
+    servicePath,
+    registryPath,
+    versionTag
   )
 
-  if(result.code != 0) {
-    console.log(`${chalk.red('Something went wrong, aborting')}`)
-    process.exit(-1);
-  }
-
-  result = shell.exec(`kubectl apply -f ${manifestPath}`)
+  let result = shell.exec(`kubectl apply -f ${manifestPath}`)
   if(result.code != 0) {
     console.log(`${chalk.red('Something went wrong, aborting')}`)
     process.exit(-1);
