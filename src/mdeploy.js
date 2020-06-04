@@ -14,7 +14,9 @@ const scripts = {
   update: __dirname + `/scripts/update.sh`
 }
 
-const maxRetries = 100;
+// Total number of attempts mdeploy will try obtaining service ip address
+// 10 * 12 = 120 seconds = 2 minutes
+const maxRetries = 12;
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -177,7 +179,7 @@ const printServiceAddresses = async (
       console.log(`${chalk.red('Something went wrong, aborting')}`)
       process.exit(-1);
     } else {
-      await sleep(5000) // Sleep for 5 seconds
+      await sleep(10000) // Sleep for 10 seconds before next attempt
       await printServiceAddresses(serviceName, port, attempt + 1)
     }
   } else {
@@ -209,7 +211,7 @@ const registryDeploy = async (
 
   console.log(`K8s deployment manifest file is saved in ${chalk.green(manifestPath)}.`)
   console.log('This file can be used to reproduce deployment on other K8s clusters by running:')
-  console.log(chalk.green(`\tkubectl apply -f ${manifestPath}`));
+  console.log(chalk.green(`\n\tkubectl apply -f ${manifestPath}\n`));
 
   let result = shell.exec(
     `${scripts.publish} ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
