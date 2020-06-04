@@ -1,0 +1,39 @@
+# Template for single POD deployment and associated service/load balancer
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: "{{SERVICE_NAME}}"
+  spec:
+    type: LoadBalancer
+    ports:
+    - name: "{{PORT}}"
+      port: {{PORT}}
+      targetPort: {{PORT}}
+    selector:
+      service: "{{SERVICE_NAME}}"
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    labels:
+      service: "{{SERVICE_NAME}}"
+    name: "{{SERVICE_NAME}}"
+  spec:
+    replicas: {{REPLICAS}}
+    strategy: {}
+    template:
+      metadata:
+        labels:
+          service: "{{SERVICE_NAME}}"
+      spec:
+        containers:
+        - image: "{{IMAGE}}"
+          name: "{{SERVICE_NAME}}"
+          ports:
+          - containerPort: {{PORT}}
+          resources: {}
+        restartPolicy: Always
+kind: List
+metadata: {}
+
