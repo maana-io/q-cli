@@ -221,20 +221,22 @@ const registryDeploy = async (
 ) => {
   const templatePath = __dirname + '/scripts/deployment-service.yaml'
   const template = fs.readFileSync(templatePath, { encoding: "utf8" })
-  
+
   const manifest = template
     .replace(/\{\{SERVICE_NAME\}\}/g, serviceName)
     .replace(/\{\{IMAGE\}\}/g, `${registryPath}/${serviceName}:${versionTag}`)
     .replace(/\{\{PORT\}\}/g, port)
     .replace(/\{\{REPLICAS\}\}/g, numReplicas)
 
-  const manifestPath = fs.realpathSync(`${servicePath}/${serviceName}.yaml`)
+  const manifestPath = `${servicePath}/${serviceName}.yaml`
 
-  fs.writeFileSync(manifestPath, manifest, { encoding: 'utf8', flag: 'w' });
+  fs.writeFileSync(manifestPath, manifest, { encoding: 'utf8', flag: 'w' })
 
-  console.log(`K8s deployment manifest file is saved in ${chalk.green(manifestPath)}.`)
+  const resolvedPath = fs.realpathSync(manifestPath)
+
+  console.log(`K8s deployment manifest file is saved in ${chalk.green(resolvedPath)}.`)
   console.log('This file can be used to reproduce deployment on other K8s clusters by running:')
-  console.log(chalk.green(`\n\tkubectl apply -f ${manifestPath}\n`));
+  console.log(chalk.green(`\n\tkubectl apply -f ${resolvedPath}\n`));
 
   await buildAndPublishImage(
     serviceName,
