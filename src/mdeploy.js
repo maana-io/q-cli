@@ -14,6 +14,12 @@ const scripts = {
   update: __dirname + `/scripts/update.sh`
 }
 
+const maxRetries = 100;
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export const command = 'mdeploy'
 // [serviceName] [servicePath] [registryPath] [versionTag] [numReplicas]
 export const describe = 'Deploy your service to Kubernetes'
@@ -55,6 +61,12 @@ export const builder = {
     describe: 'The number of pods for the service',
     type: 'number',
     default: 0
+  },
+  port: {
+    name: 'port',
+    message: 'What is the port your application is running on?',
+    default: 8050,
+    type: 'input'
   }
 }
 
@@ -149,19 +161,28 @@ const azureDeploy = async () => {
   console.log(chalk.bgGreen(`Deployment complete`))
 }
 
-const isServiceAvailable = serviceName => {
-  try {
-    let describe = JSON.parse(
-      shell.exec(`kubectl get deployment ${serviceName} -o json`, {
-        silent: true
-      })
-    )
+const printServiceAddresses = async (
+  serviceName,
+  port,
+  attempt = 0
+) => {
+  const result = shell.exec(`kubectl get service "${serviceName}" -o 'jsonpath={.status.loadBalancer.ingress[].ip}'`, { silent: true })
+  if(result.code != 0) {
+    console.log(`${chalk.red('Something went wrong, aborting')}`)
+    process.exit(-1);
+  }
 
-    return describe && describe.status && describe.status.conditions
-      ? describe.status.conditions[0].type === 'Available'
-      : false
-  } catch (e) {
-    return false
+  if(result.stdout === '') {
+    if(attempt > maxRetries) {
+      console.log(`${chalk.red('Something went wrong, aborting')}`)
+      process.exit(-1);
+    } else {
+      await sleep(5000) // Sleep for 5 seconds
+      await printServiceAddresses(serviceName, port, attempt + 1)
+    }
+  } else {
+    console.log(`The external IP address for ${chalk.blue(serviceName)} is\n\t${chalk.green(result.stdout)}\n`)
+    console.log(`The URL for your GraphQL endpoint is\n\t${chalk.green('http://' + result.stdout + ':' + port + '/graphql')}\n`)
   }
 }
 
@@ -173,65 +194,39 @@ const registryDeploy = async (
   numReplicas,
   port
 ) => {
-  //If service exist
-  if (isServiceAvailable(serviceName)) {
-    console.log(
-      chalk.blueBright(`Found an existing service called ${serviceName}.`)
-    )
+  const templatePath = __dirname + '/scripts/deployment-service.yaml'
+  const template = fs.readFileSync(templatePath, { encoding: "utf8" })
+  
+  const manifest = template
+    .replace(/\{\{SERVICE_NAME\}\}/g, serviceName)
+    .replace(/\{\{IMAGE\}\}/g, `${registryPath}/${serviceName}:${versionTag}`)
+    .replace(/\{\{PORT\}\}/g, port)
+    .replace(/\{\{REPLICAS\}\}/g, numReplicas)
 
-    const deleteAndDeployOrUpdateQuestions = [
-      {
-        name: 'deleteAndDeployOrUpdate',
-        message:
-          'Would you like to delete the existing service and redeploy? Or would you rather just update?',
-        type: 'list',
-        choices: [
-          { name: 'Delete and redeploy', value: 'delete' },
-          { name: 'Update', value: 'update' }
-        ]
-      }
-    ]
+  const manifestPath = fs.realpathSync(`${servicePath}/${serviceName}.yaml`)
 
-    const answers = await prompt(deleteAndDeployOrUpdateQuestions)
+  fs.writeFileSync(manifestPath, manifest, { encoding: 'utf8', flag: 'w' });
 
-    switch (answers.deleteAndDeployOrUpdate) {
-      case 'delete':
-        shell.exec(
-          `${
-            scripts.publish
-          } ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
-        )
-        shell.exec(
-          `${
-            scripts.deploy
-          } ${serviceName} ${servicePath} ${registryPath} ${versionTag} ${numReplicas} ${port}`
-        )
-        break
-      case 'update':
-        shell.exec(
-          `${
-            scripts.publish
-          } ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
-        )
-        shell.exec(
-          `${
-            scripts.update
-          } ${serviceName} ${servicePath} ${registryPath} ${versionTag} ${numReplicas} ${port}`
-        )
-        break
-    }
-  } else {
-    shell.exec(
-      `${
-        scripts.publish
-      } ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
-    )
-    shell.exec(
-      `${
-        scripts.deploy
-      } ${serviceName} ${servicePath} ${registryPath} ${versionTag} ${numReplicas} ${port}`
-    )
+  console.log(`K8s deployment manifest file is saved in ${chalk.green(manifestPath)}.`)
+  console.log('This file can be used to reproduce deployment on other K8s clusters by running:')
+  console.log(chalk.green(`\tkubectl apply -f ${manifestPath}`));
+
+  let result = shell.exec(
+    `${scripts.publish} ${serviceName} ${servicePath} ${registryPath} ${versionTag}`
+  )
+
+  if(result.code != 0) {
+    console.log(`${chalk.red('Something went wrong, aborting')}`)
+    process.exit(-1);
   }
+
+  result = shell.exec(`kubectl apply -f ${manifestPath}`)
+  if(result.code != 0) {
+    console.log(`${chalk.red('Something went wrong, aborting')}`)
+    process.exit(-1);
+  }
+
+  printServiceAddresses(serviceName, port, 0);
 }
 
 export const handler = async (context, argv) => {
