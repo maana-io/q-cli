@@ -13,7 +13,7 @@ items:
       targetPort: {{PORT}}
     selector:
       service: "{{SERVICE_NAME}}"
-- apiVersion: extensions/v1beta1
+- apiVersion: : apps/v1
   kind: Deployment
   metadata:
     labels:
@@ -22,10 +22,14 @@ items:
   spec:
     replicas: {{REPLICAS}}
     strategy: {}
+    selector:
+      matchLabels:
+        name: sawtooth-0
     template:
       metadata:
         labels:
           service: "{{SERVICE_NAME}}"
+          name: sawtooth-0
       spec:
         containers:
         - image: "{{IMAGE}}"
