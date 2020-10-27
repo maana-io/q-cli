@@ -13,7 +13,7 @@ items:
       targetPort: {{PORT}}
     selector:
       service: "{{SERVICE_NAME}}"
-- apiVersion: extensions/v1beta1
+- apiVersion: apps/v1
   kind: Deployment
   metadata:
     labels:
@@ -22,6 +22,9 @@ items:
   spec:
     replicas: {{REPLICAS}}
     strategy: {}
+    selector:
+      matchLabels:
+        service: "{{SERVICE_NAME}}"
     template:
       metadata:
         labels:
