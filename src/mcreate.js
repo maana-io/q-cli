@@ -44,17 +44,17 @@ export const defaultBoilerplates = [
   {
     name: 'assistant-react-js',
     description: 'Assistant: React (JavaScript)',
-    repo: `https://github.com/maana-io/q-template-assistant-react-javascript/tree/master`
+    repo: `https://github.com/maana-io/q-template-assistant-react-javascript/tree/v3.2.3`
   },
   {
     name: 'assistant-react-ts',
     description: 'Assistant: React (TypeScript)',
-    repo: `https://github.com/maana-io/q-template-assistant-react-typescript/tree/master`
+    repo: `https://github.com/maana-io/q-template-assistant-react-typescript/tree/v3.2.3`
   },
   {
     name: 'assistant-react-advanced-js',
     description: 'Assistant: React Advanced (JavaScript)',
-    repo: `https://github.com/maana-io/q-template-assistant-react-advanced-javascript/tree/master`
+    repo: `https://github.com/maana-io/q-template-assistant-react-advanced-javascript/tree/v3.2.3`
   },
   // Apps
   // ----
@@ -93,7 +93,7 @@ const getZipInfo = boilerplate => {
   let subDir = ''
 
   const branchMatches = boilerplate.match(
-    /^(.*)\/tree\/([a-zA-Z-_0-9]*)\/?(.*)$/
+    /^(.*)\/tree\/([a-zA-Z-_0-9.]*)\/?(.*)$/
   )
   if (branchMatches) {
     baseUrl = branchMatches[1]
@@ -112,13 +112,20 @@ const getZipInfo = boilerplate => {
     subDir = subDir + '/'
   }
 
+  // For tag names that are formatted like v3.2.3, the zip folder name does not
+  // contain the v at the beginning, so it needs to be removed..
+  let zipFolderName = branch
+  if (/^v\d+\.\d+\.\d+$/.test(zipFolderName)) {
+    zipFolderName = zipFolderName.slice(1)
+  }
+
   const nameMatches = baseUrl.match(/github\.com\/(.*)\/(.*)$/)
   if (!nameMatches) return
 
   const repoName = nameMatches[2]
 
   const url = `${baseUrl}/archive/${branch}.zip`
-  const path = `${repoName}-${branch}${subDir}`
+  const path = `${repoName}-${zipFolderName}${subDir}`
 
   return { url, path }
 }
