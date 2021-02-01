@@ -1,6 +1,6 @@
 {
   "name": "graphql-cli-maana",
-  "version": "3.2.5-beta",
+  "version": "3.2.14-beta",
   "description": "Maana plugin for graphql-cli",
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
     ]
   },
   "engines": {
-    "node": "current"
+    "node": ">=10.13.0"
   },
   "dependencies": {
     "adm-zip": "0.4.14",

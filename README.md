@@ -97,6 +97,14 @@ gql mdeploy
 
 Select the `Private Docker Registry` option and follow the prompts and accept defaults.
 
+### Programmatic deployment
+
+It is possible to do programmatic deployment of the service without interactive prompts:
+
+```bash
+gql mdeploy --pr --name myservice --path . --tag v5 --registry services.azurecr.io --replicas 1 --port 8050
+```
+
 ## mload
 
 Upload CSV and JSON files to various GraphQL-based storage targets, e.g., [neo4j-graphql](https://github.com/neo4j-graphql), [Prisma](https://github.com/prismagraphql/prisma) ([OpenCRUD](https://www.opencrud.org/)), or Maana's KindDB.
