@@ -12,45 +12,56 @@ import tmp from 'tmp'
 
 // Project boilerplates
 export const defaultBoilerplates = [
+  // Services
+  // --------
   {
-    name: 'service-csharp',
-    description: 'C# microservice (basic)',
+    name: 'service-dotnet-csharp',
+    description: 'Microservice: C#',
     repo: `https://github.com/maana-io/q-template-service-csharp/tree/master`
   },
   {
     name: 'service-node-js',
-    description: 'JavaScript microservice (basic)',
-    repo: `https://github.com/maana-io/q-template-service-node-basic/tree/master`
+    description: 'Microservice: JavaScript',
+    repo: `https://github.com/maana-io/q-template-service-javascript/tree/master`
   },
   {
-    name: 'service-node-js-mongo',
-    description: 'JavaScript microservice with support for MongoDB',
-    repo: `https://github.com/maana-io/q-template-service-node-mongo/tree/master`
-  },
-  {
-    name: 'service-typescript',
-    description: 'Typescript microservice (basic)',
-    repo: `https://github.com/maana-io/q-template-service-typescript-basic/tree/master`
+    name: 'service-node-ts',
+    description: 'Microservice: TypeScript',
+    repo: `https://github.com/maana-io/q-template-service-typescript/tree/master`
   },
   {
     name: 'service-python-ariadne',
-    description: 'Python microservice using Ariadne',
+    description: 'Microservice: Python',
     repo: `https://github.com/maana-io/q-template-service-python-ariadne/tree/master`
   },
   {
+    name: 'service-jvm-scala',
+    description: 'Microservice: Scala',
+    repo: `https://github.com/maana-io/q-template-service-scala/tree/master`
+  },
+  // Assistants
+  // ----------
+  {
+    name: 'assistant-react-js',
+    description: 'Assistant: React (JavaScript)',
+    repo: `https://github.com/maana-io/q-template-assistant-react-javascript/tree/master`
+  },
+  {
+    name: 'assistant-react-ts',
+    description: 'Assistant: React (TypeScript)',
+    repo: `https://github.com/maana-io/q-template-assistant-react-typescript/tree/master`
+  },
+  {
+    name: 'assistant-react-advanced-js',
+    description: 'Assistant: React Advanced (JavaScript)',
+    repo: `https://github.com/maana-io/q-template-assistant-react-advanced-javascript/tree/master`
+  },
+  // Apps
+  // ----
+  {
     name: 'app-react-js',
-    description: 'React (JavaScript) Knowledge Application',
-    repo: `https://github.com/maana-io/q-template-app-react/tree/master`
-  },
-  {
-    name: 'assistant-react-js-basic',
-    description: 'Basic React (JavaScript) Assistant',
-    repo: `https://github.com/maana-io/q-template-assistant-react/tree/master`
-  },
-  {
-    name: 'assistant-react-js-advanced',
-    description: 'Advanced React (JavaScript) Assistant',
-    repo: `https://github.com/maana-io/q-template-assistant-react-advanced/tree/master`
+    description: 'Application: React (JavaScript)',
+    repo: `https://github.com/maana-io/q-template-app-react-javascript/tree/master`
   }
 ]
 
@@ -241,9 +252,12 @@ export const handler = async (context, argv) => {
   const extractedPath = Path.join(projectPath, zipInfo.path)
   const dirents = fs.readdirSync(extractedPath, { withFileTypes: true })
   dirents.forEach(entry => {
-    fs.renameSync(Path.join(extractedPath, entry.name), Path.join(projectPath, entry.name))
+    fs.renameSync(
+      Path.join(extractedPath, entry.name),
+      Path.join(projectPath, entry.name)
+    )
   })
-  rimraf.sync(extractedPath)  
+  rimraf.sync(extractedPath)
   tmpFile.removeCallback()
 
   // run npm/yarn install
