@@ -17,22 +17,26 @@ export const defaultBoilerplates = [
   {
     name: 'service-dotnet-csharp',
     description: 'Microservice: C#',
-    repo: `https://github.com/maana-io/q-template-service-csharp/tree/master`
+    repo: `https://github.com/maana-io/q-template-service-csharp/tree/master`,
+    installCommand: ''
   },
   {
     name: 'service-node-js',
     description: 'Microservice: JavaScript',
-    repo: `https://github.com/maana-io/q-template-service-javascript/tree/master`
+    repo: `https://github.com/maana-io/q-template-service-javascript/tree/master`,
+    installCommand: 'npm install'
   },
   {
     name: 'service-node-ts',
     description: 'Microservice: TypeScript',
-    repo: `https://github.com/maana-io/q-template-service-typescript/tree/master`
+    repo: `https://github.com/maana-io/q-template-service-typescript/tree/master`,
+    installCommand: 'yarn install'
   },
   {
     name: 'service-python-ariadne',
     description: 'Microservice: Python',
-    repo: `https://github.com/maana-io/q-template-service-python-ariadne/tree/master`
+    repo: `https://github.com/maana-io/q-template-service-python-ariadne/tree/master`,
+    installCommand: ''
   },
   {
     name: 'service-jvm-scala',
@@ -44,24 +48,28 @@ export const defaultBoilerplates = [
   {
     name: 'assistant-react-js',
     description: 'Assistant: React (JavaScript)',
-    repo: `https://github.com/maana-io/q-template-assistant-react-javascript/tree/v3.2.3`
+    repo: `https://github.com/maana-io/q-template-assistant-react-javascript/tree/v3.2.3`,
+    installCommand: 'yarn install'
   },
   {
     name: 'assistant-react-ts',
     description: 'Assistant: React (TypeScript)',
-    repo: `https://github.com/maana-io/q-template-assistant-react-typescript/tree/v3.2.3`
+    repo: `https://github.com/maana-io/q-template-assistant-react-typescript/tree/v3.2.3`,
+    installCommand: 'yarn install'
   },
   {
     name: 'assistant-react-advanced-js',
     description: 'Assistant: React Advanced (JavaScript)',
-    repo: `https://github.com/maana-io/q-template-assistant-react-advanced-javascript/tree/v3.2.3`
+    repo: `https://github.com/maana-io/q-template-assistant-react-advanced-javascript/tree/v3.2.3`,
+    installCommand: 'yarn install'
   },
   // Apps
   // ----
   {
     name: 'app-react-js',
     description: 'Application: React (JavaScript)',
-    repo: `https://github.com/maana-io/q-template-app-react-javascript/tree/master`
+    repo: `https://github.com/maana-io/q-template-app-react-javascript/tree/master`,
+    installCommand: 'yarn install'
   }
 ]
 
@@ -216,6 +224,7 @@ export const handler = async (context, argv) => {
   }
 
   // interactive selection
+  let installCommand
   if (!boilerplate) {
     const maxNameLength = defaultBoilerplates
       .map(bp => bp.name.length)
@@ -230,7 +239,9 @@ export const handler = async (context, argv) => {
       choices
     })
 
-    boilerplate = defaultBoilerplates[choices.indexOf(choice)].repo
+    const entry = defaultBoilerplates[choices.indexOf(choice)]
+    boilerplate = entry.repo
+    installCommand = entry.installCommand
   }
   if (!boilerplate) return
 
@@ -267,8 +278,8 @@ export const handler = async (context, argv) => {
   rimraf.sync(extractedPath)
   tmpFile.removeCallback()
 
-  // run npm/yarn install
-  if (!noInstall) {
+  // run install command (if any)
+  if (!noInstall && installCommand && installCommand !== '') {
     const subDirs = fs
       .readdirSync(projectPath)
       .map(f => Path.join(projectPath, f))
@@ -280,16 +291,12 @@ export const handler = async (context, argv) => {
 
     for (const packageJsonPath of installPaths) {
       process.chdir(Path.dirname(packageJsonPath))
-      console.log(
-        `[mcreate] Installing node dependencies for ${packageJsonPath}...`
-      )
-      if (commandExists.sync('npm')) {
-        await shell('npm install')
-      } else if (commandExists.sync('yarn')) {
-        await shell('yarn install')
+      console.log(`[mcreate] Installing ${packageJsonPath}...`)
+      if (commandExists.sync(installCommand.split(' ')[0])) {
+        await shell(installCommand)
       } else {
         console.log(
-          `Skipping install (no ${chalk.cyan('NPM')} or ${chalk.cyan('yarn')})`
+          `Skipping install (no command: ${chalk.cyan(installCommand)})`
         )
       }
     }
