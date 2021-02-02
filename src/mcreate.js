@@ -33,6 +33,12 @@ export const defaultBoilerplates = [
     installCommand: 'yarn install'
   },
   {
+    name: 'service-node-ts-typegraphql',
+    description: 'Microservice: TypeScript (TypeGraphQL)',
+    repo: `https://github.com/maana-io/q-template-service-typescript-typegraphql/tree/master`,
+    installCommand: 'yarn install'
+  },
+  {
     name: 'service-python-ariadne',
     description: 'Microservice: Python',
     repo: `https://github.com/maana-io/q-template-service-python-ariadne/tree/master`,
