@@ -24,7 +24,7 @@ export const defaultBoilerplates = [
     name: 'service-node-js',
     description: 'Microservice: JavaScript',
     repo: `https://github.com/maana-io/q-template-service-javascript/tree/master`,
-    installCommand: 'npm install'
+    installCommand: 'yarn install'
   },
   {
     name: 'service-node-ts',
